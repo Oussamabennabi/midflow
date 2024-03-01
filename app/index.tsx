@@ -4,7 +4,6 @@ import { supabase } from "../lib/supabase-client";
 
 export default function IndexPage() {
   useEffect(() => {
-    
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         router.replace("/(tabs)/two");
@@ -19,8 +18,7 @@ export default function IndexPage() {
         router.replace("/(tabs)/two");
         console.log("redirected");
       } else {
-        console.log("no user");
-        // router.replace("/(auth)/login");
+        router.replace("/(auth)/signin");
       }
     });
   }, []);
