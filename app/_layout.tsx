@@ -8,6 +8,8 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import useCachedResources from "@/hooks/useCachedResourses";
+import { StatusBar } from "expo-status-bar";
+import { COLOR_SHADES } from "@/constants/Colors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -16,7 +18,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "welcome",
+  initialRouteName: "(auth)/signin",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -37,9 +39,11 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="welcome/index" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
     </ThemeProvider>

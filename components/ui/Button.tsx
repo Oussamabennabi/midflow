@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, Ref } from "react";
 import { TouchableOpacity, View, TextStyle, ViewStyle } from "react-native";
 
 import Typography from "./Typography";
@@ -15,7 +15,9 @@ type ButtonProps = {
   onPress?: () => void;
   iconLeft?: ReactNode; // Icon component for the left side
   iconRight?: ReactNode; // Icon component for the right side
-};
+  ref?:any
+  disabled?:boolean
+} 
 
 const Button: React.FC<ButtonProps> = ({
   label,
@@ -26,6 +28,8 @@ const Button: React.FC<ButtonProps> = ({
   iconLeft,
   color,
   iconRight,
+  ref,
+   disabled
 }) => {
   const getVariantStyle = (): TextStyle => {
     switch (variant) {
@@ -50,7 +54,7 @@ const Button: React.FC<ButtonProps> = ({
     if (variant === "inline") {
       switch (size) {
         case "sm":
-          return { paddingVertical: 3, paddingHorizontal: 5 };
+          return { paddingVertical: 4, paddingHorizontal: 6 };
         case "md":
           return { paddingVertical: 6, paddingHorizontal: 10 };
         case "lg":
@@ -88,6 +92,8 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
+      ref={ref}
       activeOpacity={0.86}
       style={[
         {

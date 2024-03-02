@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { View, Animated, Easing } from "react-native";
+import React, { useState, useRef, useMemo } from "react";
+import { View, Animated, Easing, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import WelcomeSvg1 from "@/assets/welcom/WelcomeSvg1";
@@ -12,53 +12,47 @@ import { COLOR_SHADES } from "@/constants/Colors";
 import IconButton from "@/components/ui/IconButton";
 import Typography from "@/components/ui/Typography";
 
-interface WelcomeDataItem {
-  title: string;
-  subTitle: string;
-  image: React.ReactNode;
-}
-
-const WelcomeData: WelcomeDataItem[] = [
-  {
-    title: "Personalize Your Health with Smart AI.",
-    subTitle:
-      "Achieve your wellness goals with our AI-powered platform tailored to your unique needs.",
-    image: <WelcomeSvg1 />,
-  },
-  {
-    title: "Intelligent Fitness Tracker At Your Fingertips.",
-    subTitle:
-      "Track your calorie & fitness nutrition with AI and get special recommendations.",
-    image: <WelcomeSvg2 />,
-  },
-  {
-    title: "Empathic Wellness Chatbot For All.",
-    subTitle:
-      "Experience compassionate and personalized care with our AI chatbot.",
-    image: <WelcomeSvg3 />,
-  },
-  {
-    title: "Intuitive Medication Tracker with AI",
-    subTitle: "Easily track your medication & nutrition with the power of AI.",
-    image: <WelcomeSvg4 />,
-  },
-];
-
-const WelcomeScreen: React.FC = () => {
+const WelcomeScreen = () => {
   const [prevButtonHidden, setPrevButtonHidden] = useState(true);
-
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0.25);
-  const [currentWelcomeItem, setCurrentWelcomeItem] = useState(WelcomeData[0]);
-  const fadeInAnimation = useRef(new Animated.Value(1)).current;
-  const buttonFadIn = useRef(new Animated.Value(1)).current;
-  
+  const [fadeInAnimation] = useState(new Animated.Value(1));
+
+  const WelcomeData = useMemo(
+    () => [
+      {
+        title: "Personalize Your Health with Smart AI.",
+        subTitle:
+          "Achieve your wellness goals with our AI-powered platform tailored to your unique needs.",
+        image: <WelcomeSvg1  />,
+      },
+      {
+        title: "Intelligent Fitness Tracker At Your Fingertips.",
+        subTitle:
+          "Track your calorie & fitness nutrition with AI and get special recommendations.",
+        image: <WelcomeSvg2 />,
+      },
+      {
+        title: "Empathic Wellness Chatbot For All.",
+        subTitle:
+          "Experience compassionate and personalized care with our AI chatbot.",
+        image: <WelcomeSvg3 />,
+      },
+      {
+        title: "Intuitive Medication Tracker with AI",
+        subTitle:
+          "Easily track your medication & nutrition with the power of AI.",
+        image: <WelcomeSvg4 />,
+      },
+    ],
+    []
+  );
+
+  const currentWelcomeItem = useMemo(() => WelcomeData[index], [index]);
 
   const handleNext = () => {
     if (index < WelcomeData.length - 1) {
       fadeInAnimation.setValue(0);
-
-      setCurrentWelcomeItem(WelcomeData[index + 1]);
       setProgress((prev) => prev + 0.25);
       Animated.timing(fadeInAnimation, {
         toValue: 1,
@@ -67,9 +61,8 @@ const WelcomeScreen: React.FC = () => {
         useNativeDriver: false,
       }).start(() => {
         setIndex((prevIndex) => prevIndex + 1);
-      })
+      });
       setPrevButtonHidden(false);
- 
     } else {
       // Handle reaching the end of the WelcomeData array
       // You can navigate to the next screen or perform any other action
@@ -79,8 +72,6 @@ const WelcomeScreen: React.FC = () => {
   const handlePrevious = () => {
     if (index + 1 !== 0) {
       fadeInAnimation.setValue(0);
-
-      setCurrentWelcomeItem(WelcomeData[index - 1]);
       setProgress((prev) => prev - 0.25);
       Animated.timing(fadeInAnimation, {
         toValue: 1,
@@ -93,7 +84,6 @@ const WelcomeScreen: React.FC = () => {
       setPrevButtonHidden(index - 1 === 0);
     }
   };
-
 
   return (
     <SafeAreaView>
@@ -133,27 +123,25 @@ const WelcomeScreen: React.FC = () => {
           />
         </Animated.View>
         <Animated.View style={{ opacity: fadeInAnimation, marginTop: "auto" }}>
-          <View style={{  marginBottom: 0 }}>
-            {currentWelcomeItem.image}
-          </View>
+          <View style={{ marginBottom: 0 }}>
+            {currentWelcomeItem.image}</View>
         </Animated.View>
 
         {/* Previous Button */}
-        {!prevButtonHidden  && (
- 
-            <IconButton
-              icon={<AntDesign name="swapleft" size={24} color="white" />}
-              bgColor={COLOR_SHADES.gray.shade7}
-              style={{
-                borderRadius: 17,
-                width: 70,
-                borderWidth: 0,
-                position: "absolute",
-                bottom: 15,
-                left: 15,
-              }}
-              onPress={handlePrevious}
-            />
+        {!prevButtonHidden && (
+          <IconButton
+            icon={<AntDesign name="swapleft" size={24} color="white" />}
+            bgColor={COLOR_SHADES.gray.shade7}
+            style={{
+              borderRadius: 17,
+              width: 70,
+              borderWidth: 0,
+              position: "absolute",
+              bottom: 15,
+              left: 15,
+            }}
+            onPress={handlePrevious}
+          />
         )}
 
         {/* Next Button */}

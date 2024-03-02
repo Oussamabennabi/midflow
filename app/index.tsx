@@ -6,7 +6,7 @@ export default function IndexPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        router.replace("/(tabs)/two");
+        router.replace("/");
         console.log("redirected");
       } else {
         console.log("no user");
@@ -15,10 +15,10 @@ export default function IndexPage() {
 
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        router.replace("/(tabs)/two");
+        router.replace("/");
         console.log("redirected");
       } else {
-        router.replace("/(auth)/signin");
+        router.replace("/(auth)/signup");
       }
     });
   }, []);
