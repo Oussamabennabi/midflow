@@ -1,5 +1,7 @@
 {
-    "greeting": "سشمشة مهنخة",
-    "welcome": "Bienvenue dans l'application."
-  }
-  
+  "greeting": "سشمشة مهنخة",
+  "welcome": "Bienvenue dans l'application.",
+
+  "signin": "سجل الدخول",
+  "signin.header": "Sign in and get your health personalized with our AI Technology."
+}

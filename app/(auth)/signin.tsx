@@ -17,18 +17,16 @@ import ErrorChip from "@/components/ui/ErrorChip";
 import Button from "@/components/ui/Button";
 import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
+import i18n from "@/config/i18n";
 
-const SignInScreen = () => {
+const SignIn = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   return (
     <ScrollView
       style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
     >
       {/* Card */}
-      <AuthHeader
-        subTitle="Sign in and get your health personalized with our AI Technology."
-        title="Sign In"
-      />
+      <AuthHeader subTitle={i18n.t("signin.header")} title={i18n.t("signin")} />
 
       {/* end of Card */}
 
@@ -147,4 +145,4 @@ const SignInScreen = () => {
   );
 };
 
-export default SignInScreen;
+export default SignIn;

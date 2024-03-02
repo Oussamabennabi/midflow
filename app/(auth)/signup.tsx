@@ -18,7 +18,7 @@ import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
 import AuthHeader from "@/components/(auth)/auth-header";
 
-const SignUpScreen = () => {
+const SignUp = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   return (
@@ -187,4 +187,4 @@ const SignUpScreen = () => {
   );
 };
 
-export default SignUpScreen;
+export default SignUp;

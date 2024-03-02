@@ -1,5 +1,9 @@
 {
     "greeting": "Bonjour !",
-    "welcome": "Bienvenue dans l'application."
+    "welcome": "Bienvenue dans l'application.",
+    
+    "signin":"Inscree",
+    "signin.header":"Sign in and get your health personalized with our AI Technology."
+ 
   }
   

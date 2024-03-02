@@ -6,7 +6,7 @@ import en from "../translations/en.json";
 import * as Localization from 'expo-localization';
 
 const i18n = new I18n({
-    en,
+    en ,
     fr, ar,
     'en-US':en
 });
