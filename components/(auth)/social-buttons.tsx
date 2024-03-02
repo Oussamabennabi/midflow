@@ -3,13 +3,9 @@ import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import IconButton from "../ui/IconButton";
 import { COLOR_SHADES } from "@/constants/Colors";
-import { supabase } from "@/lib/supabase-client";
 const SocialButtons = () => {
   const signinWithFacebook = async()=> {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'facebook',
-    })
-    console.log(data,error)
+    
   }
   const signinWithGoogle = ()=> {
     

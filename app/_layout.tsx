@@ -10,6 +10,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import useCachedResources from "@/hooks/useCachedResourses";
 import { StatusBar } from "expo-status-bar";
 import { COLOR_SHADES } from "@/constants/Colors";
+import ConvexClerkProvider from "@/providers/convex-clerk-rovider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -38,14 +39,15 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-
-      <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="welcome/index" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <ConvexClerkProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="welcome/index" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        </Stack>
+      </ThemeProvider>
+    </ConvexClerkProvider>
   );
 }
