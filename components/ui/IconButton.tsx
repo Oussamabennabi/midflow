@@ -6,12 +6,14 @@ type IconButtonType = {
   style?: ViewStyle;
   bgColor?: string;
   onPress?: () => void;
+  small?:boolean
 };
 const IconButton: React.FC<IconButtonType> = ({
   icon,
   onPress,
   style,
   bgColor,
+  small
 }) => {
   return (
     <TouchableOpacity
@@ -20,7 +22,7 @@ const IconButton: React.FC<IconButtonType> = ({
         borderColor: COLOR_SHADES.gray.shade2,
         borderWidth: 1,
         borderRadius: 8,
-        width: 56,
+        width:small?40: 56,
         alignItems: "center",
         justifyContent: "center",
         aspectRatio: 1 / 1,

@@ -9,8 +9,9 @@ import { router } from "expo-router";
 
 type SettingsHeaderType = {
   title: string;
+  paddingBottom?:boolean
 };
-const SettingsHeader: React.FC<SettingsHeaderType> = ({ title }) => {
+const SettingsHeader: React.FC<SettingsHeaderType> = ({ title,paddingBottom }) => {
   return (
     <View
       style={{
@@ -19,9 +20,11 @@ const SettingsHeader: React.FC<SettingsHeaderType> = ({ title }) => {
         borderBottomStartRadius: 40,
 
         padding: SPACING.xl,
+        paddingBottom:paddingBottom?SPACING.xxxl:SPACING.xl,
         justifyContent: "center",
         alignItems: "flex-start",
         paddingTop: SPACING.xl,
+        
       }}
     >
       <View

@@ -1,58 +1,75 @@
-import { useSignUp } from "@clerk/clerk-expo";
 import { Formik } from "formik";
 import React from "react";
 import { View } from "../Themed";
-import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
-import Input from "../ui/Input";
 
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import Space from "../ui/Space";
 import ErrorChip from "../ui/ErrorChip";
 import Button from "../ui/Button";
 import Toast from "react-native-toast-message";
-import { getToastOptions } from "@/utils/getToastOptions";
-import { getErrorMessageFromClerkCode } from "@/utils/getErrorMessageFromClerkCode";
 
-import { ActivityIndicator } from "react-native";
-import { EmailInput, FirstName, LastName, LocationInput } from "../form-inputs";
+import { ActivityIndicator, Image, useWindowDimensions } from "react-native";
+import {
+  AccoutTypeInput,
+  EmailInput,
+  FirstName,
+  LastName,
+  LocationInput,
+} from "../form-inputs";
+import { useUser } from "@clerk/clerk-expo";
+import { router } from "expo-router";
+import IconButton from "../ui/IconButton";
+import { COLOR_SHADES } from "@/constants/Colors";
 
 const ProfileForm = () => {
-  const { signUp, setActive } = useSignUp();
+  const { user, isLoaded } = useUser();
+  const d = useWindowDimensions();
 
+  if (!user) {
+    router.replace("/settings1");
+
+    return;
+  }
   const handleSubmit = async (values: {
     email: string;
     firstName: string;
     lastName: string;
-  }) => {
-    if (!signUp) return;
-    try {
-      //   await signUp.create({
-      //     firstName: values.firstName,
-      //     lastName: values.lastName,
-      //   });
-      //   // send the email.
-      //   await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-      //   // verify email to get code
-      //   router.push("/verify-email");
-    } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-      Toast.show(
-        getToastOptions({
-          message1: getErrorMessageFromClerkCode(err.errors[0].code),
-          type: "error",
-        })
-      );
-    }
-  };
+    location: string;
+  }) => {};
   return (
     <>
+      <View
+        style={{
+          position: "absolute",
+          top: 120,
+          left: d.width / 2 - 50,
+          backgroundColor: "transparent",
+        }}
+      >
+        <Image
+          source={{ uri: user.imageUrl, height: 100, width: 100 }}
+          style={{
+            borderRadius: 14,
+          }}
+        />
+        <IconButton
+          style={{
+            position:"absolute",borderWidth:2,
+            bottom:-20,
+            left:30
+          }}
+          small
+          bgColor={COLOR_SHADES.gray.primary}
+          icon={<Feather name="edit" size={24} color="white" />}
+        />
+      </View>
+      <Space space="xxl" />
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
+          firstName: user.firstName!,
+          lastName: user.lastName!,
+          email: user.emailAddresses[0].emailAddress,
           location: "",
         }}
         validate={(values) => {
@@ -70,10 +87,8 @@ const ProfileForm = () => {
           if (!values.lastName) {
             errors.lastName = "required";
           }
-          if (!values.location) {
-            errors.location = "required";
-          }
 
+          // ! if doctor make the location manditory
           return errors;
         }}
         onSubmit={(values) => handleSubmit(values)}
@@ -134,6 +149,8 @@ const ProfileForm = () => {
                 </>
               )}
             </>
+
+            <AccoutTypeInput />
 
             <Space space="lg" />
             <Button
