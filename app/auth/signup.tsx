@@ -22,7 +22,7 @@ const SignUp = () => {
       <ScrollView
         style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
       >
-        <StatusBar style="inverted" />
+        <StatusBar style="inverted" backgroundColor={COLOR_SHADES.gray.primary} />
 
         {/* Card */}
         <AuthHeader
@@ -57,9 +57,12 @@ const SignUp = () => {
             label="Sign In"
             variant="inline"
             size="md"
-            onPress={() => router.replace("/signin")}
+            onPress={() => router.push("/auth/signin")}
             color={COLOR_SHADES.blue.primary}
           />
+          
+        <Space space="xxl" />
+          
         </View>
       </ScrollView>
     </>

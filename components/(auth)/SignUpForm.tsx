@@ -47,7 +47,7 @@ const SignUpForm = () => {
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
       // verify email to get code
-      router.push("/verify-email")
+      router.push("/auth/verify-email")
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
       Toast.show(
