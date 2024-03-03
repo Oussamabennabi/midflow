@@ -1,45 +1,45 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-
 import { COLOR_SHADES } from "@/constants/Colors";
-
-import Space from "@/components/ui/Space";
+import AuthHeader from "@/components/(auth)/auth-header";
 import Typography from "@/components/ui/Typography";
-
+import Space from "@/components/ui/Space";
 import Button from "@/components/ui/Button";
 import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
-import AuthHeader from "@/components/(auth)/auth-header";
+import i18n from "@/config/i18n";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
+import Toast from "react-native-toast-message";
+import SignInForm from "@/components/(auth)/SignInForm";
 
-
-import SignUpForm from "@/components/(auth)/SignUpForm";
-
-const SignUp = () => {
+const SignIn = () => {
   return (
     <>
       <ScrollView
         style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
       >
-        <StatusBar style="inverted" backgroundColor={COLOR_SHADES.gray.primary} />
+        <StatusBar
+          style="inverted"
+          backgroundColor={COLOR_SHADES.gray.primary}
+        />
 
         {/* Card */}
         <AuthHeader
-          subTitle="Sign up and get your health personalized with our AI Technology."
-          title="Sign Up For Free!"
+          subTitle={i18n.t("signin_header")}
+          title={i18n.t("signin")}
         />
 
         {/* end of Card */}
 
         {/* Form */}
-        <SignUpForm />
+        <SignInForm />
         {/* End of form */}
 
         <OrSeporator />
         <Space space="xl" />
         <SocialButtons />
-        <Space space="lg" />
+        <Space space="xl" />
 
         <View
           style={{
@@ -49,24 +49,24 @@ const SignUp = () => {
           }}
         >
           <Typography
-            text="Already have an account?"
+            text="Don't have an account?"
             variant="secondary"
             font="SemiBold"
           />
+
           <Button
-            label="Sign In"
+            label="Sign Up"
             variant="inline"
             size="md"
-            onPress={() => router.push("/auth/signin")}
+            onPress={() => router.replace("/signup")}
             color={COLOR_SHADES.blue.primary}
           />
-          
-        <Space space="xxl" />
-          
+          <Space space="xl" />
         </View>
       </ScrollView>
+      <Toast />
     </>
   );
 };
 
-export default SignUp;
+export default SignIn;

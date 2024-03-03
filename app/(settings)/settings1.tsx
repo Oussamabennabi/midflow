@@ -1,5 +1,5 @@
-import React, { ReactNode, useMemo, useState } from "react";
-import { Alert, ScrollView, Switch, View } from "react-native";
+import React, { useState } from "react";
+import { Alert, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";

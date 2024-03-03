@@ -1,20 +1,20 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
+
 import { COLOR_SHADES } from "@/constants/Colors";
-import AuthHeader from "@/components/(auth)/auth-header";
-import Typography from "@/components/ui/Typography";
+
 import Space from "@/components/ui/Space";
+import Typography from "@/components/ui/Typography";
+
 import Button from "@/components/ui/Button";
 import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
-import i18n from "@/config/i18n";
+import AuthHeader from "@/components/(auth)/auth-header";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
-import Toast from "react-native-toast-message";
-import SignInForm from "@/components/(auth)/SignInForm";
+import SignUpForm from "@/components/(auth)/SignUpForm";
 
-const SignIn = () => {
-
+const SignUp = () => {
 
   return (
     <>
@@ -25,20 +25,20 @@ const SignIn = () => {
 
         {/* Card */}
         <AuthHeader
-          subTitle={i18n.t("signin_header")}
-          title={i18n.t("signin")}
+          subTitle="Sign up and get your health personalized with our AI Technology."
+          title="Sign Up For Free!"
         />
 
         {/* end of Card */}
 
         {/* Form */}
-     <SignInForm/>
+        <SignUpForm />
         {/* End of form */}
 
         <OrSeporator />
         <Space space="xl" />
         <SocialButtons />
-        <Space space="xl" />
+        <Space space="lg" />
 
         <View
           style={{
@@ -48,26 +48,24 @@ const SignIn = () => {
           }}
         >
           <Typography
-            text="Don't have an account?"
+            text="Already have an account?"
             variant="secondary"
             font="SemiBold"
           />
-
           <Button
-            label="Sign Up"
+            label="Sign In"
             variant="inline"
             size="md"
-            onPress={() => router.replace("/auth/signup")}
+            onPress={() => router.push("/signin")}
             color={COLOR_SHADES.blue.primary}
           />
-          <Space space="xl" />
+          
+        <Space space="xxl" />
           
         </View>
-
       </ScrollView>
-      <Toast />
     </>
   );
 };
 
-export default SignIn;
+export default SignUp;
