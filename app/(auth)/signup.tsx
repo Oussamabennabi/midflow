@@ -12,7 +12,7 @@ import SocialButtons from "@/components/(auth)/social-buttons";
 import AuthHeader from "@/components/(auth)/auth-header";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
-import Toast from "react-native-toast-message";
+
 
 import SignUpForm from "@/components/(auth)/SignUpForm";
 
@@ -62,7 +62,6 @@ const SignUp = () => {
           />
         </View>
       </ScrollView>
-      <Toast />
     </>
   );
 };
