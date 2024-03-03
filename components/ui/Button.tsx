@@ -8,16 +8,16 @@ import { FONT } from "@/constants/Fonts";
 
 type ButtonProps = {
   label: string;
-  variant?: "primary" | "secondary" | "inline"; // Add your desired variants
+  variant?: "primary" | "secondary" | "inline" | "disabled"|""; // Add your desired variants
   size?: Size;
   color?: string;
   style?: ViewStyle; // Allow custom styling
   onPress?: () => void;
   iconLeft?: ReactNode; // Icon component for the left side
   iconRight?: ReactNode; // Icon component for the right side
-  ref?:any
-  disabled?:boolean
-} 
+  ref?: any;
+  disabled?: boolean;
+};
 
 const Button: React.FC<ButtonProps> = ({
   label,
@@ -29,11 +29,12 @@ const Button: React.FC<ButtonProps> = ({
   color,
   iconRight,
   ref,
-   disabled
+  disabled,
 }) => {
   const getVariantStyle = (): TextStyle => {
     switch (variant) {
       case "primary":
+      case "":
         return { backgroundColor: COLOR_SHADES.blue.primary, color: "white" };
       case "secondary":
         return {
@@ -44,6 +45,11 @@ const Button: React.FC<ButtonProps> = ({
         return {
           backgroundColor: "transparent",
           color: COLOR_SHADES.gray.secondary,
+        };
+      case "disabled":
+        return {
+          backgroundColor: COLOR_SHADES.blue.shade4,
+          color: COLOR_SHADES.gray.shade2,
         };
 
       default:
@@ -101,23 +107,45 @@ const Button: React.FC<ButtonProps> = ({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative",
         },
         getVariantStyle(),
         getSizeStyle(),
         style,
       ]}
     >
-      {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
-      <Typography
+      <View
         style={{
-          textAlign: "center",
-          color: color || getVariantStyle()?.color,
-          fontFamily: FONT.Bold,
+          marginLeft: "auto",
+          marginRight: "auto",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        text={label}
-        size={"md"}
-      />
-      {iconRight && <View style={{ marginLeft: 8 }}>{iconRight}</View>}
+      >
+        {iconLeft && <View style={{ marginRight: 8 }}>{iconLeft}</View>}
+        <Typography
+          style={{
+            textAlign: "center",
+            color: color || getVariantStyle()?.color,
+            fontFamily: FONT.Bold,
+          }}
+          text={label}
+          size={"md"}
+        />
+      </View>
+      {iconRight && (
+        <View
+          style={{
+            position: "absolute",
+            top: "auto",
+            bottom: "auto",
+            right: 40,
+          }}
+        >
+          {iconRight}
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

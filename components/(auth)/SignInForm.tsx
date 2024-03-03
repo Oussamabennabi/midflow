@@ -4,6 +4,7 @@ import { View } from "../Themed";
 import Typography from "../ui/Typography";
 import Input from "../ui/Input";
 import {
+  AntDesign,
   Feather,
   FontAwesome,
   MaterialCommunityIcons,
@@ -17,6 +18,8 @@ import { useSignIn } from "@clerk/clerk-expo";
 import Toast from "react-native-toast-message";
 import { getToastOptions } from "@/utils/getToastOptions";
 import { getErrorMessageFromClerkCode } from "@/utils/getErrorMessageFromClerkCode";
+import { ActivityIndicator } from "react-native";
+import { EmailInput, PasswordInput } from "../form-inputs";
 
 const SignInForm = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
@@ -73,25 +76,7 @@ const SignInForm = () => {
           isSubmitting,
         }) => (
           <View style={{ padding: SPACING.lg }}>
-            <Typography
-              text="Email"
-              size="md"
-              style={{ paddingVertical: SPACING.md }}
-            />
-            <Input
-              onChangeText={handleChange("email")}
-              value={values.email}
-              placeholder="Email"
-              autoComplete="email"
-              keyboardType="email-address"
-              iconLeft={
-                <MaterialCommunityIcons
-                  name="email-outline"
-                  size={22}
-                  color={COLOR_SHADES.gray.primary}
-                />
-              }
-            />
+            <EmailInput handleChange={handleChange} value={values.email} />
             {touched.email && errors.email && (
               <>
                 <Space />
@@ -100,31 +85,12 @@ const SignInForm = () => {
             )}
 
             <Space />
-            <Typography
-              text="Password"
-              style={{ paddingVertical: SPACING.md }}
-            />
 
-            <Input
-              onChangeText={handleChange("password")}
+            <PasswordInput
+              handleChange={handleChange}
               value={values.password}
-              placeholder="Password"
-              secureTextEntry={isPasswordHidden}
-              iconLeft={
-                <Feather
-                  name="lock"
-                  size={22}
-                  color={COLOR_SHADES.gray.primary}
-                />
-              }
-              onIconPress={() => setIsPasswordHidden((prev) => !prev)}
-              iconRight={
-                <FontAwesome
-                  name={isPasswordHidden ? "eye" : "eye-slash"}
-                  size={22}
-                  color={COLOR_SHADES.gray.primary}
-                />
-              }
+              hidden={isPasswordHidden}
+              setHidden={setIsPasswordHidden}
             />
             {touched.password && errors.password && (
               <>
@@ -135,6 +101,11 @@ const SignInForm = () => {
 
             <Space space="lg" />
             <Button
+              iconLeft={
+                isSubmitting && <ActivityIndicator size="small" color="white" />
+              }
+              variant={isSubmitting ? "disabled" : ""}
+              iconRight={<AntDesign name="swapright" size={24} color="white" />}
               disabled={isSubmitting}
               onPress={handleSubmit}
               label="Submit"

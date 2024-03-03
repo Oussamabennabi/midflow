@@ -1,0 +1,7 @@
+export { default as FirstName } from './FirstName'
+export { default as LastName } from './LastName'
+export { default as LocationInput } from './LocationInput'
+export { default as GenderInput } from './GenderInput'
+export { default as EmailInput } from './EmailInput'
+export { default as PasswordInput } from './PasswordInput'
+export { default as ConfirmPasswordInput } from './ConfirmPasswordInput'

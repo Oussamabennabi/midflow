@@ -1,18 +1,12 @@
 import { useSignUp } from "@clerk/clerk-expo";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "../Themed";
 import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
 import Input from "../ui/Input";
-import RNPickerSelect from "react-native-picker-select";
 
-import {
-  AntDesign,
-  Feather,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Space from "../ui/Space";
 import ErrorChip from "../ui/ErrorChip";
@@ -20,44 +14,28 @@ import Button from "../ui/Button";
 import Toast from "react-native-toast-message";
 import { getToastOptions } from "@/utils/getToastOptions";
 import { getErrorMessageFromClerkCode } from "@/utils/getErrorMessageFromClerkCode";
-import { router } from "expo-router";
-import { ActivityIndicator } from "react-native";
-import {
-  ConfirmPasswordInput,
-  EmailInput,
-  FirstName,
-  GenderInput,
-  LastName,
-  PasswordInput,
-} from "../form-inputs";
 
-const SignUpForm = () => {
-  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+import { ActivityIndicator } from "react-native";
+import { EmailInput, FirstName, LastName, LocationInput } from "../form-inputs";
+
+const ProfileForm = () => {
   const { signUp, setActive } = useSignUp();
 
   const handleSubmit = async (values: {
     email: string;
-    password: string;
-    confirmPassword: string;
     firstName: string;
     lastName: string;
-    gender: string;
   }) => {
     if (!signUp) return;
     try {
-      await signUp.create({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        gender: values.gender,
-        emailAddress: values.email,
-        password: values.password,
-      });
-
-      // send the email.
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-
-      // verify email to get code
-      router.push("/verify-email");
+      //   await signUp.create({
+      //     firstName: values.firstName,
+      //     lastName: values.lastName,
+      //   });
+      //   // send the email.
+      //   await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      //   // verify email to get code
+      //   router.push("/verify-email");
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
       Toast.show(
@@ -75,9 +53,7 @@ const SignUpForm = () => {
           firstName: "",
           lastName: "",
           email: "",
-          password: "",
-          confirmPassword: "",
-          gender: "",
+          location: "",
         }}
         validate={(values) => {
           const errors = {} as any;
@@ -88,26 +64,16 @@ const SignUpForm = () => {
             errors.email = "Invalid email format";
           }
 
-          if (!values.password) {
-            errors.password = "required";
-          }
-
           if (!values.firstName) {
             errors.firstName = "required";
           }
           if (!values.lastName) {
             errors.lastName = "required";
           }
-          if (!values.gender) {
-            errors.gender = "required";
+          if (!values.location) {
+            errors.location = "required";
           }
 
-          if (values.password && !values.confirmPassword) {
-            errors.confirmPassword = "Confirm Password";
-          }
-          if (values.password !== values.confirmPassword) {
-            errors.confirmPassword = "Password Must Match";
-          }
           return errors;
         }}
         onSubmit={(values) => handleSubmit(values)}
@@ -135,6 +101,7 @@ const SignUpForm = () => {
             {/* last name */}
             <>
               <LastName handleChange={handleChange} value={values.lastName} />
+
               {touched.lastName && errors.lastName && (
                 <>
                   <Space />
@@ -143,13 +110,16 @@ const SignUpForm = () => {
               )}
             </>
 
-            {/* gender */}
+            {/* location */}
             <>
-              <GenderInput handleChange={handleChange} value={values.gender} />
-              {touched.gender && errors.gender && (
+              <LocationInput
+                handleChange={handleChange}
+                value={values.location}
+              />
+              {touched.location && errors.location && (
                 <>
                   <Space />
-                  <ErrorChip text={errors.gender} />
+                  <ErrorChip text={errors.location} />
                 </>
               )}
             </>
@@ -161,41 +131,6 @@ const SignUpForm = () => {
                 <>
                   <Space />
                   <ErrorChip text={errors.email} />
-                </>
-              )}
-            </>
-
-            <Space />
-
-            {/* password */}
-            <>
-              <PasswordInput
-                handleChange={handleChange}
-                hidden={isPasswordHidden}
-                setHidden={setIsPasswordHidden}
-                value={values.password}
-              />
-              {touched.password && errors.password && (
-                <>
-                  <Space />
-                  <ErrorChip text={errors.password} />
-                </>
-              )}
-            </>
-
-            <Space />
-            {/* confirm password */}
-            <>
-              <ConfirmPasswordInput
-                handleChange={handleChange}
-                hidden={isPasswordHidden}
-                setHidden={setIsPasswordHidden}
-                value={values.confirmPassword}
-              />
-              {touched.confirmPassword && errors.confirmPassword && (
-                <>
-                  <Space />
-                  <ErrorChip text={errors.confirmPassword} />
                 </>
               )}
             </>
@@ -219,4 +154,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default ProfileForm;

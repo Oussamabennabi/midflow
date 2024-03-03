@@ -8,6 +8,7 @@ import Typography from "@/components/ui/Typography";
 import ListItem from "@/components/settings/ListItem";
 import { CustomSwitch } from "@/components/ui/CustomSwitch";
 import { useAuth } from "@clerk/clerk-expo";
+import { router } from "expo-router";
 
 const Settings = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -54,6 +55,7 @@ const Settings = () => {
             <Space />
 
             <ListItem
+            onPress={()=>router.push("/profile-setup")}
               item={{
                 label: "Personal Info",
                 icon: <Ionicons name="person" size={20} color="black" />,
