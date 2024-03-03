@@ -6,7 +6,7 @@ const Index = () => {
 
   //   const { isLoaded, isSignedIn, user } = useUser();
   if (!isLoaded) return null;
-  if (sessionId) router.replace("/settings/");
+  if (sessionId) router.replace("/settings");
   if (!sessionId) router.replace("/auth/signin");
 };
 

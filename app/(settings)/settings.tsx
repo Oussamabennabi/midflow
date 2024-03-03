@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo, useState } from "react";
-import { ScrollView, Switch, View } from "react-native";
+import { Alert, ScrollView, Switch, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
@@ -7,14 +7,40 @@ import Space from "@/components/ui/Space";
 import Typography from "@/components/ui/Typography";
 import ListItem from "@/components/settings/ListItem";
 import { CustomSwitch } from "@/components/ui/CustomSwitch";
+import { useAuth } from "@clerk/clerk-expo";
 
 const Settings = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  const { isLoaded, signOut } = useAuth();
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
-    // Implement logic to toggle dark mode
   };
+
+  const onSignOut = () =>
+    Alert.alert(
+      "Sign Out",
+      "Are you sure you want to sign out?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Signout",
+          onPress: async () => {
+            if (!isLoaded) return;
+            await signOut();
+          },
+        },
+      ],
+      {
+        cancelable: true,
+        // TODO?
+
+        userInterfaceStyle: "light",
+      }
+    );
 
   return (
     <SafeAreaView>
@@ -108,6 +134,7 @@ const Settings = () => {
             <Space />
 
             <ListItem
+              onPress={onSignOut}
               item={{
                 label: "Sign Out",
                 icon: <Ionicons name="log-out" size={20} color="black" />,

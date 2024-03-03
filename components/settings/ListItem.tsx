@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import {  TouchableOpacity, View } from "react-native";
 import React, { ReactNode } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
@@ -12,12 +12,18 @@ type SettingsItem = {
 const ListItem = ({
   item,
   dangerItem,
+  onPress
 }: {
   item: SettingsItem;
   dangerItem?: boolean;
+  onPress?:()=>void
 }) => {
   return (
-    <View
+    <TouchableOpacity
+    activeOpacity={.6}
+
+    onPress={onPress}
+    
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -54,7 +60,7 @@ const ListItem = ({
           <MaterialIcons name="arrow-forward-ios" size={24} color={dangerItem?COLOR_SHADES.red.shade5:"black"} />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
