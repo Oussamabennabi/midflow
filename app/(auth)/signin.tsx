@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
 import i18n from "@/config/i18n";
-import { StatusBar } from "expo-status-bar";
+
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import SignInForm from "@/components/(auth)/SignInForm";
@@ -19,10 +19,7 @@ const SignIn = () => {
       <ScrollView
         style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
       >
-        <StatusBar
-          style="inverted"
-          backgroundColor={COLOR_SHADES.gray.primary}
-        />
+        
 
         {/* Card */}
         <AuthHeader

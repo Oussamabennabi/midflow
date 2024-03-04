@@ -5,6 +5,7 @@ import { SPACING } from "@/constants/Spacing";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "@/components/ui/Typography";
 import LogoSvg from "@/assets/LogoSvg";
+import { StatusBar } from "expo-status-bar";
 
 type AuthHeaderType = {
   title: string;
@@ -24,6 +25,10 @@ const AuthHeader: React.FC<AuthHeaderType> = ({ title, subTitle }) => {
         paddingTop: SPACING.xxl,
       }}
     >
+      <StatusBar
+          style="inverted"
+          backgroundColor={COLOR_SHADES.gray.primary}
+        />
       {/* logo */}
       <LogoSvg />
       {/* title */}

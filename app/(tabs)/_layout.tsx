@@ -1,61 +1,52 @@
-// import React from "react";
-// import FontAwesome from "@expo/vector-icons/FontAwesome";
-// import { Link, Tabs } from "expo-router";
-// import { Pressable } from "react-native";
+import React from "react";
 
-// import { COLORS } from "@/constants/Colors";
-// import { useColorScheme } from "@/components/useColorScheme";
-// import { useClientOnlyValue } from "@/components/useClientOnlyValue";
-// import i18n from "@/config/i18n";
+import { Tabs, router } from "expo-router";
 
-// // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-// function TabBarIcon(props: {
-//   name: React.ComponentProps<typeof FontAwesome>["name"];
-//   color: string;
-// }) {
-//   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-// }
+import { COLORS } from "@/constants/Colors";
+import { useColorScheme } from "@/components/useColorScheme";
+import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+import { AntDesign } from "@expo/vector-icons";
+import { FONT } from "@/constants/Fonts";
+import CustomeTabBar from "@/components/(tabs)/CustomTabBar";
 
-// export default function TabLayout() {
-//   const colorScheme = useColorScheme();
+export default function TabLayout() {
+  const colorScheme = useColorScheme();
 
-//   return (
-//     <Tabs
-//       screenOptions={{
-//         tabBarActiveTintColor: COLORS[colorScheme ?? "light"].background,
-//         // Disable the static render of the header on web
-//         // to prevent a hydration error in React Navigation v6.
-//         headerShown: useClientOnlyValue(false, true),
-//       }}
-//     >
-//       <Tabs.Screen
-//         name="index"
-//         options={{
-//           title: "FF",
-//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-//           headerRight: () => (
-//             <Link href="/modal" asChild>
-//               <Pressable>
-//                 {({ pressed }) => (
-//                   <FontAwesome
-//                     name="info-circle"
-//                     size={25}
-//                     color={COLORS[colorScheme ?? "light"].text}
-//                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-//                   />
-//                 )}
-//               </Pressable>
-//             </Link>
-//           ),
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="two"
-//         options={{
-//           title: "Tab Two",
-//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-//         }}
-//       />
-//     </Tabs>
-//   );
-// }
+  return (
+    <Tabs
+    tabBar={props => <CustomeTabBar {...props} />} 
+      screenOptions={{
+        tabBarActiveTintColor: COLORS[colorScheme ?? "light"].tintBg,
+        headerShown: useClientOnlyValue(false, true),
+        headerTransparent: true,
+        tabBarStyle: {
+          height: 60,
+          paddingBottom: 10,
+        },
+        tabBarLabelStyle: {
+          fontFamily: FONT.Bold,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="home" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="appointments"
+        options={{
+          title: "Appointment",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="calendar" size={24} color={color} />
+          ),
+        }}
+      />
+    
+    </Tabs>
+  );
+}

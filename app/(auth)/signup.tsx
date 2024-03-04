@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button";
 import OrSeporator from "@/components/ui/OrSeporator";
 import SocialButtons from "@/components/(auth)/social-buttons";
 import AuthHeader from "@/components/(auth)/auth-header";
-import { StatusBar } from "expo-status-bar";
+
 import { router } from "expo-router";
 import SignUpForm from "@/components/(auth)/SignUpForm";
 
@@ -21,8 +21,8 @@ const SignUp = () => {
       <ScrollView
         style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
       >
-        <StatusBar style="inverted" backgroundColor={COLOR_SHADES.gray.primary} />
-
+     
+     
         {/* Card */}
         <AuthHeader
           subTitle="Sign up and get your health personalized with our AI Technology."

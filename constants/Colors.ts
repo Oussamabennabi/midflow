@@ -3,6 +3,10 @@
 
 export const COLOR_SHADES = {
   blue: {
+    /**
+     * #ffe7eb
+
+     *  */ 
     primary: '#0F66FF',
     secondary: '#D1E5FF',
     shade1: '#ECF5FE',
@@ -40,6 +44,7 @@ export const COLOR_SHADES = {
   },
   red: {
     shade1: '#ffe7eb',
+
     shade2: '#FED6DD',
     shade3: '#FEB2BD',
     shade4: '#FE8291',
@@ -66,6 +71,7 @@ export const COLOR_SHADES = {
     primary: '#252F49',
     secondary: '#5D6B84',
     shade1: '#F3F4F9',
+    shade15: '#eeeeee',
     shade2: '#DDE0E8',
     shade3: '#BEC5D2',
     shade4: '#9FA7B9',
@@ -82,11 +88,14 @@ export const COLORS = {
   light: {
     text: COLOR_SHADES.blue.shade8,
     background: COLOR_SHADES.gray.shade1,
+    tintBg:COLOR_SHADES.blue.shade5
 
   },
   dark: {
     text: COLOR_SHADES.blue.shade1,
     background: COLOR_SHADES.blue.shade8,
+    tintBg:COLOR_SHADES.blue.shade2
+
 
   },
 };

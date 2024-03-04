@@ -27,7 +27,7 @@ const ProfileForm = () => {
   const d = useWindowDimensions();
 
   if (!user) {
-    router.replace("/settings1");
+    router.replace("/settings");
 
     return;
   }

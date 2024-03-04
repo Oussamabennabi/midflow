@@ -6,6 +6,7 @@ import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "@/components/ui/Typography";
 import { Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 type SettingsHeaderType = {
   title: string;
@@ -27,6 +28,10 @@ const SettingsHeader: React.FC<SettingsHeaderType> = ({ title,paddingBottom }) =
         
       }}
     >
+      <StatusBar
+          style="inverted"
+          backgroundColor={COLOR_SHADES.gray.primary}
+        />
       <View
         style={{
           flexDirection: "row",
@@ -38,7 +43,7 @@ const SettingsHeader: React.FC<SettingsHeaderType> = ({ title,paddingBottom }) =
         <TouchableOpacity
           activeOpacity={0.6}
           style={{ marginTop: 7 }}
-          onPress={() => router.canGoBack() ? router.back():router.replace("/settings1")}
+          onPress={() => router.canGoBack() ? router.back():router.replace("/settings")}
         >
           <Entypo name="chevron-left" size={32} color="white" />
         </TouchableOpacity>
