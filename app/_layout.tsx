@@ -49,7 +49,7 @@ function RootLayoutNav() {
   useEffect(() => {
     if (!isLoaded) return;
     if (isLoaded && !isSignedIn) router.replace("/signin");
-    if (isLoaded && isSignedIn) router.replace("/(tabs)/home");
+    if (isLoaded && isSignedIn) router.replace("/home");
   }, [isLoaded, isSignedIn]);
 
   return (
@@ -57,6 +57,7 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="doctor/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="(settings)" options={{ headerShown: false }} />
       </Stack>

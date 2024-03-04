@@ -60,7 +60,6 @@ const CustomeTabBar = ({
               activeOpacity={0.7}
               onPress={onPress}
               style={{
-                // backgroundColor: isFocused ? C : "#182028",
                 borderRadius: 20,
               }}
             >
@@ -69,7 +68,6 @@ const CustomeTabBar = ({
                   justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
-                  padding: 15,
                 }}
               >
                 {Icon && (
@@ -80,14 +78,15 @@ const CustomeTabBar = ({
                     {...{ iconStyles }}
                   />
                 )}
-                <Typography
-                  style={{
-                    color: isFocused ? color! : COLOR_SHADES.gray.shade6,
-
-                  }}
-                  text={label}
-                  size="sm"
-                />
+                {isFocused && (
+                  <Typography
+                    style={{
+                      color: isFocused ? color! : COLOR_SHADES.gray.shade6,
+                    }}
+                    text={label}
+                    size="sm"
+                  />
+                )}
               </View>
             </TouchableOpacity>
           </View>
@@ -109,7 +108,6 @@ const CustomeTabBar = ({
               justifyContent: "center",
               alignItems: "center",
               flex: 1,
-              padding: 15,
             }}
           >
             <AntDesign
@@ -140,6 +138,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 1,
+    paddingVertical: 6,
+    paddingHorizontal: 1,
   },
 });
 

@@ -9,6 +9,7 @@ export const COLOR_SHADES = {
      *  */ 
     primary: '#0F66FF',
     secondary: '#D1E5FF',
+    lowOpacity: '#0f67ff2c',
     shade1: '#ECF5FE',
     shade2: '#A6CBFF',
     shade3: '#78AFFE',

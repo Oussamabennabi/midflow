@@ -23,7 +23,7 @@ const Typography: React.FC<TypographyProps> = ({
   const getSizeStyle = (): TextStyle => {
     switch (size) {
       case "sm":
-        return { fontSize: 14 };
+        return { fontSize: 12 };
       case "md":
         return { fontSize: 16 };
       case "lg":
