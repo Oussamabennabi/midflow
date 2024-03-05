@@ -1,20 +1,30 @@
 import Typography from "@/components/ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
+import { api } from "@/convex/_generated/api";
 import { DataModel } from "@/convex/_generated/dataModel";
 import { AntDesign, Feather } from "@expo/vector-icons";
+import { useQuery } from "convex/react";
 import { Link } from "expo-router";
+import { useMemo } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
 type DoctorSmallCardProps = {
   doctor: DataModel["doctors"]["document"];
 };
 const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
+  const docRating = useQuery(api.doctor_reviews.get_by_doctor_id, {
+    id: doctor._id,
+  });
+
+  const rating = useMemo(
+    () =>
+      docRating && docRating.length > 0
+        ? docRating.reduce((f, s) => (s.stars += f), 0) / docRating.length
+        : 0,
+    [docRating]
+  );
   return (
-    <Link
-      asChild
-      href={`/docto/${doctor._id}`}
-      
-    >
+    <Link asChild href={`/docto/${doctor._id}`}>
       <TouchableOpacity
         activeOpacity={0.7}
         style={{
@@ -52,10 +62,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
           }}
         />
         <View style={{ alignItems: "flex-start" }}>
-          <Typography
-            font="Bold"
-            text={doctor.full_name || "Oussama Bennabi"}
-          />
+          <Typography font="Bold" text={doctor.full_name} />
           <Typography variant="secondary" text={doctor.specialty} />
           <View
             style={{
@@ -64,7 +71,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
               alignItems: "center",
               borderRadius: 6,
               padding: 2,
-              gap: 1,
+              gap: 5,
             }}
           >
             <AntDesign
@@ -75,7 +82,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
             <Typography
               variant="secondary"
               size="sm"
-              text={doctor.rating?.toString() || 4.5}
+              text={rating.toString()}
             />
           </View>
 

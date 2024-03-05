@@ -1,149 +1,102 @@
-import { Text } from "@/components/Themed";
+import DoctorHeader from "@/components/doctor/doctor-header";
+import ReviewsList from "@/components/reviews/ReviewsList";
+import Button from "@/components/ui/Button";
 import Typography from "@/components/ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import Stack from "expo-router/stack";
-import { useLayoutEffect } from "react";
-import { Facebook } from "react-content-loader/native";
-import {
-  Dimensions,
-  Share,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Animated, {
-  SlideInDown,
-  interpolate,
-  useAnimatedRef,
-  useAnimatedStyle,
-  useScrollViewOffset,
-} from "react-native-reanimated";
-const { width } = Dimensions.get("window");
-const IMG_HEIGHT = 300;
-
+import { useLocalSearchParams } from "expo-router";
+import { useCallback, useMemo, useRef } from "react";
+import { ScrollView, View } from "react-native";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 const DoctorDetails = () => {
   const { id }: { id: Id<"doctors"> } = useLocalSearchParams();
-  const navigation = useNavigation();
-  const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   const doctor = useQuery(api.doctor.get_by_id, { id });
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["16%", "90%"], []);
 
-  const shareListing = async () => {
-    try {
-      await Share.share({
-        title: "Doctor",
-        url: "https://oussama.ben",
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useLayoutEffect(() => {
-    if (!doctor) return;
-    navigation.setOptions({
-      headerTitle: doctor.full_name,
-      headerTransparent: true,
-
-      headerBackground: () => (
-        <Animated.View style={[headerAnimatedStyle]}></Animated.View>
-      ),
-      headerRight: () => (
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          <TouchableOpacity onPress={shareListing}>
-            <Ionicons name="share-outline" size={24} color={"#000"} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign
-              name="hearto"
-              size={24}
-              color={COLOR_SHADES.gray.primary}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-      headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color={"#000"} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [doctor]);
-
-  const scrollOffset = useScrollViewOffset(scrollRef);
-  const imageAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY: interpolate(
-            scrollOffset.value,
-            [-IMG_HEIGHT, 0, IMG_HEIGHT, IMG_HEIGHT],
-            [-IMG_HEIGHT / 2, 0, IMG_HEIGHT * 0.75]
-          ),
-        },
-        {
-          scale: interpolate(
-            scrollOffset.value,
-            [-IMG_HEIGHT, 0, IMG_HEIGHT],
-            [2, 1, 1]
-          ),
-        },
-      ],
-    };
-  });
-  const headerAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: interpolate(scrollOffset.value, [0, IMG_HEIGHT / 1.5], [0, 1]),
-    };
+  // callbacks
+  const handleExpandSheet = useCallback(() => {
+    bottomSheetRef.current?.expand()
   }, []);
 
-  // if(!doctor) return <Facebook/>
   return (
-    <View style={styles.container}>
-      <Stack.Screen />
-      <Animated.ScrollView
-        contentContainerStyle={{ paddingBottom: 100 }}
-        ref={scrollRef}
-        scrollEventThrottle={16}
-      >
-        <Animated.Image
-          source={{
-            uri: "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=360&t=st=1709565806~exp=1709566406~hmac=1a654b84bdd1ce535b475a5590da7fbfe24e04c66014d93ced2bbe2bf88ee089",
-          }}
-          style={[styles.image, imageAnimatedStyle]}
-          resizeMode="cover"
-        />
+    <>
+      <ScrollView
+      contentContainerStyle={{
+        paddingBottom: 140,
 
-        <View style={styles.infoContainer}>
-          <Typography text={doctor?.full_name ?? ""} font="Bold" />
+      }}
+      >
+        <DoctorHeader doctor={doctor} />
+
+        <View style={{ padding: 24 }}>
+          <Typography
+            text="About Doctor"
+            size="lg"
+            style={{ borderBottomWidth: 3, paddingBottom: 3, marginBottom: 10 }}
+          />
+
+          <View>
+            <Typography text={doctor?.years_of_experiance.toString() ?? ""} />
+          </View>
 
           <Typography text={doctor?.bio ?? ""} />
-          <Typography
-            text={doctor?.starting_consultaion_price.toString() ?? ""}
-          />
-          <Typography text={doctor?.years_of_experiance.toString() ?? ""} />
+
+          {doctor && <ReviewsList doctor_id={doctor._id} />}
         </View>
-      </Animated.ScrollView>
-    </View>
+      </ScrollView>
+      <BottomSheet
+      handleIndicatorStyle={{
+        backgroundColor:COLOR_SHADES.blue.primary
+      }}
+        snapPoints={snapPoints}
+        containerStyle={{}}
+        ref={bottomSheetRef}
+        
+      >
+        <BottomSheetView
+        style={{
+          padding:10
+        }}
+        >
+          <View style={{gap:10}}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Typography text="Consultation price:" variant="secondary" />
+              <View style={{ flexDirection: "row",gap:4 }}>
+                <MaterialCommunityIcons
+                  style={{
+                    backgroundColor: COLOR_SHADES.purply.opacity,
+                    borderRadius: 200,
+                    height: 20,
+                  }}
+                  name="currency-usd"
+                  size={20}
+                  color={COLOR_SHADES.purply.shade5}
+                />
+
+                <Typography
+                style={{marginTop:-4}}
+                  text={
+                    doctor?.starting_consultaion_price.toString() ?? "N/A"
+                  }
+                />
+              </View>
+            </View>
+            <Button
+            onPress={handleExpandSheet}
+             style={{borderRadius:18}} label="Book Appointment" />
+
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
+    </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  image: {
-    height: IMG_HEIGHT,
-    width: width,
-  },
-  infoContainer: {
-    padding: 24,
-    backgroundColor: "#fff",
-  },
-});
 export default DoctorDetails;

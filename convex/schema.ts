@@ -27,16 +27,22 @@ function getList() {
 export default defineSchema({
     doctors: defineTable({
         specialty: getList(),
-        // userId
         full_name: v.string(),
         location: v.any(),
-        poster_image: v.string(),
+        image: v.optional(v.string()),
         bio: v.string(),
-        rating: v.number(),
         phone_numbers: v.array(v.string()),
         starting_consultaion_price: v.number(),
-        // days of work,
+        // days_of_work:v.array(),
         years_of_experiance: v.number()
+
+    }),
+    patients: defineTable({
+        full_name: v.string(),
+        location: v.any(),
+        image: v.optional(v.string()),
+        bio: v.string(),
+        phone_numbers: v.array(v.string()),
 
     }),
     hospitals: defineTable({
@@ -45,7 +51,6 @@ export default defineSchema({
         name: v.string(),
         description: v.string(),
         doctors: v.array(v.id("doctors"))
-        //! does hospital ever close??? 
     }),
     appontments: defineTable({
         doctor_id: v.id("doctors"),
@@ -54,10 +59,23 @@ export default defineSchema({
             v.literal("complete"),
             v.literal("scheduled"),
         ),
-        patient_id: v.string(),
+        patient_id: v.id("patients"),
         date: v.string(),
         time: v.string()
-    })
+    }),
+    doctor_reviews: defineTable({
+        patient: v.object({
+            id: v.id("patients"),
+            image: v.optional(v.string()),
+            full_name: v.string(),
+        }),
+        doctor_id: v.id("doctors"),
+        content: v.string(),
+        stars: v.number(),
+    }).index("reviews_by_doctor_id",["doctor_id"])
 })
 
 // services types
+
+// jn7dsrc3tvkb2dq7g11wz0w3jx6mpx1h patient
+// j57f2rgjfd1wxjmvphw29bx3s96mpedr

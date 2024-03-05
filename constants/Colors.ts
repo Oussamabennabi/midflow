@@ -62,6 +62,7 @@ export const COLOR_SHADES = {
     shade3: '#D3BBFF',
     shade4: '#BC95FF',
     shade5: '#A46EFE',
+    opacity: '#a56efe3a',
     shade6: '#8A3EFD',
     shade7: '#6828C4',
     shade8: '#491D8B',
