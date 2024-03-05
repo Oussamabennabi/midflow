@@ -12,10 +12,8 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
   return (
     <Link
       asChild
-      href={{
-        pathname: "/doctor/[id]",
-        params: { id: doctor._id },
-      }}
+      href={`/docto/${doctor._id}`}
+      
     >
       <TouchableOpacity
         activeOpacity={0.7}
