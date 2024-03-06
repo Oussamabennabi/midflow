@@ -1,6 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
-function getList() {
+function getSpecialtyList() {
     return v.union(
         v.literal("Allergy and immunology"),
         v.literal("Anesthesiology"),
@@ -24,16 +24,27 @@ function getList() {
         v.literal("Urology"),
     )
 }
+function getWorkingDays() {
+    return v.union(
+        v.literal(1),
+        v.literal(2),
+        v.literal(3),
+        v.literal(4),
+        v.literal(5),
+        v.literal(6),
+        v.literal(7),
+    )
+}
 export default defineSchema({
     doctors: defineTable({
-        specialty: getList(),
+        specialty: getSpecialtyList(),
         full_name: v.string(),
         location: v.any(),
         image: v.optional(v.string()),
         bio: v.string(),
         phone_numbers: v.array(v.string()),
         starting_consultaion_price: v.number(),
-        // days_of_work:v.array(),
+        working_days:v.array(getWorkingDays()),
         years_of_experiance: v.number()
 
     }),

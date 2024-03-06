@@ -23,11 +23,11 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
   const shareListing = async () => {
     if (!doctor) return;
     try {
-      // await Share.share({
-      //   title: doctor.full_name,
-      //   url: "https://oussama.ben",
-      //   message: "Go checkout this doctor please",
-      // });
+      await Share.share({
+        title: doctor.full_name,
+        url: "https://oussama.ben",
+        message: "Go checkout this doctor please",
+      });
     } catch (err) {
       console.log(err);
     }
