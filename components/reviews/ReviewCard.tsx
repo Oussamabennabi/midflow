@@ -1,12 +1,16 @@
 import { DataModel } from "@/convex/_generated/dataModel";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import Typography from "../ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
+import moment from "moment";
 type ReviewCardProps = {
   review: DataModel["doctor_reviews"]["document"];
+  expand?:boolean
 };
-const ReviewCard = ({ review }: ReviewCardProps) => {
+const {width} = Dimensions.get("screen")
+
+const ReviewCard = ({ review,expand }: ReviewCardProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -14,7 +18,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
         borderRadius: 10,
         backgroundColor: "white",
         padding: 10,
-        width: 300,
+        width: expand?width-18:300,
         minHeight:220
       }}
     >
@@ -38,7 +42,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
           />
           <View style={{ gap: 1 }}>
             <Typography text={review.patient.full_name} />
-            <Typography variant="secondary" size="sm" text={"1 Day ago"} />
+            <Typography variant="secondary" size="sm" text={moment(review._creationTime).fromNow()} />
           </View>
         </View>
 

@@ -5,6 +5,7 @@ import {Calendar} from 'react-native-calendars'
 import {  FontAwesome } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
+import moment from "moment"
 // import { useEffect, useState } from "react";
 // import { MONTHS } from "@/constants/months";
 // import { DayType, Month, MonthType } from "@/types";
@@ -60,7 +61,9 @@ const AskForAppointmentCalendar = ({
         days={days}
       /> */}
       <Calendar 
-      minDate="2024-01-01"
+      minDate={moment().format("YYYY-MM-DD")}
+      maxDate={moment().add(1,"years").format("YYYY-MM-DD")}
+      
       markedDates={{
         "2024-06-03":{
           selected:true,

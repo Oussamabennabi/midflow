@@ -21,7 +21,7 @@ export const get_by_doctor_id = query({
     handler: async (ctx, args) => {
 
         const doctor_reviews = await ctx.db.query("doctor_reviews").withIndex("reviews_by_doctor_id", (q =>
-            q.eq("doctor_id", args.id))).collect()
+            q.eq("doctor_id", args.id))).order("desc").collect()
 
         return doctor_reviews
 
