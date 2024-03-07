@@ -35,11 +35,24 @@ function getWorkingDays() {
         v.literal(7),
     )
 }
+
+
 export default defineSchema({
     users: defineTable({
-        clerkUser: v.any(),
+        clerk_user: v.object({
+            email_addresses: v.array(v.object({
+                email_address: v.string()
+            })),
+            first_name: v.string(),
+            last_name: v.string(),
+            has_image: v.boolean(),
+            image_url: v.string(),
+            id: v.string(),
+            phone_numbers: v.array(v.string())
+        }),
+        
 
-    }).index("by_clerk_id",["clerkUser.id"]),
+    }).index("by_clerk_id", ["clerk_user.id"]),
     doctors: defineTable({
         specialty: getSpecialtyList(),
         full_name: v.string(),

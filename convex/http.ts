@@ -3,6 +3,7 @@ import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import type { WebhookEvent } from "@clerk/backend";
 import { Webhook } from "svix";
+import { ClerkUser } from "./users";
 
 function ensureEnvironmentVariable(name: string): string {
     const value = "whsec_eIdLQ6iWXuZJ5o7wkJNBQ4OD1AVTamjj"
@@ -33,9 +34,20 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
             if (existingUser && event.type === "user.created") {
                 console.warn("Overwriting user", event.data.id, "with", event.data);
             }
+            const u = event.data
+            const data:ClerkUser["clerk_user"] = {
+                email_addresses:u.email_addresses.map(e=>({email_address:e.email_address})),
+                first_name:u.first_name,
+                last_name:u.last_name,
+                has_image:u.has_image,
+                image_url:u.image_url,
+                id:u.id,
+                phone_numbers:u.phone_numbers.map(p=>(p.phone_number)),
+            }
             console.log("creating/updating user", event.data.id);
             await ctx.runMutation(internal.users.updateOrCreateUser, {
-                clerkUser: event.data,
+                user:data
+
             });
             break;
         }

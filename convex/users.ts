@@ -1,21 +1,20 @@
 import {
   internalMutation,
   internalQuery,
-  mutation,
   query,
   QueryCtx,
 } from "./_generated/server";
 
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
-import { UserJSON } from "@clerk/backend";
-
+import { DataModel, Doc, Id } from "./_generated/dataModel";
 /**
  * Whether the current user is fully logged in, including having their information
  * synced from Clerk via webhook.
  *
  * Like all Convex queries, errors on expired Clerk token.
  */
+
+export type ClerkUser = DataModel["users"]["document"] 
 export const userLoginStatus = query(
   async (
     ctx
@@ -52,14 +51,14 @@ export const getUser = internalQuery({
 
 /** Create a new Clerk user or update existing Clerk user data. */
 export const updateOrCreateUser = internalMutation({
-  args: { clerkUser: v.any() }, // no runtime validation, trust Clerk
-  async handler(ctx, { clerkUser }: { clerkUser: UserJSON }) {
-    const userRecord = await userQuery(ctx, clerkUser.id);
+  args: { user: v.any() }, // no runtime validation, trust Clerk
+  async handler(ctx, { user }: { user: ClerkUser["clerk_user"] }) {
+    const userRecord = await userQuery(ctx, user.id);
 
     if (userRecord === null) {
-      await ctx.db.insert("users", { clerkUser });
+      await ctx.db.insert("users", { clerk_user:user });
     } else {
-      await ctx.db.patch(userRecord._id, { clerkUser });
+      await ctx.db.patch(userRecord._id, { clerk_user:user });
     }
   },
 });
@@ -85,17 +84,17 @@ export const deleteUser = internalMutation({
 export async function userQuery(
   ctx: QueryCtx,
   clerkUserId: string
-): Promise<(Omit<Doc<"users">, "clerkUser"> & { clerkUser: UserJSON }) | null> {
+): Promise<(Omit<Doc<"users">, "clerk_user"> & { clerk_user:  ClerkUser["clerk_user"] }) | null> {
   return await ctx.db
     .query("users")
-    .withIndex("by_clerk_id", (q) => q.eq("clerkUser.id", clerkUserId))
+    .withIndex("by_clerk_id", (q) => q.eq("clerk_user.id", clerkUserId))
     .unique();
 }
 
 export async function userById(
   ctx: QueryCtx,
   id: Id<"users">
-): Promise<(Omit<Doc<"users">, "clerkUser"> & { clerkUser: UserJSON }) | null> {
+): Promise<(Omit<Doc<"users">, "clerk_user"> & { clerk_user: ClerkUser["clerk_user"] }) | null> {
   return await ctx.db.get(id);
 }
 
