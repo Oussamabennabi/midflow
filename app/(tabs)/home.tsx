@@ -4,7 +4,6 @@ import { Text, View } from '@/components/Themed';
 import { FONT} from '@/constants/Fonts';
 import i18n from '@/config/i18n';
 
-
 export default function TabOneScreen() {
   
   return (

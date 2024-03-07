@@ -36,6 +36,10 @@ function getWorkingDays() {
     )
 }
 export default defineSchema({
+    users: defineTable({
+        clerkUser: v.any(),
+
+    }).index("by_clerk_id",["clerkUser.id"]),
     doctors: defineTable({
         specialty: getSpecialtyList(),
         full_name: v.string(),
@@ -44,7 +48,7 @@ export default defineSchema({
         bio: v.string(),
         phone_numbers: v.array(v.string()),
         starting_consultaion_price: v.number(),
-        working_days:v.array(getWorkingDays()),
+        working_days: v.array(getWorkingDays()),
         years_of_experiance: v.number()
 
     }),
@@ -83,7 +87,7 @@ export default defineSchema({
         doctor_id: v.id("doctors"),
         content: v.string(),
         stars: v.number(),
-    }).index("reviews_by_doctor_id",["doctor_id"])
+    }).index("reviews_by_doctor_id", ["doctor_id"])
 })
 
 // services types

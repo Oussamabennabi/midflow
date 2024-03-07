@@ -14,6 +14,7 @@ import ConvexClerkProvider from "@/providers/convex-clerk-rovider";
 import { useAuth } from "@clerk/clerk-expo";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import useStoreUser from '@/hooks/useStoreUser';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,6 +48,7 @@ function RootLayoutNav() {
 
   // auth
   const { isLoaded, isSignedIn } = useAuth();
+//  const uid= useStoreUser()
 
   useEffect(() => {
     if (!isLoaded) return;

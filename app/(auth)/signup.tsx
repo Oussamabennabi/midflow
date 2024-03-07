@@ -15,7 +15,6 @@ import { router } from "expo-router";
 import SignUpForm from "@/components/(auth)/SignUpForm";
 
 const SignUp = () => {
-
   return (
     <>
       <ScrollView
