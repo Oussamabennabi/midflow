@@ -1,35 +1,25 @@
-import { useCallback, useEffect, useState } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { ChatMessagesList } from "@/components/(chat)/ChatMessagesList";
+import ChatHeader from "@/components/(chat)/chat-header";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import {  useQuery } from "convex/react";
+import {  useLocalSearchParams } from "expo-router";
 
-export const Chat = ()=> {
-    const [messages, setMessages] = useState<any>([])
+const Chat = () => {
+  const { id }: { id: Id<"chats"> } = useLocalSearchParams();
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+  const chat = useQuery(api.chats.get_chat_by_patient_doctor, {
+    doctor: "j57f0t8vetjwwycbmcs06dcdq16mwb87" as any,
+    patient: "js77s5wrd6eyd38kf7850h9f316mxpr0" as any,
+  });
+  
+  if(!chat) {
+    return <></>
+  }
+  return <>
+  <ChatHeader chat={chat} />
+  <ChatMessagesList chat_id={chat._id} />
+  </>;
+};
 
-  const onSend = useCallback((messages = [] as any) => {
-    setMessages((previousMessages:any) =>
-      GiftedChat.append(previousMessages, messages),
-    )
-  }, [])
-    return <GiftedChat
-    messages={messages}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: 1,
-        
-      }}
-    />
-}
+export default Chat;

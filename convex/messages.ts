@@ -49,10 +49,26 @@ export const like = mutation({
 
 export const send = mutation({
   args: {
-    body: v.string(), patient: v.id("users"),
-    doctor: v.id("doctors"),
+    chat_id: v.id("chats"),
+    body: v.string(),
+    sender_id: v.union(v.id("users"), v.id("doctors"))
   },
-  handler: async (ctx, { body, doctor, patient }) => {
-    // await ctx.db.insert("chats", { messages: });
+  handler: async (ctx, { body, chat_id, sender_id }) => {
+    const id = await ctx.db.insert("messages", { body, chat_id, sender_id });
   },
 });
+
+
+export const get_by_chat = query({
+  args: {
+    chat_id: v.id("chats")
+  },
+  async handler(ctx, { chat_id }) {
+
+    const messages = await ctx.db.query("messages").
+      withIndex("by_chat_id", q => q.eq("chat_id", chat_id)).order("desc").
+      take(100)
+
+    return messages
+  },
+}) 

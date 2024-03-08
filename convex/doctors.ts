@@ -17,7 +17,7 @@ export const get = query({
     handler: async (ctx, args) => {
         const doctors = await ctx.db.query("doctors").collect()
 
-        const doctorsWithUsers =  doctors.map(async (doc) => {
+        const doctorsWithUsers = doctors.map(async (doc) => {
             const user = await ctx.db.get(doc.user_id)
             return {
                 ...user?.clerk_user,
@@ -25,7 +25,7 @@ export const get = query({
             }
 
         })
-        const res = await Promise.all(doctorsWithUsers) 
+        const res = await Promise.all(doctorsWithUsers)
         return res
     },
 });

@@ -1,8 +1,9 @@
-import { ClerkProvider } from "@clerk/clerk-expo";
+import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import React from "react";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 import "react-native-get-random-values";
 import * as SecureStore from "expo-secure-store";
+import { ConvexReactClient } from "convex/react";
 
 const tokenCache = {
   async getToken(key: string) {
@@ -31,7 +32,9 @@ const ConvexClerkProvider = ({ children }: { children: React.ReactNode }) => {
       tokenCache={tokenCache}
       publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
     >
-      <ConvexProvider client={convex}>{children}</ConvexProvider>
+      <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
+        {children}
+      </ConvexProviderWithClerk>
     </ClerkProvider>
   );
 };

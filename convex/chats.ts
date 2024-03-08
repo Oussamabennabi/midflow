@@ -1,8 +1,8 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query } from "./_generated/server";
 
 
-export const list = query({
+export const get_chats = query({
     args: {
         patient: v.id("users"),
         doctor: v.id("doctors"),
@@ -11,14 +11,26 @@ export const list = query({
         const chats = await ctx.db.query("chats").
             withIndex("by_patient_doctor", q => q.eq("doctor", doctor).eq("patient", patient)).collect()
 
-        const promise = chats.map(async c => {
-            const messages = await ctx.db.query("messages").
-            withIndex("by_chat_id", q => q.eq("chat_id", c._id)).order("desc").
-            take(100)
-            return { ...c, messages }
-        })
+        return chats
+    },
 
-        const res = await Promise.all(promise)
-        return res
+});
+
+
+export const get_chat_by_patient_doctor = query({
+    args: {
+        patient: v.id("users"),
+        doctor: v.id("doctors"),
+    },
+    handler: async (ctx, { doctor, patient }) => {
+        const chat = await ctx.db.query("chats").
+            withIndex("by_patient_doctor", q => q.eq("doctor", doctor).eq("patient", patient)).unique()
+        if (!chat) {
+            // todo
+            throw new ConvexError("Chat not found")
+        }
+        
+
+        return chat
     },
 });
