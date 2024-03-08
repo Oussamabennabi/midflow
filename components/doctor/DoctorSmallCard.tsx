@@ -1,7 +1,7 @@
 import Typography from "@/components/ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { DataModel } from "@/convex/_generated/dataModel";
+import { DoctorWithUserType } from "@/types";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
 import { Link } from "expo-router";
@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
 type DoctorSmallCardProps = {
-  doctor: DataModel["doctors"]["document"];
+  doctor: DoctorWithUserType;
 };
 const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
   const docRating = useQuery(api.doctor_reviews.get_by_doctor_id, {
@@ -62,7 +62,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
           }}
         />
         <View style={{ alignItems: "flex-start" }}>
-          <Typography font="Bold" text={doctor.full_name} />
+          <Typography font="Bold" text={doctor.first_name+" "+doctor.last_name} />
           <Typography variant="secondary" text={doctor.specialty} />
           <View
             style={{

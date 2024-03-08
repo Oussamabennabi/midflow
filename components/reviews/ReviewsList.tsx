@@ -1,5 +1,4 @@
 import { Id } from "@/convex/_generated/dataModel";
-import { FlashList } from "@shopify/flash-list";
 import { ScrollView, View } from "@/components/Themed";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";

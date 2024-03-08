@@ -2,9 +2,10 @@ import { DataModel } from "@/convex/_generated/dataModel";
 import { FlashList } from "@shopify/flash-list";
 import DoctorSmallCard from "./DoctorSmallCard";
 import { Text, View } from "@/components/Themed";
+import { DoctorWithUserType } from "@/types";
 
 type DoctorsListProps = {
-  doctors?: DataModel["doctors"]["document"][];
+  doctors?: DoctorWithUserType[];
 };
 const DoctorsList = ({ doctors }: DoctorsListProps) => {
   if (!doctors)

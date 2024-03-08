@@ -50,29 +50,24 @@ export default defineSchema({
             id: v.string(),
             phone_numbers: v.array(v.string())
         }),
-        
-
+        role: v.union(v.literal("Doctor"),
+            v.literal("Patient"),
+            v.literal("Admin"),
+            v.literal("Pharmasist")),
     }).index("by_clerk_id", ["clerk_user.id"]),
     doctors: defineTable({
-        specialty: getSpecialtyList(),
-        full_name: v.string(),
-        location: v.any(),
+        user_id: v.id("users"),
         image: v.optional(v.string()),
         bio: v.string(),
-        phone_numbers: v.array(v.string()),
+
+        specialty: getSpecialtyList(),
+        location: v.any(),
         starting_consultaion_price: v.number(),
         working_days: v.array(getWorkingDays()),
-        years_of_experiance: v.number()
-
-    }),
-    patients: defineTable({
-        full_name: v.string(),
-        location: v.any(),
-        image: v.optional(v.string()),
-        bio: v.string(),
+        years_of_experiance: v.number(),
         phone_numbers: v.array(v.string()),
-
-    }),
+        // phone number will be added thoughout clerk
+    }).index("by_user_id", ["user_id"]),
     hospitals: defineTable({
         location: v.any(),
         posterImageUrl: v.string(),
@@ -100,7 +95,24 @@ export default defineSchema({
         doctor_id: v.id("doctors"),
         content: v.string(),
         stars: v.number(),
-    }).index("reviews_by_doctor_id", ["doctor_id"])
+    }).index("reviews_by_doctor_id", ["doctor_id"]),
+
+    chats: defineTable({
+        patient: v.id("users"),
+        doctor: v.id("doctors"),
+    }).index("by_patient_doctor", ["doctor", "patient"]),
+
+    messages: defineTable({
+        chat_id: v.id("chats"),
+        sender_id: v.union(v.id("users"), v.id("doctors")),
+        body: v.string(),
+    }).index("by_chat_id",["chat_id"]),
+
+    likes: defineTable({
+        liker: v.union(v.id("doctors"), v.id("users")),
+        messageId: v.id("messages"),
+    }).index("byMessageId", ["messageId"]),
+
 })
 
 // services types

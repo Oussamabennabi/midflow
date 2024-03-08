@@ -14,7 +14,7 @@ import { DataModel, Doc, Id } from "./_generated/dataModel";
  * Like all Convex queries, errors on expired Clerk token.
  */
 
-export type ClerkUser = DataModel["users"]["document"] 
+export type ClerkUser = DataModel["users"]["document"]
 export const userLoginStatus = query(
   async (
     ctx
@@ -56,9 +56,9 @@ export const updateOrCreateUser = internalMutation({
     const userRecord = await userQuery(ctx, user.id);
 
     if (userRecord === null) {
-      await ctx.db.insert("users", { clerk_user:user });
+      await ctx.db.insert("users", { clerk_user: user, role: "Patient" });
     } else {
-      await ctx.db.patch(userRecord._id, { clerk_user:user });
+      await ctx.db.patch(userRecord._id, { clerk_user: user });
     }
   },
 });
@@ -72,6 +72,12 @@ export const deleteUser = internalMutation({
     if (userRecord === null) {
       console.warn("can't delete user, does not exist", id);
     } else {
+      //  also check if this user is  doctor to delete it as well
+      if (userRecord.role === "Doctor") {
+        const found = await ctx.db.query("doctors").withIndex("by_user_id", q => q.eq("user_id", userRecord._id)).unique()
+        if (found) await ctx.db.delete(found._id)
+        console.log("DELETE doctor with id",found?._id)
+      }
       await ctx.db.delete(userRecord._id);
     }
   },
@@ -84,7 +90,8 @@ export const deleteUser = internalMutation({
 export async function userQuery(
   ctx: QueryCtx,
   clerkUserId: string
-): Promise<(Omit<Doc<"users">, "clerk_user"> & { clerk_user:  ClerkUser["clerk_user"] }) | null> {
+): Promise<(Omit<Doc<"users">, "clerk_user"> & { clerk_user: ClerkUser["clerk_user"] }) | null> {
+
   return await ctx.db
     .query("users")
     .withIndex("by_clerk_id", (q) => q.eq("clerk_user.id", clerkUserId))
@@ -103,6 +110,7 @@ async function getCurrentUser(ctx: QueryCtx): Promise<Doc<"users"> | null> {
   if (identity === null) {
     return null;
   }
+  
   return await userQuery(ctx, identity.subject);
 }
 

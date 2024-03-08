@@ -47,7 +47,6 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
             console.log("creating/updating user", event.data.id);
             await ctx.runMutation(internal.users.updateOrCreateUser, {
                 user:data
-
             });
             break;
         }

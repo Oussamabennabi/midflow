@@ -2,10 +2,10 @@ import { View } from "react-native";
 import React, { forwardRef, useMemo } from "react";
 import { COLOR_SHADES } from "@/constants/Colors";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { DataModel } from "@/convex/_generated/dataModel";
 import DoctorHeader from "../doctor/doctor-header";
+import { DoctorWithUserType } from "@/types";
 type PostDoctorReviewBottomSheetProps = {
-  doctor?: DataModel["doctors"]["document"] | null;
+  doctor?:DoctorWithUserType | null;
 };
 export type RefType = any;
 

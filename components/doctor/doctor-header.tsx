@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Share, TouchableOpacity, View } from "react-native";
 
 import { SPACING } from "@/constants/Spacing";
@@ -7,24 +7,22 @@ import Typography from "@/components/ui/Typography";
 import { AntDesign, Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { DataModel } from "@/convex/_generated/dataModel";
-import { Facebook } from "react-content-loader/native";
 import DoctorHeaderSkeleton from "./doctor-header.skeleton";
+import { DoctorWithUserType } from "@/types";
 
 type DoctorHeaderType = {
-  doctor?: DataModel["doctors"]["document"] | null;
+  doctor?: DoctorWithUserType | null;
   paddingBottom?: boolean;
 };
 const DoctorHeader: React.FC<DoctorHeaderType> = ({
   doctor,
   paddingBottom,
 }) => {
-  
   const shareListing = async () => {
     if (!doctor) return;
     try {
       await Share.share({
-        title: doctor.full_name,
+        title: doctor.first_name + " " + doctor.last_name,
         url: "https://oussama.ben",
         message: "Go checkout this doctor please",
       });
@@ -32,7 +30,7 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
       console.log(err);
     }
   };
-  
+
   return (
     <View
       style={{
@@ -95,78 +93,82 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
         </View>
       </View>
       {/* end of header */}
-     
-        <View
-          style={{ alignSelf: "center", marginTop: 40, alignItems: "center" }}
-        >
-          {!doctor?
-          
-        <DoctorHeaderSkeleton animate  />
-        :
-          <>
-         <Image
-            source={{
-              width: 100,
-              height: 100,
 
-              uri: "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=360&t=st=1709565806~exp=1709566406~hmac=1a654b84bdd1ce535b475a5590da7fbfe24e04c66014d93ced2bbe2bf88ee089",
-            }}
-            style={{
-              borderRadius: 8,
-            }}
-          />
-          <Typography
-            text={"Dcr. " + doctor.full_name}
-            size="xl"
-            style={{ color: "white" }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 4,
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 4,
-            }}
-          >
-            <Ionicons
-              name="medical-outline"
-              size={18}
-              color={COLOR_SHADES.gray.secondary}
+      <View
+        style={{ alignSelf: "center", marginTop: 40, alignItems: "center" }}
+      >
+        {!doctor ? (
+          <DoctorHeaderSkeleton animate />
+        ) : (
+          <>
+            <Image
+              source={{
+                width: 100,
+                height: 100,
+
+                uri: "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=360&t=st=1709565806~exp=1709566406~hmac=1a654b84bdd1ce535b475a5590da7fbfe24e04c66014d93ced2bbe2bf88ee089",
+              }}
+              style={{
+                borderRadius: 8,
+              }}
             />
             <Typography
-              style={{ color: "white", marginTop: -3 }}
-              text={doctor.specialty}
+              text={"Dcr. " + doctor.first_name+" "+doctor.last_name}
+              size="xl"
+              style={{ color: "white" }}
             />
-          </View>
-          {doctor.phone_numbers.map((num) => (
             <TouchableOpacity
+            activeOpacity={0.6}
+            style={{ marginTop: 7 }}
+            onPress={() =>router.replace(`/chat/1`)}
+          >
+            <Entypo name="new-message" size={32} color="white" />
+          </TouchableOpacity>
+            <View
               style={{
                 flexDirection: "row",
                 gap: 4,
                 justifyContent: "center",
                 alignItems: "center",
+                marginTop: 4,
               }}
-              key={num}
             >
-              <View style={{ marginBottom: -7 }}>
-                <FontAwesome6 name="square-phone" size={18} color="white" />
-              </View>
-              <Typography
-                style={{
-                  borderBottomWidth: 2,
-                  borderColor: COLOR_SHADES.gray.secondary,
-                }}
-                text={num}
-                variant="secondary"
+              <Ionicons
+                name="medical-outline"
+                size={18}
+                color={COLOR_SHADES.gray.secondary}
               />
-            </TouchableOpacity>
-          ))}
+              <Typography
+                style={{ color: "white", marginTop: -3 }}
+                text={doctor.specialty}
+              />
+            </View>
+            {doctor.phone_numbers.map((num) => (
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  gap: 4,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                key={num}
+              >
+                <View style={{ marginBottom: -7 }}>
+                  <FontAwesome6 name="square-phone" size={18} color="white" />
+                </View>
+                <Typography
+                  style={{
+                    borderBottomWidth: 2,
+                    borderColor: COLOR_SHADES.gray.secondary,
+                  }}
+                  text={num}
+                  variant="secondary"
+                />
+              </TouchableOpacity>
+            ))}
           </>
-        }
-         
-        </View>
-      
+        )}
+      </View>
     </View>
   );
 };
