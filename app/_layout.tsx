@@ -69,7 +69,7 @@ function RootLayoutNav() {
               name="doctor-chat/[id]"
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="docto/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="doctor/[id]" options={{ headerShown: false }} />
             <Stack.Screen name="review/[id]" options={{ headerShown: false }} />
           </Stack>
         </ThemeProvider>
