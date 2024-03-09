@@ -4,6 +4,7 @@ import Typography from "../ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import moment from "moment";
+import { useTheme } from "@/providers/theme-color-provider";
 type ReviewCardProps = {
   review: DataModel["doctor_reviews"]["document"];
   expand?:boolean
@@ -11,12 +12,13 @@ type ReviewCardProps = {
 const {width} = Dimensions.get("screen")
 
 const ReviewCard = ({ review,expand }: ReviewCardProps) => {
+  const {colors} = useTheme()
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       style={{
         borderRadius: 10,
-        backgroundColor: "white",
+        backgroundColor: colors.secondary_bg,
         padding: 10,
         width: expand?width-18:300,
         minHeight:220

@@ -5,6 +5,7 @@ import Typography from "./Typography";
 import { Size } from "@/constants/Sizes";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
+import { useTheme } from "@/providers/theme-color-provider";
 
 type ButtonProps = {
   label: string;
@@ -31,6 +32,7 @@ const Button: React.FC<ButtonProps> = ({
   ref,
   disabled,
 }) => {
+  const {colors} = useTheme()
   const getVariantStyle = (): TextStyle => {
     switch (variant) {
       case "primary":
@@ -38,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
         return { backgroundColor: COLOR_SHADES.blue.primary, color: "white" };
       case "secondary":
         return {
-          backgroundColor: COLOR_SHADES.blue.secondary,
+          backgroundColor: colors.secondary_bg,
           color: COLOR_SHADES.blue.primary,
         };
       case "inline":

@@ -1,3 +1,4 @@
+import { ScrollView, View } from "@/components/Themed";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import ReviewsHeader from "@/components/reviews/reviews-hearder";
 import Typography from "@/components/ui/Typography";
@@ -5,14 +6,14 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+
 import { FlatList } from "react-native-gesture-handler";
 const DoctorReviews = () => {
   const { id }: { id: Id<"doctors"> } = useLocalSearchParams();
   const reviews = useQuery(api.doctor_reviews.get_by_doctor_id, {
     id,
   });
-  if (!reviews || reviews.length <= 0) return <View></View>;
+  if (!reviews || reviews.length <= 0) return <ScrollView></ScrollView>;
   return (
     <View
       style={{

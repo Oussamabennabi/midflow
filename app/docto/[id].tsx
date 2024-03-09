@@ -32,18 +32,19 @@ const DoctorDetails = () => {
       >
         <DoctorHeader doctor={doctor} />
 
-        <View style={{ padding: 24 }}>
+        <View style={{ padding: 12 }}>
+          <View style={{
+            marginBottom:100
+          }}>
           <Typography
             text="About Doctor"
             size="lg"
-            style={{ borderBottomWidth: 3, paddingBottom: 3, marginBottom: 10 }}
+            style={{ borderBottomWidth: 3, paddingBottom: 3, marginBottom: 10,borderColor:colors.border_color }}
           />
 
-          <View>
-            <Typography text={doctor?.years_of_experiance.toString() ?? ""} />
-          </View>
-
           <Typography text={doctor?.bio ?? ""} />
+
+          </View>
 
           {doctor && <ReviewsList doctor_id={doctor._id} />}
         </View>

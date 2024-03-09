@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import {  COLOR_SHADES } from "@/constants/Colors";
+import { COLOR_SHADES } from "@/constants/Colors";
 import Space from "@/components/ui/Space";
 import Typography from "@/components/ui/Typography";
 import ListItem from "@/components/settings/ListItem";
@@ -15,38 +15,39 @@ import { StatusBar } from "expo-status-bar";
 const Settings = () => {
   const { isLoaded, signOut } = useAuth();
 
-  const {toggleTheme,colors,dark} = useTheme()
+  const { toggleTheme, colors, dark } = useTheme();
 
   const toggleDarkMode = () => {
     toggleTheme();
   };
-  const onSignOut = useCallback(() =>
-  Alert.alert(
-    
-    "Sign Out",
-    "Are you sure you want to sign out?",
-    [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Signout",
-        onPress: async () => {
-          if (!isLoaded) return;
-          await signOut();
-        },
-      },
-    ],
-    {
-      cancelable: true,
-      userInterfaceStyle: dark?"dark": "light",
-    }
-  ),[dark])
+  const onSignOut = useCallback(
+    () =>
+      Alert.alert(
+        "Sign Out",
+        "Are you sure you want to sign out?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Signout",
+            onPress: async () => {
+              if (!isLoaded) return;
+              await signOut();
+            },
+          },
+        ],
+        {
+          cancelable: true,
+          userInterfaceStyle: dark ? "dark" : "light",
+        }
+      ),
+    [dark]
+  );
 
   return (
     <SafeAreaView>
-   
       <ScrollView
         style={{
           backgroundColor: colors.primary_bg,
@@ -63,13 +64,25 @@ const Settings = () => {
               onPress={() => router.push("/profile-setup")}
               item={{
                 label: "Personal Info",
-                icon: <Ionicons name="person" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="person"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
             <ListItem
               item={{
                 label: "Security",
-                icon: <Ionicons name="lock-closed" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="lock-closed"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
           </View>
@@ -81,24 +94,40 @@ const Settings = () => {
             <ListItem
               item={{
                 label: "Language",
-                icon: <Ionicons name="language" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="language"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
             <ListItem
               item={{
                 label: "Preferences",
-                icon: <Ionicons name="settings" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="settings"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
             <ListItem
+              onPress={toggleDarkMode}
               item={{
                 label: "Dark Mode",
-                icon: <Ionicons name="moon" size={20} color={colors.icon_color_pr} />,
-                rightIcon: (
-                  <CustomSwitch
-                    isSelected={dark}
-                    onPress={toggleDarkMode}
+                icon: (
+                  <Ionicons
+                    name="moon"
+                    size={20}
+                    color={colors.icon_color_pr}
                   />
+                ),
+                rightIcon: (
+                  <CustomSwitch isSelected={dark} onPress={toggleDarkMode} />
                 ),
               }}
             />
@@ -112,20 +141,36 @@ const Settings = () => {
               item={{
                 label: "About",
                 icon: (
-                  <Ionicons name="information-circle" size={20} color={colors.icon_color_pr} />
+                  <Ionicons
+                    name="information-circle"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
                 ),
               }}
             />
             <ListItem
               item={{
                 label: "Help Center",
-                icon: <Ionicons name="help-circle" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="help-circle"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
             <ListItem
               item={{
                 label: "Contact Us",
-                icon: <Ionicons name="mail" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="mail"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
           </View>
@@ -138,7 +183,13 @@ const Settings = () => {
               onPress={onSignOut}
               item={{
                 label: "Sign Out",
-                icon: <Ionicons name="log-out" size={20} color={colors.icon_color_pr} />,
+                icon: (
+                  <Ionicons
+                    name="log-out"
+                    size={20}
+                    color={colors.icon_color_pr}
+                  />
+                ),
               }}
             />
           </View>

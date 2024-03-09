@@ -8,6 +8,7 @@ import { FlatList } from "react-native";
 import Typography from "../ui/Typography";
 import Button from "../ui/Button";
 import { router } from "expo-router";
+import { useTheme } from "@/providers/theme-color-provider";
 
 type ReviewsListProps = {
   doctor_id: Id<"doctors">;
@@ -16,19 +17,29 @@ const ReviewsList = ({ doctor_id }: ReviewsListProps) => {
   const reviews = useQuery(api.doctor_reviews.get_by_doctor_id, {
     id: doctor_id,
   });
-
+  const { colors } = useTheme();
   return (
     <>
-      <View style={{ flexDirection: "row", justifyContent: "space-between",alignItems:"center",marginBottom:18 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 18,
+        }}
+      >
         <Typography
           text="Reviews (400)"
           size="lg"
-          style={{ borderBottomWidth: 3, paddingBottom: 3 }}
+          style={{ borderBottomWidth: 3, paddingBottom: 3,borderColor:colors.border_color }}
         />
-  
-        <Button 
-        onPress={()=>router.push(`/review/${doctor_id}`)}
-        label="See all" variant="secondary" size="sm"/>
+
+        <Button
+          onPress={() => router.push(`/review/${doctor_id}`)}
+          label="See all"
+          variant="secondary"
+          size="sm"
+        />
       </View>
       {reviews && reviews.length > 0 ? (
         <FlatList
@@ -40,33 +51,28 @@ const ReviewsList = ({ doctor_id }: ReviewsListProps) => {
       ) : (
         <ScrollView
           horizontal
-          style={{backgroundColor:"transparent"}}
           contentContainerStyle={{
             gap: 10,
           }}
         >
-          <View
-            style={{
-              borderRadius: 10,
-              backgroundColor: "white",
-              padding: 10,
-              width: 300,
-              overflow: "hidden",
-            }}
-          >
-            <Facebook viewBox="0 0 420 100" />
-          </View>
-          <View
-            style={{
-              borderRadius: 10,
-              backgroundColor: "white",
-              padding: 10,
-              width: 300,
-              overflow: "hidden",
-            }}
-          >
-            <Facebook viewBox="0 0 420 100" />
-          </View>
+          {[0, 1, 2].map((i) => (
+            <View
+              key={i}
+              style={{
+                borderRadius: 10,
+                backgroundColor: colors.secondary_bg,
+                padding: 10,
+                width: 300,
+                overflow: "hidden",
+              }}
+            >
+              <Facebook
+                backgroundColor={colors.secondary_text}
+                foregroundColor={colors.secondary_bg}
+                viewBox="0 0 420 100"
+              />
+            </View>
+          ))}
         </ScrollView>
       )}
     </>

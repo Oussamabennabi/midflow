@@ -17,8 +17,9 @@ export type ScrollViewProps = ThemeProps & DefaultScrollView["props"];
 
 export function View(props: ViewProps) {
   const { style, ...otherProps } = props;
+  const {colors} = useTheme()
 
-  return <DefaultView style={[style]} {...otherProps} />;
+  return <DefaultView style={[{backgroundColor:colors.primary_bg },style]} {...otherProps} />;
 }
 
 export function ScrollView(props: ScrollViewProps) {

@@ -1,3 +1,4 @@
+import { useTheme } from "@/providers/theme-color-provider";
 import ContentLoader, {
   Rect,
   Circle,
@@ -8,6 +9,9 @@ import { Dimensions } from "react-native";
 const { width } = Dimensions.get("screen");
 
 const DoctorHeaderSkeleton = (props: IContentLoaderProps) => {
+// TODO!
+  const {colors} = useTheme()
+
   return (
     <ContentLoader 
     speed={2}
