@@ -2,11 +2,14 @@
 
 
 export const COLOR_SHADES = {
+  white: {
+    primary: "#fff"
+  },
   blue: {
     /**
      * #ffe7eb
 
-     *  */ 
+     *  */
     primary: '#0F66FF',
     secondary: '#D1E5FF',
     lowOpacity: '#0f67ff2c',
@@ -88,15 +91,27 @@ export const COLOR_SHADES = {
 
 export const COLORS = {
   light: {
-    text: COLOR_SHADES.blue.shade8,
-    background: COLOR_SHADES.gray.shade1,
-    tintBg:COLOR_SHADES.blue.shade5
-
+    primary_text: COLOR_SHADES.blue.shade8,
+    secondary_text: COLOR_SHADES.gray.shade5,
+    primary_bg: COLOR_SHADES.gray.shade1,
+    border_color: COLOR_SHADES.gray.shade3,
+    secondary_bg: COLOR_SHADES.white.primary,
+    tintBg: COLOR_SHADES.blue.shade5,
+    icon_color_pr: COLOR_SHADES.gray.primary,
+    icon_color_sc:  COLOR_SHADES.gray.shade5,
+    active_icon_color:  COLOR_SHADES.blue.primary,
   },
   dark: {
-    text: COLOR_SHADES.blue.shade1,
-    background: COLOR_SHADES.blue.shade8,
-    tintBg:COLOR_SHADES.blue.shade2
+    primary_text: COLOR_SHADES.white.primary,
+    secondary_text: COLOR_SHADES.gray.secondary,
+    border_color: COLOR_SHADES.gray.shade6,
+    icon_color_pr: COLOR_SHADES.white.primary,
+    icon_color_sc:  COLOR_SHADES.gray.shade5,
+    active_icon_color:  COLOR_SHADES.blue.primary,
+
+    primary_bg: COLOR_SHADES.gray.shade8,
+    secondary_bg: COLOR_SHADES.gray.shade7,
+    tintBg: COLOR_SHADES.blue.shade2
 
 
   },

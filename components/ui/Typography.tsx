@@ -1,6 +1,7 @@
 import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
 import { Size } from "@/constants/Sizes";
+import { useTheme } from "@/providers/theme-color-provider";
 import React from "react";
 import { Text, TextStyle } from "react-native";
 
@@ -19,7 +20,12 @@ const Typography: React.FC<TypographyProps> = ({
   size,
   font = "Bold",
   ...restProps
+
 }) => {
+
+  const {colors} = useTheme()
+
+
   const getSizeStyle = (): TextStyle => {
     switch (size) {
       case "sm":
@@ -39,15 +45,16 @@ const Typography: React.FC<TypographyProps> = ({
   const getVariantStyle = (): TextStyle => {
     switch (variant) {
       case "primary":
-        return { fontSize: 16, color: COLOR_SHADES.gray.primary };
+        return { fontSize: 16, color: colors.primary_text };
       case "secondary":
-        return { fontSize: 14, color: COLOR_SHADES.gray.secondary };
+        return { fontSize: 14, color: colors.secondary_text };
       case "error":
         return { fontSize: 14, color: COLOR_SHADES.red.shade5 };
       default:
         return {};
     }
   };
+
 
   return (
     <Text

@@ -1,8 +1,9 @@
-import {  TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { ReactNode } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "../ui/Typography";
+import { useTheme } from "@/providers/theme-color-provider";
 type SettingsItem = {
   label: string;
   icon: ReactNode;
@@ -12,34 +13,39 @@ type SettingsItem = {
 const ListItem = ({
   item,
   dangerItem,
-  onPress
+  onPress,
 }: {
   item: SettingsItem;
   dangerItem?: boolean;
-  onPress?:()=>void
+  onPress?: () => void;
 }) => {
+  const { colors } = useTheme();
+
   return (
     <TouchableOpacity
-    activeOpacity={.6}
-
-    onPress={onPress}
-    
+      activeOpacity={0.6}
+      onPress={onPress}
       style={{
         flexDirection: "row",
         alignItems: "center",
         marginVertical: 4,
-        backgroundColor: dangerItem ? COLOR_SHADES.red.shade2 : "white",
+        backgroundColor: dangerItem
+          ? "transparent"
+          : colors.secondary_bg,
         borderRadius: 16,
         padding: 12,
+        borderColor:dangerItem?COLOR_SHADES.red.shade5:"transparent",
+        borderWidth:2
       }}
     >
       <View
         style={{
-          borderColor:dangerItem?COLOR_SHADES.red.shade5: COLOR_SHADES.gray.shade2,
+          borderColor: dangerItem
+            ? COLOR_SHADES.red.shade5
+            : colors.border_color,
           borderWidth: 1,
           borderRadius: 8,
           width: 45,
-          
           alignItems: "center",
           justifyContent: "center",
           aspectRatio: 1 / 1,
@@ -57,7 +63,11 @@ const ListItem = ({
         {item.rightIcon ? (
           item.rightIcon
         ) : (
-          <MaterialIcons name="arrow-forward-ios" size={24} color={dangerItem?COLOR_SHADES.red.shade5:"black"} />
+          <MaterialIcons
+            name="arrow-forward-ios"
+            size={24}
+            color={dangerItem ? COLOR_SHADES.red.shade5 : colors.icon_color_pr}
+          />
         )}
       </View>
     </TouchableOpacity>

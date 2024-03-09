@@ -1,15 +1,9 @@
 import { SPACING } from "@/constants/Spacing";
 import { Formik } from "formik";
 import { View } from "../Themed";
-import Typography from "../ui/Typography";
-import Input from "../ui/Input";
 import {
   AntDesign,
-  Feather,
-  FontAwesome,
-  MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
 import Space from "../ui/Space";
 import ErrorChip from "../ui/ErrorChip";
 import Button from "../ui/Button";
@@ -23,7 +17,6 @@ import { EmailInput, PasswordInput } from "../form-inputs";
 
 const SignInForm = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-
   const { signIn, setActive, isLoaded } = useSignIn();
   const handleSubmit = async (values: { email: string; password: string }) => {
     if (!isLoaded) {

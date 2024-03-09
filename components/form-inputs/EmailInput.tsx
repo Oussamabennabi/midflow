@@ -3,7 +3,7 @@ import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
 import Input from "../ui/Input";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
+import { useTheme } from "@/providers/theme-color-provider";
 
 const EmailInput = ({
   handleChange,
@@ -12,6 +12,8 @@ const EmailInput = ({
   handleChange: any;
   value: any;
 }) => {
+  const { colors } = useTheme();
+
   return (
     <>
       <Typography
@@ -29,7 +31,7 @@ const EmailInput = ({
           <MaterialCommunityIcons
             name="email-outline"
             size={22}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
           />
         }
       />

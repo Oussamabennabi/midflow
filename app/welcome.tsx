@@ -1,5 +1,5 @@
-import React, { useState, useRef, useMemo } from "react";
-import { View, Animated, Easing, Image } from "react-native";
+import React, { useState,  useMemo } from "react";
+import { View, Animated, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import WelcomeSvg1 from "@/assets/welcom/WelcomeSvg1";

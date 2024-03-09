@@ -1,6 +1,7 @@
 import Typography from "@/components/ui/Typography";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
+import { useTheme } from "@/providers/theme-color-provider";
 import { DoctorWithUserType } from "@/types";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
@@ -12,6 +13,7 @@ type DoctorSmallCardProps = {
   doctor: DoctorWithUserType;
 };
 const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
+  const {colors} = useTheme()
   const docRating = useQuery(api.doctor_reviews.get_by_doctor_id, {
     id: doctor._id,
   });
@@ -24,15 +26,16 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
     [docRating]
   );
   return (
-    <Link asChild href={`/docto/${doctor._id}`}>
+    <Link  asChild href={`/docto/${doctor._id}`}>
       <TouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.8}
         style={{
           borderRadius: 10,
-          backgroundColor: "white",
+          backgroundColor: colors.secondary_bg,
           padding: 10,
           flexDirection: "row",
           position: "relative",
+          gap:10
         }}
       >
         {/*  */}
@@ -46,7 +49,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
           <AntDesign
             name="hearto"
             size={24}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
           />
         </TouchableOpacity>
         {/*  */}

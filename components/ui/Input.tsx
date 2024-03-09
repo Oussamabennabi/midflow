@@ -3,41 +3,47 @@ import {  TextInput, TextInputProps, View } from "react-native";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
+import { useTheme } from "@/providers/theme-color-provider";
+
 type InputType = {
   iconRight?: ReactNode;
   iconLeft?: ReactNode;
   onIconPress?:()=>void
 }&TextInputProps;
-const Input: React.FC<InputType> = ({ iconLeft, iconRight,onIconPress,...props  }) => {
-
+const Input: React.FC<InputType> = ({ iconLeft:IconLeft, iconRight,onIconPress,...props  }) => {
+const {colors} = useTheme()
   return (
     <View
       style={{
         borderRadius: 8,
         padding: 10,
         paddingVertical:15,
-        backgroundColor: "white",
+          backgroundColor:colors.secondary_bg,
         flexDirection: "row",
         alignItems: "center",
       }}
     >
-      {iconLeft && (
+      {IconLeft && (
         <RNBounceable
           onPress={()=>{}}
           bounceEffectIn={1.5}
           bounceEffectOut={1}
           style={{ marginRight: 8,  }}
         >
-          {iconLeft}
+          {IconLeft}
         </RNBounceable>
       )}
 
       <TextInput
       selectionColor={COLOR_SHADES.blue.shade2}
       cursorColor={COLOR_SHADES.blue.primary}
+      placeholderTextColor={colors.secondary_text}
+      
         style={{
           fontFamily: FONT.Bold,
           flex:1,
+          color:colors.primary_text,
+          
         }}
         {...props}
  

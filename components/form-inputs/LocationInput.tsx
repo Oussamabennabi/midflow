@@ -4,6 +4,7 @@ import { SPACING } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import RNPickerSelect from "react-native-picker-select";
+import { useTheme } from "@/providers/theme-color-provider";
 
 const LocationInput = ({
   handleChange,
@@ -12,6 +13,7 @@ const LocationInput = ({
   handleChange: any;
   value: any;
 }) => {
+  const {colors,dark} = useTheme()
   return (
     <>
       <Typography
@@ -21,6 +23,7 @@ const LocationInput = ({
       />
 
       <RNPickerSelect
+      darkTheme={dark}
         placeholder={{
           label: "Select a Location",
           value: "",
@@ -31,15 +34,18 @@ const LocationInput = ({
           <MaterialIcons
             name="share-location"
             size={24}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
           />
         )}
+
         style={{
+          chevronContainer:{
+          },
           viewContainer: {
-            backgroundColor: "white",
+            backgroundColor: colors.secondary_bg,
             borderRadius: 10,
           },
-
+          
           iconContainer: {
             position: "absolute",
             left: 8,
@@ -48,9 +54,12 @@ const LocationInput = ({
           },
           placeholder: {
             marginLeft: 24,
+            color:colors.secondary_text
           },
           inputAndroid: {
             marginLeft: 24,
+            color:colors.primary_text
+
           },
         }}
         value={value}

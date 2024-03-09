@@ -9,7 +9,7 @@ const ErrorChip = ({ text }: { text: string }) => {
   return (
     <View
       style={{
-        backgroundColor: COLOR_SHADES.red.shade1,
+        
         borderWidth: 2,
         borderColor: COLOR_SHADES.red.shade5,
         padding: SPACING.sm,

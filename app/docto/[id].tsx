@@ -7,13 +7,16 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useRef } from "react";
-import { ScrollView, View } from "react-native";
+import {  View } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import AppointmentBottomSheet from "@/components/bottom-sheets/AppointmentBottomSheet";
+import { ScrollView } from "@/components/Themed";
+import { useTheme } from "@/providers/theme-color-provider";
 const DoctorDetails = () => {
   const { id }: { id: Id<"doctors"> } = useLocalSearchParams();
 
   const doctor = useQuery(api.doctor.get_by_id, { id });
+  const {colors} = useTheme()
   const bottomSheetRef = useRef<BottomSheet>(null);
   // callbacks
   const handleExpandSheet = useCallback(() => {
@@ -55,7 +58,8 @@ const DoctorDetails = () => {
           left: 10,
           bottom: 0,
           right: 10,
-          backgroundColor: "white",
+          backgroundColor:colors.secondary_bg
+          
         }}
       >
         <Button

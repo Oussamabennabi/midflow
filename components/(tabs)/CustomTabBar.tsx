@@ -5,6 +5,7 @@ import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "../ui/Typography";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
+import { useTheme } from "@/providers/theme-color-provider";
 
 const { width } = Dimensions.get("window");
 
@@ -13,8 +14,9 @@ const CustomeTabBar = ({
   descriptors,
   navigation,
 }: BottomTabBarProps) => {
+  const {colors} = useTheme()
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer,{backgroundColor:colors.secondary_bg}]}>
       {state.routes.map((route, index: number) => {
         if (route.name == "PlaceholderScreen") {
           return <View key={index} style={styles.mainItemContainer}></View>;
@@ -31,7 +33,8 @@ const CustomeTabBar = ({
             ? options.title
             : route.name;
 
-        const color = options.tabBarActiveTintColor;
+        const activeColor = options.tabBarActiveTintColor;
+        const inactiveColor = options.tabBarInactiveTintColor;
         const isFocused = state.index === index;
 
         const onPress = () => {
@@ -64,7 +67,8 @@ const CustomeTabBar = ({
               >
                 {Icon && (
                   <Icon
-                    color={isFocused ? color! : COLOR_SHADES.gray.shade6}
+                    color={isFocused?activeColor!:inactiveColor!}
+
                     focused={isFocused}
                     size={24}
                     {...{ iconStyles }}
@@ -73,7 +77,7 @@ const CustomeTabBar = ({
 
                 <Typography
                   style={{
-                    color: isFocused ? color! : COLOR_SHADES.gray.shade6,
+                    color: isFocused ? activeColor! : inactiveColor!,
                   }}
                   text={label}
                   size="sm"
@@ -106,10 +110,15 @@ const CustomeTabBar = ({
             <AntDesign
               name="setting"
               size={24}
-              color={COLOR_SHADES.gray.shade6}
+              color={colors.icon_color_sc}
             />
 
-            <Typography text={"Settings"} size="sm" />
+            <Typography 
+            text={"Settings"} 
+            style={{
+              color: colors.icon_color_sc,
+            }}
+            size="sm" />
           </View>
         </TouchableOpacity>
       </View>
@@ -124,12 +133,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     bottom: 10,
-    backgroundColor: COLOR_SHADES.gray.shade15,
     borderRadius: 25,
-    left:10,
-    width:width-20,
+    left:7,
+    width:width-14,
     justifyContent:"space-between",
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    paddingVertical:10,
+
   },
   mainItemContainer: {
     borderRadius: 1,

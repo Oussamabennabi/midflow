@@ -1,9 +1,8 @@
 import AuthHeader from "@/components/(auth)/auth-header";
-import { Text, View } from "@/components/Themed";
+import { ScrollView, View } from "@/components/Themed";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import i18n from "@/config/i18n";
-import { COLOR_SHADES } from "@/constants/Colors";
 import { getErrorMessageFromClerkCode } from "@/utils/getErrorMessageFromClerkCode";
 import { getToastOptions } from "@/utils/getToastOptions";
 import { useSignUp } from "@clerk/clerk-expo";
@@ -11,7 +10,7 @@ import OTPInputView from "@twotalltotems/react-native-otp-input";
 import Stack from "expo-router/stack";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Platform, ScrollView } from "react-native";
+import { Platform } from "react-native";
 import Toast from "react-native-toast-message";
 
 const VerifyEmail = () => {
@@ -40,11 +39,8 @@ const VerifyEmail = () => {
   };
   return (
     <>
-      <ScrollView
-        style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
-      >
+      <ScrollView>
         <Stack.Screen options={{ presentation: "modal" }} />
-        <StatusBar style={Platform.OS === "ios" ? "light" : "inverted"} />
 
         <AuthHeader subTitle={i18n.t("otp_header")} title={i18n.t("otp")} />
 
@@ -71,7 +67,6 @@ const VerifyEmail = () => {
         </View>
       </ScrollView>
       <Toast />
-
     </>
   );
 };

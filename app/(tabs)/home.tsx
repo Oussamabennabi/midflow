@@ -1,6 +1,6 @@
-import { View } from '@/components/Themed';
+import { ScrollView } from '@/components/Themed';
 
 export default function TabOneScreen() {
  
-    return <View></View>
+    return <ScrollView></ScrollView>
 }

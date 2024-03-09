@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import {
   DarkTheme,
   DefaultTheme,
@@ -13,8 +13,8 @@ import useCachedResources from "@/hooks/useCachedResourses";
 import ConvexClerkProvider from "@/providers/convex-clerk-rovider";
 import { useAuth } from "@clerk/clerk-expo";
 import { useEffect } from "react";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ThemeColorProvider } from "@/providers/theme-color-provider";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -55,20 +55,25 @@ function RootLayoutNav() {
   }, [isLoaded, isSignedIn]);
 
   return (
-    <GestureHandlerRootView style={{flex:1}}>
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="welcome" options={{ headerShown: false }} />
-        <Stack.Screen name="(settings)" options={{ headerShown: false, }} />
-        <Stack.Screen name="doctor-chat/[id]" options={{ headerShown: false, }} />
-        <Stack.Screen name="docto/[id]" options={{ headerShown: false, }} />
-        <Stack.Screen name="review/[id]" options={{ headerShown: false, }} />
-
-
-      </Stack>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeColorProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="welcome" options={{ headerShown: false }} />
+            <Stack.Screen name="(settings)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="doctor-chat/[id]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="docto/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="review/[id]" options={{ headerShown: false }} />
+          </Stack>
+        </ThemeProvider>
+        </ThemeColorProvider>
     </GestureHandlerRootView>
   );
 }

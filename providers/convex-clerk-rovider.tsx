@@ -2,9 +2,9 @@ import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import React from "react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import "react-native-get-random-values";
-import * as SecureStore from "expo-secure-store";
 import { ConvexReactClient } from "convex/react";
 
+import * as SecureStore from "expo-secure-store";
 const tokenCache = {
   async getToken(key: string) {
     try {

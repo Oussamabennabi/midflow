@@ -1,65 +1,33 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
-
 import {
-  Text as DefaultText,
   View as DefaultView,
   ScrollView as DefaultScrollView,
 } from "react-native";
 
-import { COLORS } from "@/constants/Colors";
-import { useColorScheme } from "./useColorScheme";
+import { useTheme } from "@/providers/theme-color-provider";
 
 type ThemeProps = {
   lightColor?: string;
   darkColor?: string;
 };
 
-export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
 export type ScrollViewProps = ThemeProps & DefaultScrollView["props"];
 
-export function useThemeColor(
-  props: { light?: string; dark?: string },
-  colorName: keyof typeof COLORS.light & keyof typeof COLORS.dark
-) {
-  const theme = useColorScheme() ?? "light";
-  const colorFromProps = props[theme];
 
-  if (colorFromProps) {
-    return colorFromProps;
-  } else {
-    return COLORS[theme][colorName];
-  }
-}
-
-export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
-
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
-}
 
 export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
+  const { style, ...otherProps } = props;
 
   return <DefaultView style={[style]} {...otherProps} />;
 }
 
 export function ScrollView(props: ScrollViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
+  const { style, ...otherProps } = props;
+  const {colors} = useTheme()
 
   return (
-    <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />
+      <DefaultScrollView 
+      style={[{backgroundColor:colors.primary_bg }, style]} {...otherProps} 
+      />
   );
 }

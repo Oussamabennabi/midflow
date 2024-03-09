@@ -1,4 +1,5 @@
-import { COLOR_SHADES } from "@/constants/Colors";
+
+import { useTheme } from "@/providers/theme-color-provider";
 import React, { ReactNode } from "react";
 import { TouchableOpacity, ViewStyle } from "react-native";
 type IconButtonType = {
@@ -15,11 +16,13 @@ const IconButton: React.FC<IconButtonType> = ({
   bgColor,
   small
 }) => {
+  const {colors} = useTheme()
+
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        borderColor: COLOR_SHADES.gray.shade2,
+        borderColor: colors.border_color,
         borderWidth: 1,
         borderRadius: 8,
         width:small?40: 56,

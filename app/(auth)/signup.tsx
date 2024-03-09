@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 
 import { COLOR_SHADES } from "@/constants/Colors";
 
@@ -13,32 +13,21 @@ import AuthHeader from "@/components/(auth)/auth-header";
 
 import { router } from "expo-router";
 import SignUpForm from "@/components/(auth)/SignUpForm";
+import { ScrollView } from "@/components/Themed";
 
 const SignUp = () => {
   return (
     <>
-      <ScrollView
-        style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
-      >
-     
-     
-        {/* Card */}
+      <ScrollView>
         <AuthHeader
           subTitle="Sign up and get your health personalized with our AI Technology."
           title="Sign Up For Free!"
         />
-
-        {/* end of Card */}
-
-        {/* Form */}
         <SignUpForm />
-        {/* End of form */}
-
         <OrSeporator />
         <Space space="xl" />
         <SocialButtons />
         <Space space="lg" />
-
         <View
           style={{
             flexDirection: "row",
@@ -58,9 +47,8 @@ const SignUp = () => {
             onPress={() => router.push("/signin")}
             color={COLOR_SHADES.blue.primary}
           />
-          
-        <Space space="xxl" />
-          
+
+          <Space space="xxl" />
         </View>
       </ScrollView>
     </>

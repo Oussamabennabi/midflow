@@ -1,11 +1,12 @@
 // import Typography from "../ui/Typography";
 import { DataModel } from "@/convex/_generated/dataModel";
 import Typography from "../ui/Typography";
-import {Calendar} from 'react-native-calendars'
-import {  FontAwesome } from "@expo/vector-icons";
+import { Calendar } from "react-native-calendars";
+import { FontAwesome } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
-import moment from "moment"
+import moment from "moment";
+import { useTheme } from "@/providers/theme-color-provider";
 // import { useEffect, useState } from "react";
 // import { MONTHS } from "@/constants/months";
 // import { DayType, Month, MonthType } from "@/types";
@@ -19,6 +20,7 @@ type AskForAppointmentCalendarProps = {
 const AskForAppointmentCalendar = ({
   doctor,
 }: AskForAppointmentCalendarProps) => {
+  const { colors } = useTheme();
   // const [selectedMonth, setSelectedMonth] = useState<Month>(MONTHS[0]);
   // const [selectedDay, setSelectedDay] = useState<DayType | null>(null);
 
@@ -60,36 +62,52 @@ const AskForAppointmentCalendar = ({
         setSelectedDay={setSelectedDay}
         days={days}
       /> */}
-      <Calendar 
-      minDate={moment().format("YYYY-MM-DD")}
-      maxDate={moment().add(1,"years").format("YYYY-MM-DD")}
-      
-      markedDates={{
-        "2024-06-03":{
-          selected:true,
-          selectedColor:"yellow"
+      <Calendar
+        minDate={moment().format("YYYY-MM-DD")}
+        maxDate={moment().add(1, "years").format("YYYY-MM-DD")}
+        hideExtraDays
+
+        markedDates={{
+          "2024-06-03": {
+            selected: true,
+            selectedColor: "yellow",
+
+          },
+        }}
+        theme={{
+          textDayFontFamily: FONT.SemiBold,
+          textMonthFontFamily: FONT.Bold,
+          textDayHeaderFontFamily: FONT.Regular,
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 14,
+          calendarBackground: colors.secondary_bg,
+          textDisabledColor:colors.secondary_text,
+          textInactiveColor:"red",
+          todayTextColor:COLOR_SHADES.purply.shade5,
+          todayBackgroundColor:COLOR_SHADES.purply.opacity,
+          dayTextColor:colors.primary_text,
+
+        }}
+        enableSwipeMonths
+        renderArrow={(d) =>
+          d === "left" ? (
+            <FontAwesome
+              name="chevron-left"
+              size={24}
+              color={COLOR_SHADES.blue.primary}
+            />
+          ) : (
+            <FontAwesome
+              name="chevron-right"
+              size={24}
+              color={COLOR_SHADES.blue.primary}
+            />
+          )
         }
-      }}
-       theme={{
-        textDayFontFamily: FONT.SemiBold,
-        textMonthFontFamily: FONT.Bold,
-        textDayHeaderFontFamily: FONT.Regular,
-        textDayFontSize: 16,
-        textMonthFontSize: 16,
-        textDayHeaderFontSize: 14
-      }}
-      enableSwipeMonths
-      renderArrow={d=>d==="left"?
-      <FontAwesome name="chevron-left" size={24} color={COLOR_SHADES.blue.primary} />
-      :
-      <FontAwesome name="chevron-right" size={24} color={COLOR_SHADES.blue.primary} />
-    }
       />
     </>
   );
 };
-
-// minDate
-// allowSelectionOutOfRange
 
 export default AskForAppointmentCalendar;

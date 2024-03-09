@@ -3,7 +3,7 @@ import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
 import Input from "../ui/Input";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
+import { useTheme } from "@/providers/theme-color-provider";
 
 const PasswordInput = ({
   handleChange,
@@ -16,6 +16,8 @@ const PasswordInput = ({
   hidden: boolean;
   setHidden: any;
 }) => {
+const {colors} = useTheme()
+
   return (
     <>
       <Typography text="Password" style={{ paddingVertical: SPACING.md }} />
@@ -25,14 +27,15 @@ const PasswordInput = ({
         placeholder="Password"
         secureTextEntry={hidden}
         iconLeft={
-          <Feather name="lock" size={22} color={COLOR_SHADES.gray.primary} />
+          <Feather name="lock" size={22} color={colors.icon_color_pr} />
         }
         onIconPress={() => setHidden((prev: boolean) => !prev)}
         iconRight={
           <FontAwesome
             name={hidden ? "eye" : "eye-slash"}
             size={22}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
+
           />
         }
       />

@@ -1,4 +1,3 @@
-import { ScrollView } from "@/components/Themed";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import ReviewsHeader from "@/components/reviews/reviews-hearder";
 import Typography from "@/components/ui/Typography";

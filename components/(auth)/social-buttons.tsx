@@ -2,16 +2,17 @@ import React from "react";
 import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import IconButton from "../ui/IconButton";
-import { COLOR_SHADES } from "@/constants/Colors";
 import { useOAuth } from "@clerk/clerk-expo";
 import useWarmupBrowser from "@/hooks/useWarmupBrowser";
-import { router } from "expo-router";
+import { useTheme } from "@/providers/theme-color-provider";
 enum Strategy {
   Google = "oauth_google",
   Apple = "oauth_apple",
   Facebook = "oauth_facebook",
 }
 const SocialButtons = () => {
+  const { colors } = useTheme();
+
   useWarmupBrowser();
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: "oauth_apple" });
@@ -36,9 +37,7 @@ const SocialButtons = () => {
       console.error(JSON.stringify(err, null, 2));
     }
   };
-  // const signinWithFacebook = ()=> {
 
-  // }
   return (
     <View style={{ flexDirection: "row", gap: 10, justifyContent: "center" }}>
       <IconButton
@@ -47,29 +46,21 @@ const SocialButtons = () => {
           <FontAwesome
             name="facebook-f"
             size={28}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
           />
         }
       />
       <IconButton
         onPress={() => onSelectAuth(Strategy.Google)}
         icon={
-          <FontAwesome
-            name="google"
-            size={28}
-            color={COLOR_SHADES.gray.primary}
-          />
+          <FontAwesome name="google" size={28} color={colors.icon_color_pr} />
         }
       />
-      
+
       <IconButton
         onPress={() => onSelectAuth(Strategy.Apple)}
         icon={
-          <FontAwesome
-            name="apple"
-            size={28}
-            color={COLOR_SHADES.gray.primary}
-          />
+          <FontAwesome name="apple" size={28} color={colors.icon_color_pr} />
         }
       />
     </View>

@@ -2,11 +2,14 @@ import { View } from "react-native";
 import React, { forwardRef, useMemo } from "react";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
-import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
 import AskForAppointmentCalendar from "../calendar/AskForAppointmentCalendar";
 import Space from "../ui/Space";
 import Typography from "../ui/Typography";
 import { DataModel } from "@/convex/_generated/dataModel";
+import { useTheme } from "@/providers/theme-color-provider";
 type AppointmentBottomSheetProps = {
   doctor?: DataModel["doctors"]["document"] | null;
 };
@@ -15,9 +18,12 @@ export type RefType = any;
 const AppointmentBottomSheet = forwardRef<RefType, AppointmentBottomSheetProps>(
   ({ doctor }, ref) => {
     const snapPoints = useMemo(() => ["16%", "90%"], []);
-
+    const { colors } = useTheme();
     return (
       <BottomSheet
+        backgroundStyle={{
+          backgroundColor: colors.secondary_bg,
+        }}
         handleIndicatorStyle={{
           backgroundColor: COLOR_SHADES.blue.primary,
         }}

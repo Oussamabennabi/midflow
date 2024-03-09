@@ -4,7 +4,7 @@ import { ScrollView } from "@/components/Themed";
 
 const ProfileSetup = () => {
   return (
-    <ScrollView style={{position:"relative"}}>
+    <ScrollView style={{position:"relative",}}>
       <SettingsHeader paddingBottom title="Edit your profile" />
 
       <ProfileForm  />

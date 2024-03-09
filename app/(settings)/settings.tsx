@@ -1,52 +1,57 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
+import {  COLOR_SHADES } from "@/constants/Colors";
 import Space from "@/components/ui/Space";
 import Typography from "@/components/ui/Typography";
 import ListItem from "@/components/settings/ListItem";
 import { CustomSwitch } from "@/components/ui/CustomSwitch";
 import { useAuth } from "@clerk/clerk-expo";
 import { router } from "expo-router";
+import { useTheme } from "@/providers/theme-color-provider";
+import { StatusBar } from "expo-status-bar";
 
 const Settings = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
   const { isLoaded, signOut } = useAuth();
+
+  const {toggleTheme,colors,dark} = useTheme()
+
   const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
+    toggleTheme();
   };
-
-  const onSignOut = () =>
-    Alert.alert(
-      "Sign Out",
-      "Are you sure you want to sign out?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Signout",
-          onPress: async () => {
-            if (!isLoaded) return;
-            await signOut();
-          },
-        },
-      ],
+  const onSignOut = useCallback(() =>
+  Alert.alert(
+    
+    "Sign Out",
+    "Are you sure you want to sign out?",
+    [
       {
-        cancelable: true,
-        // TODO?
-
-        userInterfaceStyle: "light",
-      }
-    );
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Signout",
+        onPress: async () => {
+          if (!isLoaded) return;
+          await signOut();
+        },
+      },
+    ],
+    {
+      cancelable: true,
+      userInterfaceStyle: dark?"dark": "light",
+    }
+  ),[dark])
 
   return (
     <SafeAreaView>
+   
       <ScrollView
-        style={{ backgroundColor: COLOR_SHADES.gray.shade1, height: "100%" }}
+        style={{
+          backgroundColor: colors.primary_bg,
+          height: "100%",
+        }}
       >
         <View style={{ marginVertical: 16, paddingHorizontal: 10 }}>
           {/*  */}
@@ -55,22 +60,16 @@ const Settings = () => {
             <Space />
 
             <ListItem
-            onPress={()=>router.push("/profile-setup")}
+              onPress={() => router.push("/profile-setup")}
               item={{
                 label: "Personal Info",
-                icon: <Ionicons name="person" size={20} color="black" />,
-              }}
-            />
-            <ListItem
-              item={{
-                label: "Preferences",
-                icon: <Ionicons name="settings" size={20} color="black" />,
+                icon: <Ionicons name="person" size={20} color={colors.icon_color_pr} />,
               }}
             />
             <ListItem
               item={{
                 label: "Security",
-                icon: <Ionicons name="lock-closed" size={20} color="black" />,
+                icon: <Ionicons name="lock-closed" size={20} color={colors.icon_color_pr} />,
               }}
             />
           </View>
@@ -82,22 +81,22 @@ const Settings = () => {
             <ListItem
               item={{
                 label: "Language",
-                icon: <Ionicons name="language" size={20} color="black" />,
+                icon: <Ionicons name="language" size={20} color={colors.icon_color_pr} />,
               }}
             />
             <ListItem
               item={{
                 label: "Preferences",
-                icon: <Ionicons name="settings" size={20} color="black" />,
+                icon: <Ionicons name="settings" size={20} color={colors.icon_color_pr} />,
               }}
             />
             <ListItem
               item={{
                 label: "Dark Mode",
-                icon: <Ionicons name="moon" size={20} color="black" />,
+                icon: <Ionicons name="moon" size={20} color={colors.icon_color_pr} />,
                 rightIcon: (
                   <CustomSwitch
-                    isSelected={isDarkMode}
+                    isSelected={dark}
                     onPress={toggleDarkMode}
                   />
                 ),
@@ -113,20 +112,20 @@ const Settings = () => {
               item={{
                 label: "About",
                 icon: (
-                  <Ionicons name="information-circle" size={20} color="black" />
+                  <Ionicons name="information-circle" size={20} color={colors.icon_color_pr} />
                 ),
               }}
             />
             <ListItem
               item={{
                 label: "Help Center",
-                icon: <Ionicons name="help-circle" size={20} color="black" />,
+                icon: <Ionicons name="help-circle" size={20} color={colors.icon_color_pr} />,
               }}
             />
             <ListItem
               item={{
                 label: "Contact Us",
-                icon: <Ionicons name="mail" size={20} color="black" />,
+                icon: <Ionicons name="mail" size={20} color={colors.icon_color_pr} />,
               }}
             />
           </View>
@@ -139,7 +138,7 @@ const Settings = () => {
               onPress={onSignOut}
               item={{
                 label: "Sign Out",
-                icon: <Ionicons name="log-out" size={20} color="black" />,
+                icon: <Ionicons name="log-out" size={20} color={colors.icon_color_pr} />,
               }}
             />
           </View>

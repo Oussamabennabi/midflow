@@ -2,18 +2,11 @@ import { useSignUp } from "@clerk/clerk-expo";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { View } from "../Themed";
-import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
-import Input from "../ui/Input";
-import RNPickerSelect from "react-native-picker-select";
 
 import {
   AntDesign,
-  Feather,
-  FontAwesome,
-  MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
 import Space from "../ui/Space";
 import ErrorChip from "../ui/ErrorChip";
 import Button from "../ui/Button";

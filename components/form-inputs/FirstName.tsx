@@ -3,7 +3,7 @@ import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
 import Input from "../ui/Input";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
+import { useTheme } from "@/providers/theme-color-provider";
 
 const FirstName = ({
   handleChange,
@@ -12,6 +12,8 @@ const FirstName = ({
   handleChange: any;
   value: any;
 }) => {
+  const {colors}= useTheme()
+
   return (
     <>
       <Typography
@@ -24,12 +26,14 @@ const FirstName = ({
         value={value}
         placeholder="First name"
         autoComplete="name"
+        
         keyboardType="name-phone-pad"
         iconLeft={
           <MaterialCommunityIcons
             name="face-man-profile"
             size={22}
-            color={COLOR_SHADES.gray.primary}
+            color={colors.icon_color_pr}
+            
           />
         }
       />
