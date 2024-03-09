@@ -101,7 +101,6 @@ export default defineSchema({
         patient: v.id("users"),
         doctor: v.id("doctors"),
     }).index("by_patient_doctor", ["doctor", "patient"]),
-
     messages: defineTable({
         chat_id: v.id("chats"),
         sender_id: v.union(v.id("users"), v.id("doctors")),

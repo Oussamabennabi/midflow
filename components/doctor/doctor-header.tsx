@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Image, Share, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { Image, TouchableOpacity, View } from "react-native";
 
 import { SPACING } from "@/constants/Spacing";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "@/components/ui/Typography";
 import { AntDesign, Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import DoctorHeaderSkeleton from "./doctor-header.skeleton";
 import { DoctorWithUserType } from "@/types";
+import ColoredButton, { IconType } from "../ui/ColoredButton";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import Space from "../ui/Space";
 
 type DoctorHeaderType = {
   doctor?: DoctorWithUserType | null;
@@ -18,20 +22,13 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
   doctor,
   paddingBottom,
 }) => {
-  const shareListing = async () => {
-    if (!doctor) return;
-    try {
-      await Share.share({
-        title: doctor.first_name + " " + doctor.last_name,
-        url: "https://oussama.ben",
-        message: "Go checkout this doctor please",
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  const mutate = useMutation(api.chats.get_or_create);
+  const currentUser = useQuery(api.users.currentUser);
+  const handleSendMessage = async () => {
+    if (!doctor || !currentUser) return;
+    const res = await mutate({ doctor: doctor._id, patient: currentUser._id });
+    router.push(`/doctor-chat/${res}`);
   };
-
-  const navigate = useNavigation()
   return (
     <View
       style={{
@@ -77,13 +74,6 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
         </View>
 
         <View style={{ flexDirection: "row", gap: 10 }}>
-          <TouchableOpacity disabled={!doctor} onPress={shareListing}>
-            <Ionicons
-              name="share-outline"
-              size={24}
-              color={COLOR_SHADES.blue.primary}
-            />
-          </TouchableOpacity>
           <TouchableOpacity disabled={!doctor}>
             <AntDesign
               name="hearto"
@@ -114,17 +104,11 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
               }}
             />
             <Typography
-              text={"Dcr. " + doctor.first_name+" "+doctor.last_name}
+              text={"Dcr. " + doctor.first_name + " " + doctor.last_name}
               size="xl"
               style={{ color: "white" }}
             />
-            <TouchableOpacity
-            activeOpacity={0.6}
-            style={{ marginTop: 7 }}
-            onPress={() =>router.push(`/doctor-chat/${doctor._id}`)}
-          >
-            <Entypo name="new-message" size={32} color="white" />
-          </TouchableOpacity>
+
             <View
               style={{
                 flexDirection: "row",
@@ -144,6 +128,7 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
                 text={doctor.specialty}
               />
             </View>
+            <View style={{gap:10,flexDirection:"row"}}>
             {doctor.phone_numbers.map((num) => (
               <TouchableOpacity
                 style={{
@@ -167,6 +152,18 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
                 />
               </TouchableOpacity>
             ))}
+
+            </View>
+<Space />
+            <ColoredButton
+              onPress={handleSendMessage}
+              p_color={COLOR_SHADES.green.primary}
+              s_color={COLOR_SHADES.green.opacity}
+              icon={{
+                size: "xxl",
+                value: { name: "chatbubble-outline", type: IconType.Ionicon },
+              }}
+            />
           </>
         )}
       </View>

@@ -1,6 +1,14 @@
-import { ScrollView } from '@/components/Themed';
+import ChatList from "@/components/(chat)/ChatList";
+import { ScrollView, View } from "@/components/Themed";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
 
 export default function TabFourScreen() {
- 
-    return <ScrollView></ScrollView>
+  const currentUser = useQuery(api.users.currentUser);
+  if (!currentUser) return <ScrollView />;
+  return (
+    <View style={{ flex: 1 }}>
+      <ChatList uid={currentUser._id} />
+    </View>
+  );
 }

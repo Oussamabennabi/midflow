@@ -1,1 +1,1 @@
-export type Size ="sm" | "md" |"lg" |"xl"|'xxl'
+export type Size ="xs"|"sm" | "md" |"lg" |"xl"|'xxl'

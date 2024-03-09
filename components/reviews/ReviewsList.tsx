@@ -41,7 +41,7 @@ const ReviewsList = ({ doctor_id }: ReviewsListProps) => {
           size="sm"
         />
       </View>
-      {reviews && reviews.length > 0 ? (
+      {reviews ? (
         <FlatList
           data={reviews.slice(0, 3)}
           ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
@@ -75,6 +75,9 @@ const ReviewsList = ({ doctor_id }: ReviewsListProps) => {
           ))}
         </ScrollView>
       )}
+      {reviews&&reviews?.length<=0&&<View>
+          <Typography variant="secondary" text="There is no reviews for this doctor."/>
+        </View>}
     </>
   );
 };
