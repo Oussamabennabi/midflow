@@ -4,20 +4,18 @@ import { Image,  TouchableOpacity, View } from "react-native";
 import { SPACING } from "@/constants/Spacing";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "@/components/ui/Typography";
-import { AntDesign, Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
+import {  Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-
-import { DoctorWithUserType } from "@/types";
 import { DataModel } from "@/convex/_generated/dataModel";
 
 type ChatHeaderType = {
   chat?:DataModel["chats"]["document"]| null;
+  
 };
 const ChatHeader: React.FC<ChatHeaderType> = ({
   chat,
 }) => {
-
 
   return (
     <View
@@ -26,7 +24,6 @@ const ChatHeader: React.FC<ChatHeaderType> = ({
         paddingHorizontal: SPACING.md,
         paddingTop: SPACING.mxl,
         paddingBottom:SPACING.md
-
       }}
     >
       <StatusBar style="inverted" backgroundColor={COLOR_SHADES.gray.primary} />
@@ -67,7 +64,7 @@ const ChatHeader: React.FC<ChatHeaderType> = ({
               }}
             />
           <Typography
-            text={"Doctor Details"}
+            text={"Doctor"}
             style={{ color: "white" }}
             font="ExtraBold"
           />

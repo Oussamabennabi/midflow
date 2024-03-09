@@ -5,7 +5,7 @@ import { SPACING } from "@/constants/Spacing";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "@/components/ui/Typography";
 import { AntDesign, Entypo, FontAwesome6, Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import DoctorHeaderSkeleton from "./doctor-header.skeleton";
 import { DoctorWithUserType } from "@/types";
@@ -31,6 +31,7 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
     }
   };
 
+  const navigate = useNavigation()
   return (
     <View
       style={{
@@ -120,7 +121,7 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
             <TouchableOpacity
             activeOpacity={0.6}
             style={{ marginTop: 7 }}
-            onPress={() =>router.replace(`/chat/1`)}
+            onPress={() =>router.push(`/doctor-chat/${doctor._id}`)}
           >
             <Entypo name="new-message" size={32} color="white" />
           </TouchableOpacity>

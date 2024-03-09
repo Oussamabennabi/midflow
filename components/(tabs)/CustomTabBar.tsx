@@ -1,13 +1,5 @@
 import React from "react";
-
-import {
-  View,
-  Pressable,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { Text } from "../Themed";
+import { View, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "../ui/Typography";
@@ -78,15 +70,14 @@ const CustomeTabBar = ({
                     {...{ iconStyles }}
                   />
                 )}
-                {isFocused && (
-                  <Typography
-                    style={{
-                      color: isFocused ? color! : COLOR_SHADES.gray.shade6,
-                    }}
-                    text={label}
-                    size="sm"
-                  />
-                )}
+
+                <Typography
+                  style={{
+                    color: isFocused ? color! : COLOR_SHADES.gray.shade6,
+                  }}
+                  text={label}
+                  size="sm"
+                />
               </View>
             </TouchableOpacity>
           </View>
@@ -95,7 +86,9 @@ const CustomeTabBar = ({
 
       {/* settings icon */}
 
-      <View style={styles.mainItemContainer}>
+      <View
+        style={styles.mainItemContainer}
+      >
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => router.push("/settings")}
@@ -120,6 +113,8 @@ const CustomeTabBar = ({
           </View>
         </TouchableOpacity>
       </View>
+
+      
     </View>
   );
 };
@@ -131,12 +126,12 @@ const styles = StyleSheet.create({
     bottom: 10,
     backgroundColor: COLOR_SHADES.gray.shade15,
     borderRadius: 25,
-    marginHorizontal: width * 0.02,
+    left:10,
+    width:width-20,
+    justifyContent:"space-between",
+    paddingHorizontal:10
   },
   mainItemContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 1,
     paddingVertical: 6,
     paddingHorizontal: 1,

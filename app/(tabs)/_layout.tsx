@@ -46,16 +46,25 @@ export default function TabLayout() {
           ),
         }}
       />
+    
       <Tabs.Screen
         name="appointments"
         options={{
-          title: "Appointment",
+          title: "Appointments",
           tabBarIcon: ({ color }) => (
             <AntDesign name="calendar" size={24} color={color} />
           ),
         }}
       />
-    
+      <Tabs.Screen
+        name="chats"
+        options={{
+          title: "Chats",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="message1" size={24} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

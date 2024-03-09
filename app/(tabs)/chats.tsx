@@ -1,6 +1,6 @@
 import { View } from '@/components/Themed';
 
-export default function TabOneScreen() {
+export default function TabFourScreen() {
  
     return <View></View>
 }
