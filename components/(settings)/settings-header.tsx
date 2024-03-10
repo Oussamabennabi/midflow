@@ -7,6 +7,7 @@ import Typography from "@/components/ui/Typography";
 import { Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import BackArrow from "../ui/BackArrow";
 
 type SettingsHeaderType = {
   title: string;
@@ -40,13 +41,16 @@ const SettingsHeader: React.FC<SettingsHeaderType> = ({ title,paddingBottom }) =
           gap: 10,
         }}
       >
-        <TouchableOpacity
-          activeOpacity={0.6}
-          style={{ marginTop: 7 }}
-          onPress={() => router.canGoBack() ? router.back():router.replace("/settings")}
-        >
-          <Entypo name="chevron-left" size={32} color="white" />
-        </TouchableOpacity>
+         <BackArrow
+          style={{
+            marginTop:7
+          }}
+          white
+          onPress={() =>
+            router.canGoBack() ? router.back() : router.replace("/settings")
+          }
+          />
+       
         <Typography
           text={title}
           style={{ color: "white" }}

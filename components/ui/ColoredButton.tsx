@@ -3,12 +3,18 @@ import { TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { Size } from "@/constants/Sizes";
 
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  FontAwesome,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 export enum IconType {
   MatetrialIcon,
   FontAweomseIcon,
   Ionicon,
+  Entypo,
 }
 type ColoredButtonProps = {
   size?: Size;
@@ -24,7 +30,8 @@ type ColoredButtonProps = {
           type?: IconType.FontAweomseIcon;
           name: keyof typeof FontAwesome.glyphMap;
         }
-      | { type?: IconType.Ionicon; name: keyof typeof Ionicons.glyphMap };
+      | { type?: IconType.Ionicon; name: keyof typeof Ionicons.glyphMap }
+      | { type?: IconType.Entypo; name: keyof typeof Entypo.glyphMap };
     size?: Size;
   };
 
@@ -79,35 +86,42 @@ const ColoredButton: React.FC<ColoredButtonProps> = ({
           justifyContent: "center",
           position: "relative",
           backgroundColor: s_color,
-          aspectRatio:1/1,
-          padding:4
+          aspectRatio: 1 / 1,
+          padding: 4,
         },
 
         style,
       ]}
     >
       {/* <View style={{ marginRight: 8 }}> */}
-        {icon.value.type === IconType.FontAweomseIcon && (
-          <FontAwesome
-            name={icon.value.name}
-            color={p_color}
-            size={getSizeStyle(icon.size)}
-          />
-        )}
-        {icon.value.type === IconType.MatetrialIcon && (
-          <MaterialIcons
-            name={icon.value.name}
-            color={p_color}
-            size={getSizeStyle(icon.size)}
-          />
-        )}
-        {icon.value.type === IconType.Ionicon && (
-          <Ionicons
-            name={icon.value.name}
-            color={p_color}
-            size={getSizeStyle(icon.size)}
-          />
-        )}
+      {icon.value.type === IconType.FontAweomseIcon && (
+        <FontAwesome
+          name={icon.value.name}
+          color={p_color}
+          size={getSizeStyle(icon.size)}
+        />
+      )}
+      {icon.value.type === IconType.MatetrialIcon && (
+        <MaterialIcons
+          name={icon.value.name}
+          color={p_color}
+          size={getSizeStyle(icon.size)}
+        />
+      )}
+      {icon.value.type === IconType.Ionicon && (
+        <Ionicons
+          name={icon.value.name}
+          color={p_color}
+          size={getSizeStyle(icon.size)}
+        />
+      )}
+      {icon.value.type === IconType.Entypo && (
+        <Entypo
+          name={icon.value.name}
+          color={p_color}
+          size={getSizeStyle(icon.size)}
+        />
+      )}
       {/* </View> */}
     </TouchableOpacity>
   );

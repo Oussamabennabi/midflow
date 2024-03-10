@@ -13,6 +13,7 @@ import ColoredButton, { IconType } from "../ui/ColoredButton";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Space from "../ui/Space";
+import BackArrow from "../ui/BackArrow";
 
 type DoctorHeaderType = {
   doctor?: DoctorWithUserType | null;
@@ -25,14 +26,9 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
   const mutate = useMutation(api.chats.get_or_create);
   const currentUser = useQuery(api.users.currentUser);
   const handleSendMessage = async () => {
-    console.log("Clicked",currentUser)
     if (!doctor || !currentUser) return;
-    if(currentUser._id.__tableName==="doctors") return
-    console.log("entered")
-
+// TODO! cant make a doctor to doctor chat???
     const res = await mutate({ doctor: doctor._id, patient: currentUser._id });
-    console.log("res",res)
-
     router.push(`/doctor-chat/${res}`);
   };
   return (
@@ -63,15 +59,15 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
             gap: 10,
           }}
         >
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={{ marginTop: 7 }}
-            onPress={() =>
-              router.canGoBack() ? router.back() : router.replace("/doctors")
-            }
-          >
-            <Entypo name="chevron-left" size={32} color="white" />
-          </TouchableOpacity>
+          <BackArrow
+          style={{
+            marginTop:7
+          }}
+          white
+          onPress={() =>
+            router.canGoBack() ? router.back() : router.replace("/doctors")
+          }
+          />
           <Typography
             text={"Doctor Details"}
             style={{ color: "white" }}

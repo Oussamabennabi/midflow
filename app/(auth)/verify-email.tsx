@@ -8,9 +8,7 @@ import { getToastOptions } from "@/utils/getToastOptions";
 import { useSignUp } from "@clerk/clerk-expo";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import Stack from "expo-router/stack";
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Platform } from "react-native";
 import Toast from "react-native-toast-message";
 
 const VerifyEmail = () => {
@@ -25,7 +23,6 @@ const VerifyEmail = () => {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code: value,
       });
-      console.log(completeSignUp);
       await setActive({ session: completeSignUp.createdSessionId });
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));

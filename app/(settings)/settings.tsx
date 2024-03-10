@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Alert, ScrollView, View } from "react-native";
+import { Alert,  View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
@@ -10,7 +10,7 @@ import { CustomSwitch } from "@/components/ui/CustomSwitch";
 import { useAuth } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { useTheme } from "@/providers/theme-color-provider";
-import { StatusBar } from "expo-status-bar";
+import { ScrollView } from "@/components/Themed";
 
 const Settings = () => {
   const { isLoaded, signOut } = useAuth();
@@ -47,12 +47,7 @@ const Settings = () => {
   );
 
   return (
-    <SafeAreaView>
       <ScrollView
-        style={{
-          backgroundColor: colors.primary_bg,
-          height: "100%",
-        }}
       >
         <View style={{ marginVertical: 16, paddingHorizontal: 10 }}>
           {/*  */}
@@ -215,7 +210,6 @@ const Settings = () => {
           {/*  */}
         </View>
       </ScrollView>
-    </SafeAreaView>
   );
 };
 

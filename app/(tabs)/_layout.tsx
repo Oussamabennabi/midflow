@@ -1,8 +1,6 @@
 import React from "react";
 
 import { Tabs } from "expo-router";
-
-import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { FONT } from "@/constants/Fonts";
@@ -10,7 +8,6 @@ import CustomeTabBar from "@/components/(tabs)/CustomTabBar";
 import { useTheme } from "@/providers/theme-color-provider";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const {colors} = useTheme()
 
   return (

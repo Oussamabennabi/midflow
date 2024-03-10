@@ -110,7 +110,6 @@ export async function userWithRoleQuery(
   if (!user) throw Error("There is no user")
   if (user.role === "Doctor") {
     const doc = await ctx.db.query("doctors").withIndex("by_user_id", q => q.eq("user_id", user._id)).unique()
-  console.log(user,doc)
 
     if (doc)
       return {
