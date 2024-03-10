@@ -17,7 +17,7 @@ const Chat = () => {
   }
   return (
     <View style={{flex:1}}>
-      <ChatHeader chat={chat} />
+      <ChatHeader chat={chat as any} />
       <ChatMessagesList chat_id={chat._id} />
     </View>
   );

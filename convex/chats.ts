@@ -15,8 +15,8 @@ export const get_chats = query({
 
             const promise = chats.map(async c => {
                 const user = await ctx.db.get(c.patient)
-            const lastMessage = await ctx.db.query("messages").withIndex("by_chat_id",q=>q.eq("chat_id",c._id)).order("desc").first()
-                
+                const lastMessage = await ctx.db.query("messages").withIndex("by_chat_id", q => q.eq("chat_id", c._id)).order("desc").first()
+
                 return {
                     ...user,
                     ...c,
@@ -27,13 +27,13 @@ export const get_chats = query({
             const result = await Promise.all(promise)
             return result
         }
-        
+
         const chats = await ctx.db.query("chats").withIndex("by_patient", q => q.eq("patient", id as Id<"users">)).collect()
         const promise = chats.map(async c => {
             const doc = await ctx.db.get(c.doctor)
-            if(!doc)return
+            if (!doc) return
             const user = await ctx.db.get(doc.user_id)
-            const lastMessage = await ctx.db.query("messages").withIndex("by_chat_id",q=>q.eq("chat_id",c._id)).order("desc").first()
+            const lastMessage = await ctx.db.query("messages").withIndex("by_chat_id", q => q.eq("chat_id", c._id)).order("desc").first()
             return {
                 ...user,
                 ...c,
@@ -78,10 +78,23 @@ export const get_chat_by_id = query({
     },
     handler: async (ctx, { id }) => {
         const chat = await ctx.db.get(id)
+
         if (!chat) {
             throw new ConvexError("Chat not found")
         }
-        return chat
+        const doc = await ctx.db.get(chat.doctor)
+        if (!doc) {
+            throw new ConvexError("Chat Doctor not found")
+        }
+        const user = await ctx.db.get(doc.user_id)
+        if (!user) {
+            throw new ConvexError("Chat Doctor user not found")
+        }
+
+        return {
+            ...user,
+            ...chat,
+        }
     },
 });
 

@@ -20,12 +20,12 @@ export default function TabLayout() {
           },
           headerTitleStyle: {
             color: colors.primary_text,
+            fontFamily:FONT.SemiBold
           },
           tabBarActiveTintColor: colors.active_icon_color,
           tabBarInactiveTintColor:colors.icon_color_sc,
           
           headerShown: useClientOnlyValue(false, true),
-          // headerTransparent: true,
           tabBarStyle: {
             height: 60,
             paddingBottom: 10,

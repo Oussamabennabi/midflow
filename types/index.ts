@@ -27,4 +27,5 @@ export type DayType = {
 
 
 export type DoctorWithUserType = DataModel["doctors"]["document"] & Partial<DataModel["users"]["document"]["clerk_user"]>
-export type ChatWithUserType = DataModel["chats"]["document"] & Partial<DataModel["users"]["document"]>&{lastMessage:DataModel["messages"]["document"]}
+export type ChatUserLastMessageType = DataModel["chats"]["document"] & Partial<DataModel["users"]["document"]>&{lastMessage:DataModel["messages"]["document"]}
+export type ChatUserType = DataModel["users"]["document"]&DataModel["chats"]["document"] 

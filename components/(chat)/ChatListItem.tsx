@@ -3,13 +3,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@/providers/theme-color-provider";
 import Typography from "../ui/Typography";
 import { router } from "expo-router";
-import { ChatWithUserType } from "@/types";
+import { ChatUserLastMessageType } from "@/types";
 import { Image, View } from "react-native";
 import moment from "moment";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { getDoctorPrefix } from "@/utils/getDoctorPrefix";
 type ChatListItemProps = {
-  chat: ChatWithUserType;
+  chat: ChatUserLastMessageType;
 };
 const ChatListItem = ({ chat }: ChatListItemProps) => {
   const { colors } = useTheme();
@@ -41,11 +42,13 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
         <Typography
           text={
             chat.role === "Doctor"
-              ? "Dcr." +
-                chat.clerk_user?.first_name +
-                " " +
-                chat.clerk_user?.last_name
-              : chat.clerk_user?.first_name + " " + chat.clerk_user?.last_name
+              ? getDoctorPrefix({
+                  clerk_user: chat.clerk_user,
+                  gender: "male",
+                })
+              : getDoctorPrefix({
+                  clerk_user: chat.clerk_user,
+                })
           }
         />
 
@@ -56,7 +59,7 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
             flexDirection: "row",
           }}
         >
-          <View style={{flexDirection:"row",gap:6}}>
+          <View style={{ flexDirection: "row", gap: 6 }}>
             {chat.lastMessage.sender_id === currentUser?._id && (
               <Typography
                 variant="secondary"
@@ -68,13 +71,13 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
               />
             )}
             <Typography
-                variant="secondary"
-                style={{
-                  textAlign: "justify",
-                }}
-                size="sm"
-                text={chat.lastMessage.body}
-              />
+              variant="secondary"
+              style={{
+                textAlign: "justify",
+              }}
+              size="sm"
+              text={chat.lastMessage.body}
+            />
           </View>
           <Typography
             variant="secondary"
