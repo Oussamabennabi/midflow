@@ -1,14 +1,19 @@
 import React from "react";
-import { DataModel } from "@/convex/_generated/dataModel";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "@/providers/theme-color-provider";
 import Typography from "../ui/Typography";
 import { router } from "expo-router";
+import { ChatWithUserType } from "@/types";
+import { Image, View } from "react-native";
+import moment from "moment";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 type ChatListItemProps = {
-  chat: DataModel["chats"]["document"];
+  chat: ChatWithUserType;
 };
 const ChatListItem = ({ chat }: ChatListItemProps) => {
   const { colors } = useTheme();
+  const currentUser = useQuery(api.users.currentUser);
   return (
     <TouchableOpacity
       onPress={() => router.push(`/doctor-chat/${chat._id}`)}
@@ -17,9 +22,70 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
         borderRadius: 10,
         padding: 5,
         backgroundColor: colors.secondary_bg,
+        flexDirection: "row",
+        gap: 10,
       }}
     >
-      <Typography text={chat._id} />
+      <Image
+        source={{
+          width: 43,
+          height: 43,
+
+          uri: "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=360&t=st=1709565806~exp=1709566406~hmac=1a654b84bdd1ce535b475a5590da7fbfe24e04c66014d93ced2bbe2bf88ee089",
+        }}
+        style={{
+          borderRadius: 8,
+        }}
+      />
+      <View style={{ flex: 1 }}>
+        <Typography
+          text={
+            chat.role === "Doctor"
+              ? "Dcr." +
+                chat.clerk_user?.first_name +
+                " " +
+                chat.clerk_user?.last_name
+              : chat.clerk_user?.first_name + " " + chat.clerk_user?.last_name
+          }
+        />
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-between",
+            flexDirection: "row",
+          }}
+        >
+          <View style={{flexDirection:"row",gap:6}}>
+            {chat.lastMessage.sender_id === currentUser?._id && (
+              <Typography
+                variant="secondary"
+                style={{
+                  textAlign: "justify",
+                }}
+                size="sm"
+                text={"You: "}
+              />
+            )}
+            <Typography
+                variant="secondary"
+                style={{
+                  textAlign: "justify",
+                }}
+                size="sm"
+                text={chat.lastMessage.body}
+              />
+          </View>
+          <Typography
+            variant="secondary"
+            style={{
+              textAlign: "justify",
+            }}
+            size="sm"
+            text={moment(chat.lastMessage._creationTime).fromNow()}
+          />
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };

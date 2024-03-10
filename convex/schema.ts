@@ -82,13 +82,13 @@ export default defineSchema({
             v.literal("complete"),
             v.literal("scheduled"),
         ),
-        patient_id: v.id("patients"),
+        patient_id: v.id("users"),
         date: v.string(),
         time: v.string()
     }),
     doctor_reviews: defineTable({
         patient: v.object({
-            id: v.id("patients"),
+            id: v.id("users"),
             image: v.optional(v.string()),
             full_name: v.string(),
         }),
@@ -100,12 +100,14 @@ export default defineSchema({
     chats: defineTable({
         patient: v.id("users"),
         doctor: v.id("doctors"),
-    }).index("by_patient_doctor", ["doctor", "patient"]),
+    }).index("by_patient_doctor", ["doctor", "patient"]).
+        index("by_patient", ["patient"]).
+        index("by_doctor", ["doctor"]),
     messages: defineTable({
         chat_id: v.id("chats"),
         sender_id: v.union(v.id("users"), v.id("doctors")),
         body: v.string(),
-    }).index("by_chat_id",["chat_id"]),
+    }).index("by_chat_id", ["chat_id"]),
 
     likes: defineTable({
         liker: v.union(v.id("doctors"), v.id("users")),
@@ -113,8 +115,3 @@ export default defineSchema({
     }).index("byMessageId", ["messageId"]),
 
 })
-
-// services types
-
-// jn7dsrc3tvkb2dq7g11wz0w3jx6mpx1h patient
-// j57f2rgjfd1wxjmvphw29bx3s96mpedr

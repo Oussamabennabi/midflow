@@ -25,8 +25,14 @@ const DoctorHeader: React.FC<DoctorHeaderType> = ({
   const mutate = useMutation(api.chats.get_or_create);
   const currentUser = useQuery(api.users.currentUser);
   const handleSendMessage = async () => {
+    console.log("Clicked",currentUser)
     if (!doctor || !currentUser) return;
+    if(currentUser._id.__tableName==="doctors") return
+    console.log("entered")
+
     const res = await mutate({ doctor: doctor._id, patient: currentUser._id });
+    console.log("res",res)
+
     router.push(`/doctor-chat/${res}`);
   };
   return (

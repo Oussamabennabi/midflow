@@ -13,7 +13,7 @@ type DoctorSmallCardProps = {
   doctor: DoctorWithUserType;
 };
 const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
-  const {colors} = useTheme()
+  const { colors } = useTheme();
   const docRating = useQuery(api.doctor_reviews.get_by_doctor_id, {
     id: doctor._id,
   });
@@ -26,7 +26,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
     [docRating]
   );
   return (
-    <Link  asChild href={`/doctor/${doctor._id}`}>
+    <Link asChild href={`/doctor/${doctor._id}`}>
       <TouchableOpacity
         activeOpacity={0.8}
         style={{
@@ -35,7 +35,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
           padding: 10,
           flexDirection: "row",
           position: "relative",
-          gap:10
+          gap: 10,
         }}
       >
         {/*  */}
@@ -46,11 +46,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
             right: 8,
           }}
         >
-          <AntDesign
-            name="hearto"
-            size={24}
-            color={colors.icon_color_pr}
-          />
+          <AntDesign name="hearto" size={24} color={colors.icon_color_pr} />
         </TouchableOpacity>
         {/*  */}
         <Image
@@ -65,7 +61,10 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
           }}
         />
         <View style={{ alignItems: "flex-start" }}>
-          <Typography font="Bold" text={doctor.first_name+" "+doctor.last_name} />
+          <Typography
+            font="Bold"
+            text={doctor.first_name + " " + doctor.last_name}
+          />
           <Typography variant="secondary" text={doctor.specialty} />
           <View
             style={{

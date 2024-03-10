@@ -6,9 +6,10 @@ import { useQuery } from "convex/react";
 export default function TabFourScreen() {
   const currentUser = useQuery(api.users.currentUser);
   if (!currentUser) return <ScrollView />;
+  
   return (
     <View style={{ flex: 1 }}>
-      <ChatList uid={currentUser._id} />
+      <ChatList isDoctor={currentUser.role==="Doctor"} uid={currentUser._id} />
     </View>
   );
 }

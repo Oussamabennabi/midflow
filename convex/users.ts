@@ -39,7 +39,7 @@ export const userLoginStatus = query(
 );
 
 /** The current user, containing user preferences and Clerk user info. */
-export const currentUser = query((ctx: QueryCtx) => getCurrentUser(ctx));
+export const currentUser = query((ctx: QueryCtx) => getCurrentUserWithRole(ctx));
 
 /** Get user by Clerk use id (AKA "subject" on auth)  */
 export const getUser = internalQuery({
@@ -76,7 +76,7 @@ export const deleteUser = internalMutation({
       if (userRecord.role === "Doctor") {
         const found = await ctx.db.query("doctors").withIndex("by_user_id", q => q.eq("user_id", userRecord._id)).unique()
         if (found) await ctx.db.delete(found._id)
-        console.log("DELETE doctor with id",found?._id)
+        console.log("DELETE doctor with id", found?._id)
       }
       await ctx.db.delete(userRecord._id);
     }
@@ -98,6 +98,34 @@ export async function userQuery(
     .unique();
 }
 
+
+export async function userWithRoleQuery(
+  ctx: QueryCtx,
+  clerkUserId: string
+) {
+  const user = await ctx.db
+    .query("users")
+    .withIndex("by_clerk_id", (q) => q.eq("clerk_user.id", clerkUserId))
+    .unique()
+  if (!user) throw Error("There is no user")
+  if (user.role === "Doctor") {
+    const doc = await ctx.db.query("doctors").withIndex("by_user_id", q => q.eq("user_id", user._id)).unique()
+  console.log(user,doc)
+
+    if (doc)
+      return {
+        ...user,
+        ...doc
+      }
+    else
+      return {
+        ...user
+      }
+  }
+
+}
+
+
 export async function userById(
   ctx: QueryCtx,
   id: Id<"users">
@@ -110,8 +138,16 @@ async function getCurrentUser(ctx: QueryCtx): Promise<Doc<"users"> | null> {
   if (identity === null) {
     return null;
   }
-  
+
   return await userQuery(ctx, identity.subject);
+}
+async function getCurrentUserWithRole(ctx: QueryCtx) {
+  const identity = await ctx.auth.getUserIdentity();
+  if (identity === null) {
+    return null;
+  }
+
+  return await userWithRoleQuery(ctx, identity.subject);
 }
 
 export async function mustGetCurrentUser(ctx: QueryCtx): Promise<Doc<"users">> {
