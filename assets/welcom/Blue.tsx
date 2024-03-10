@@ -1,20 +1,12 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 
-import { memo } from "react"
+import { memo } from "react";
+import { Dimensions } from "react-native";
+const { width } = Dimensions.get("screen");
 const SvgComponent = (props: SvgProps) => (
-  <Svg
-    width={493}
-    height={522}
-
-    fill="none"
-    {...props}
-  >
+  <Svg width={width + 10} height={width + 100} fill="none" {...props}>
     <G clipPath="url(#a)" filter="url(#b)">
-      <Path
-        fill="#EDF5FF"
-        d="M-213.585 264.394c3.932-23.995 7.047-46.177-3.086-68.54-10.647-23.482-14.881-47.567-11.826-71.019C-218.576 48.317-138.572 1.746-62.743.054-20.97-.883 21.193 10.389 56.16 32.209c29.219 11.151 72.412 18.525 95.914 8.13 22.353-9.913 47.246-23.06 72.2-16.078 25.317 7.102 43.737 29.405 50.059 54.336 3.599 14.144 3.509 28.982 6.291 43.337 5.747 29.768 24.259 56.845 49.969 73.043 7.35 4.624 15.214 8.402 22.625 12.935 7.017 4.291 23.986 19.764 38.807 34.21 5.051 4.14 9.891 8.613 14.428 13.448 24.802 26.413 38.141 62.255 36.327 97.492-5.324 102.146-102.72 164.007-199.178 144.364C122.188 472.7 72.721 551.602 2.887 551.602s-110.305-43.478-167.805-53.965c-31.668-5.772-61.492-22-78.189-48.927-39.23-63.403 19.359-122.333 29.522-184.316Z"
-      />
       <Path
         fill="#0F67FE"
         d="M219.888 506.876c-2.178-7.011-4.326-14.022-6.534-21.033-29.188-92.717-65.666-183.228-109.011-270.475-6.715-13.509-13.672-27.078-23.562-38.562-9.891-11.484-23.079-20.852-38.203-23.481-11.524-1.995-23.35-.031-34.784 2.508-9.195 2.055-18.45 4.533-26.587 9.217-9.407 5.41-16.908 13.569-22.897 22.454-25.529 37.867-24.319 86.643-22.171 131.974 3.266 68.963 6.503 137.957 9.77 206.921l273.979-19.523Z"
@@ -110,6 +102,6 @@ const SvgComponent = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-const WelcomeSvg1 = memo(SvgComponent)
-export default WelcomeSvg1
+);
+const WelcomeSvg1 = memo(SvgComponent);
+export default WelcomeSvg1;

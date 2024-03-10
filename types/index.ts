@@ -25,6 +25,15 @@ export type DayType = {
 };
 
 
+export type OnboardingData= {
+  id: number;
+  image: any;
+  text: string;
+  subTitle: string;
+  textColor: string;
+  backgroundColor: string;
+}
+
 
 export type DoctorWithUserType = DataModel["doctors"]["document"] & Partial<DataModel["users"]["document"]["clerk_user"]>
 export type ChatUserLastMessageType = DataModel["chats"]["document"] & Partial<DataModel["users"]["document"]>&{lastMessage:DataModel["messages"]["document"]}

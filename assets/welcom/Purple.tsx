@@ -1,19 +1,12 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
-import { memo } from "react"
+import * as React from "react";
+import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
+import { memo } from "react";
+import { Dimensions } from "react-native";
+const { width } = Dimensions.get("screen");
+
 const SvgComponent = (props: SvgProps) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={385}
-    height={480}
-    fill="none"
-    {...props}
-  >
+  <Svg height={480} width={width + 5} fill="none" {...props}>
     <G clipPath="url(#a)">
-      <Path
-        fill="#F6F2FF"
-        d="M-167.744 277.846c3.49-25.246 6.186-48.607-4.6-71.875-11.295-24.442-16.085-49.626-13.515-74.285C-175.389 31.691-72.602-7.584 13.181 1.193c30.742 3.151 58.215 13.596 86.514 25.77 28.52 12.3 68.524 22.99 98.314 8.653 22.588-10.877 68.335-33.064 93.905-26.575 22.652 5.748 34.327 2.133 58.056 36.494 24.27 35.072-23.158 98.171 9.74 129.659 12.373 11.835 26.871 20.951 40.861 30.685 26.173 18.169 51.141 38.934 69.731 65.262 42.447 60.04 34.993 142.39-15.513 194.828-39.814 41.345-99.171 58.032-154.309 47.495-27.188-5.192-75.441-15.358-102.788-18.757-56.502-7.015-94.286-6.736-148.186 4.82-54.566 11.712-104.533 31.983-163.001 22.094-32.232-5.469-62.784-21.877-80.264-49.812-41.083-65.756 17.069-128.732 26.015-193.963Z"
-      />
       <Path
         fill="#fff"
         d="M16.544 245.648H-93.985l-65.511-177.74h110.529l65.511 177.74Z"
@@ -198,6 +191,6 @@ const SvgComponent = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-const WelcomeSvg3 = memo(SvgComponent)
-export default WelcomeSvg3
+);
+const WelcomeSvg3 = memo(SvgComponent);
+export default WelcomeSvg3;
