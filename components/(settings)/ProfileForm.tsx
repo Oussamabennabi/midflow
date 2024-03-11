@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import { View } from "../Themed";
 import { SPACING } from "@/constants/Spacing";
 
@@ -9,7 +9,7 @@ import ErrorChip from "../ui/ErrorChip";
 import Button from "../ui/Button";
 import Toast from "react-native-toast-message";
 
-import { ActivityIndicator, Image, useWindowDimensions } from "react-native";
+import { ActivityIndicator, Image,  TouchableOpacity, useWindowDimensions } from "react-native";
 import {
   AccoutTypeInput,
   EmailInput,
@@ -21,11 +21,15 @@ import { useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import IconButton from "../ui/IconButton";
 import { COLOR_SHADES } from "@/constants/Colors";
-
+import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
 const ProfileForm = () => {
   const { user, isLoaded } = useUser();
   const d = useWindowDimensions();
 
+
+  const handleExpandSheet = () => {
+    router.push("/doctor-location-picker")
+  }
   if (!user) {
     router.replace("/settings");
 
@@ -127,10 +131,14 @@ const ProfileForm = () => {
 
             {/* location */}
             <>
+                <TouchableOpacity onPress={handleExpandSheet} activeOpacity={1}>
               <LocationInput
+
                 handleChange={handleChange}
                 value={values.location}
               />
+
+                </TouchableOpacity>
               {touched.location && errors.location && (
                 <>
                   <Space />
@@ -167,6 +175,7 @@ const ProfileForm = () => {
         )}
       </Formik>
       <Toast position="bottom" />
+      
     </>
   );
 };

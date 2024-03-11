@@ -1,7 +1,7 @@
 import { COLOR_SHADES } from "@/constants/Colors";
 import { DayType } from "@/types";
 import { View } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity,  } from "react-native-gesture-handler";
 import Typography from "../ui/Typography";
 
 type DaySliderProps = {

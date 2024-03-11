@@ -12,9 +12,13 @@ const Layout = () => {
   return (
     <Stack
       screenOptions={{
+        // header(props) {
+        //   return <NativeSt {...props}></NativeSt>
+        // },
         headerStyle: {
           backgroundColor: colors.secondary_bg,
         },
+
         headerLeft(props) {
           return (
             <View style={{ flexDirection: "row" }}>
@@ -36,6 +40,10 @@ const Layout = () => {
     >
       <Stack.Screen name="settings" />
       <Stack.Screen options={{ headerShown: false }} name="profile-setup" />
+      <Stack.Screen
+        options={{ title: "Choose your location" }}
+        name="doctor-location-picker"
+      />
     </Stack>
   );
 };
