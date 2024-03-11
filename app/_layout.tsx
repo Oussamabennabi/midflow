@@ -11,7 +11,7 @@ import { ThemeColorProvider, useTheme } from "@/providers/theme-color-provider";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: "/signin",
+  initialRouteName: "/welcome",
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -37,7 +37,7 @@ function RootLayoutNav() {
 
   useEffect(() => {
     if (!isLoaded) return;
-    if (isLoaded && !isSignedIn) router.replace("/signin");
+    if (isLoaded && !isSignedIn) router.replace("/welcome");
     if (isLoaded && isSignedIn) router.replace("/home");
   }, [isLoaded, isSignedIn]);
 
@@ -48,6 +48,7 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+        <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(settings)" options={{ headerShown: false }} />
         <Stack.Screen name="map" options={{ headerShown: false }} />

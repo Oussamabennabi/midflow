@@ -1,4 +1,4 @@
-import {StyleSheet, View, FlatList, ViewToken} from 'react-native';
+import {StyleSheet,  FlatList, ViewToken} from 'react-native';
 import React from 'react';
 import Animated, {
   useSharedValue,
@@ -8,6 +8,7 @@ import Animated, {
 import { CustomButton, Pagination, RenderItem } from '@/components/onboarding';
 import { OnboardingData } from '@/types';
 import onboardingData from '@/constants/onboard';
+import { View } from '@/components/Themed';
 
 const OnboardingScreen = () => {
   const flatListRef = useAnimatedRef<FlatList<OnboardingData>>();
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 30,
+    backgroundColor:"transparent",
     paddingVertical: 30,
     position: 'absolute',
     bottom: 20,

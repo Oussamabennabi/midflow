@@ -20,6 +20,7 @@ type ButtonProps = {
   iconRight?: ReactNode; // Icon component for the right side
   ref?: any;
   disabled?: boolean;
+  textColor?:string
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -33,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   iconRight,
   ref,
   disabled,
+  textColor
 }) => {
   const { colors } = useTheme();
   const getVariantStyle = (): TextStyle => {
@@ -136,7 +138,7 @@ const Button: React.FC<ButtonProps> = ({
         <Typography
           style={{
             textAlign: "center",
-            color: color || getVariantStyle()?.color,
+            color: textColor||color || getVariantStyle()?.color,
             fontFamily: FONT.Bold,
           }}
           text={label}

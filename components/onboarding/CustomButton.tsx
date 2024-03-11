@@ -73,7 +73,8 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
   const animatedColor = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       x.value,
-      [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],onboardingColors
+      [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],
+      onboardingColors
     );
 
     return {
@@ -97,7 +98,7 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
         style={[styles.container, buttonAnimationStyle, animatedColor]}
       >
         <Animated.View style={[styles.textButton, textAnimationStyle]}>
-            <Typography text="Get Started" />
+          <Typography text="Get Started" />
         </Animated.View>
         <Animated.View style={[styles.arrow, arrowAnimationStyle]}>
           <AntDesign name="swapright" size={24} color="white" />
@@ -120,7 +121,8 @@ const styles = StyleSheet.create({
   },
   arrow: {
     position: "absolute",
-    justifyContent:"center",alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
-  textButton: { color: "white", fontSize: 16, position: "absolute", },
+  textButton: { color: "white", fontSize: 16, position: "absolute" },
 });
