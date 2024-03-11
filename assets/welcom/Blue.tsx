@@ -5,7 +5,13 @@ import { memo } from "react";
 import { Dimensions } from "react-native";
 const { width } = Dimensions.get("screen");
 const SvgComponent = (props: SvgProps) => (
-  <Svg width={width + 10} height={width + 100} fill="none" {...props}>
+  <Svg
+    width={width + 10}
+    height={width + 110}
+    fill="none"
+    style={{ marginLeft: -4 }}
+    {...props}
+  >
     <G clipPath="url(#a)" filter="url(#b)">
       <Path
         fill="#0F67FE"

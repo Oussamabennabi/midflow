@@ -1,4 +1,4 @@
-import React, { ReactNode, Ref } from "react";
+import React, { ReactNode } from "react";
 import { TouchableOpacity, View, TextStyle, ViewStyle } from "react-native";
 
 import Typography from "./Typography";
@@ -7,9 +7,11 @@ import { COLOR_SHADES } from "@/constants/Colors";
 import { FONT } from "@/constants/Fonts";
 import { useTheme } from "@/providers/theme-color-provider";
 
+import Ripple from "react-native-material-ripple";
+
 type ButtonProps = {
   label: string;
-  variant?: "primary" | "secondary" | "inline" | "disabled"|""; // Add your desired variants
+  variant?: "primary" | "secondary" | "inline" | "disabled" | ""; // Add your desired variants
   size?: Size;
   color?: string;
   style?: ViewStyle; // Allow custom styling
@@ -32,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   ref,
   disabled,
 }) => {
-  const {colors} = useTheme()
+  const { colors } = useTheme();
   const getVariantStyle = (): TextStyle => {
     switch (variant) {
       case "primary":
@@ -98,11 +100,16 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
+   
+    <Ripple
+      onPress={(e)=>{
+        e.persist()
+        onPress&&onPress()
+      }}
       disabled={disabled}
-      ref={ref}
-      activeOpacity={0.86}
+      
+    >
+      <View
       style={[
         {
           borderRadius: 8,
@@ -114,8 +121,8 @@ const Button: React.FC<ButtonProps> = ({
         getVariantStyle(),
         getSizeStyle(),
         style,
-      ]}
-    >
+      ]}>
+
       <View
         style={{
           marginLeft: "auto",
@@ -148,7 +155,8 @@ const Button: React.FC<ButtonProps> = ({
           {iconRight}
         </View>
       )}
-    </TouchableOpacity>
+      </View>
+    </Ripple>
   );
 };
 

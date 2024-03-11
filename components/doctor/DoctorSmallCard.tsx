@@ -5,9 +5,10 @@ import { useTheme } from "@/providers/theme-color-provider";
 import { DoctorWithUserType } from "@/types";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useMemo } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
+import Ripple from "react-native-material-ripple";
 
 type DoctorSmallCardProps = {
   doctor: DoctorWithUserType;
@@ -26,9 +27,12 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
     [docRating]
   );
   return (
-    <Link asChild href={`/doctor/${doctor._id}`}>
-      <TouchableOpacity
-        activeOpacity={0.8}
+    
+      <Ripple
+      onPress={(e)=>{e.persist() 
+        router.push(`/doctor/${doctor._id}`)
+      }}
+        // activeOpacity={0.8}
         style={{
           borderRadius: 10,
           backgroundColor: colors.secondary_bg,
@@ -106,8 +110,7 @@ const DoctorSmallCard = ({ doctor }: DoctorSmallCardProps) => {
             <Typography variant="secondary" text={doctor.location} />
           </View>
         </View>
-      </TouchableOpacity>
-    </Link>
+      </Ripple>
   );
 };
 

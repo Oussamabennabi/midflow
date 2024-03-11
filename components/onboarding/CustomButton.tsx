@@ -17,6 +17,7 @@ import { router } from "expo-router";
 import { OnboardingData } from "@/types";
 import { AntDesign } from "@expo/vector-icons";
 import { onboardingColors } from "@/constants/onboard";
+import Typography from "../ui/Typography";
 
 type Props = {
   dataLength: number;
@@ -95,9 +96,9 @@ const CustomButton = ({ flatListRef, flatListIndex, dataLength, x }: Props) => {
       <Animated.View
         style={[styles.container, buttonAnimationStyle, animatedColor]}
       >
-        <Animated.Text style={[styles.textButton, textAnimationStyle]}>
-          Get Started
-        </Animated.Text>
+        <Animated.View style={[styles.textButton, textAnimationStyle]}>
+            <Typography text="Get Started" />
+        </Animated.View>
         <Animated.View style={[styles.arrow, arrowAnimationStyle]}>
           <AntDesign name="swapright" size={24} color="white" />
         </Animated.View>

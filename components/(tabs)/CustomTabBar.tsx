@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "../ui/Typography";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme-color-provider";
+import Ripple from "react-native-material-ripple";
 
 const { width } = Dimensions.get("window");
 
@@ -14,9 +14,11 @@ const CustomeTabBar = ({
   descriptors,
   navigation,
 }: BottomTabBarProps) => {
-  const {colors} = useTheme()
+  const { colors } = useTheme();
   return (
-    <View style={[styles.mainContainer,{backgroundColor:colors.secondary_bg}]}>
+    <View
+      style={[styles.mainContainer, { backgroundColor: colors.secondary_bg }]}
+    >
       {state.routes.map((route, index: number) => {
         if (route.name == "PlaceholderScreen") {
           return <View key={index} style={styles.mainItemContainer}></View>;
@@ -50,80 +52,73 @@ const CustomeTabBar = ({
         };
 
         return (
-          <View key={index} style={styles.mainItemContainer}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={onPress}
-              style={{
+          <Ripple
+            key={index}
+            rippleContainerBorderRadius={20}
+            style={[
+              styles.mainItemContainer,
+              {
                 borderRadius: 20,
+              },
+            ]}
+            onPress={onPress}
+          >
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flex: 1,
-                }}
-              >
-                {Icon && (
-                  <Icon
-                    color={isFocused?activeColor!:inactiveColor!}
-
-                    focused={isFocused}
-                    size={24}
-                    {...{ iconStyles }}
-                  />
-                )}
-
-                <Typography
-                  style={{
-                    color: isFocused ? activeColor! : inactiveColor!,
-                  }}
-                  text={label}
-                  size="sm"
+              {Icon && (
+                <Icon
+                  color={isFocused ? activeColor! : inactiveColor!}
+                  focused={isFocused}
+                  size={24}
+                  {...{ iconStyles }}
                 />
-              </View>
-            </TouchableOpacity>
-          </View>
+              )}
+
+              <Typography
+                style={{
+                  color: isFocused ? activeColor! : inactiveColor!,
+                }}
+                text={label}
+                size="sm"
+              />
+            </View>
+          </Ripple>
         );
       })}
 
       {/* settings icon */}
 
-      <View
-        style={styles.mainItemContainer}
-      >
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => router.push("/settings")}
-          style={{
+      <Ripple
+        onPress={() => router.push("/settings")}
+        rippleContainerBorderRadius={20}
+        style={[
+          styles.mainItemContainer,
+          {
             borderRadius: 20,
+          },
+        ]}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              flex: 1,
-            }}
-          >
-            <AntDesign
-              name="setting"
-              size={24}
-              color={colors.icon_color_sc}
-            />
+          <AntDesign name="setting" size={24} color={colors.icon_color_sc} />
 
-            <Typography 
-            text={"Settings"} 
+          <Typography
+            text={"Settings"}
             style={{
               color: colors.icon_color_sc,
             }}
-            size="sm" />
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      
+            size="sm"
+          />
+        </View>
+      </Ripple>
     </View>
   );
 };
@@ -134,17 +129,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     borderRadius: 25,
-    left:7,
-    width:width-14,
-    justifyContent:"space-between",
-    paddingHorizontal:10,
-    paddingVertical:10,
-
+    left: 7,
+    width: width - 14,
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   mainItemContainer: {
     borderRadius: 1,
-    paddingVertical: 6,
+    paddingVertical: 2,
     paddingHorizontal: 1,
+    flexGrow: 1,
   },
 });
 

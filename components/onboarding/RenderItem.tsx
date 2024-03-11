@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet,  View, useWindowDimensions } from "react-native";
 import React from "react";
 import Animated, {
   Extrapolation,
@@ -7,6 +7,8 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { OnboardingData } from "@/types";
+import Typography from "../ui/Typography";
+import Space from "../ui/Space";
 type Props = {
   index: number;
   x: SharedValue<number>;
@@ -16,7 +18,7 @@ type Props = {
 const RenderItem = ({
   index,
   x,
-  item: { backgroundColor, id, image, text, textColor },
+  item: { backgroundColor, id, image, text, textColor, subTitle },
 }: Props) => {
   const { width: SCREEN_WIDTH } = useWindowDimensions();
 
@@ -69,8 +71,12 @@ const RenderItem = ({
           ]}
         />
       </View>
-      <Animated.View style={lottieAnimationStyle}>{image}</Animated.View>
-      <Text style={[styles.itemText, { color: textColor }]}>{text}</Text>
+      <Animated.View style={[lottieAnimationStyle]}>{image}</Animated.View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Typography text={text} size="xl" style={{ color: textColor }} />
+        <Space />
+        <Typography text={text} size="md" variant="secondary" />
+      </View>
     </View>
   );
 };
@@ -81,16 +87,10 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     justifyContent: "space-around",
-    alignItems: "center",
+    alignItems: "flex-start",
     marginBottom: 120,
   },
-  itemText: {
-    textAlign: "center",
-    fontSize: 44,
-    fontWeight: "bold",
-    marginBottom: 10,
-    marginHorizontal: 20,
-  },
+
   circleContainer: {
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",

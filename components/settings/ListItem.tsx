@@ -1,9 +1,10 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import React, { ReactNode } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLOR_SHADES } from "@/constants/Colors";
 import Typography from "../ui/Typography";
 import { useTheme } from "@/providers/theme-color-provider";
+import Ropple from "react-native-material-ripple";
 type SettingsItem = {
   label: string;
   icon: ReactNode;
@@ -22,20 +23,18 @@ const ListItem = ({
   const { colors } = useTheme();
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.6}
+    <Ropple
+      rippleContainerBorderRadius={16}
       onPress={onPress}
       style={{
         flexDirection: "row",
         alignItems: "center",
         marginVertical: 4,
-        backgroundColor: dangerItem
-          ? "transparent"
-          : colors.secondary_bg,
+        backgroundColor: dangerItem ? "transparent" : colors.secondary_bg,
         borderRadius: 16,
         padding: 12,
-        borderColor:dangerItem?COLOR_SHADES.red.shade5:"transparent",
-        borderWidth:2
+        borderColor: dangerItem ? COLOR_SHADES.red.shade5 : "transparent",
+        borderWidth: 2,
       }}
     >
       <View
@@ -70,7 +69,7 @@ const ListItem = ({
           />
         )}
       </View>
-    </TouchableOpacity>
+    </Ropple>
   );
 };
 
