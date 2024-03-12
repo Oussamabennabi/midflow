@@ -5,6 +5,7 @@ import { useQuery } from "convex/react";
 
 export default function TabFourScreen() {
   const currentUser = useQuery(api.users.currentUser);
+  console.log(currentUser)
   if (!currentUser) return <ScrollView />;
   
   return (

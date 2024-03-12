@@ -41,7 +41,7 @@ const Layout = () => {
       <Stack.Screen name="settings" />
       <Stack.Screen options={{ headerShown: false }} name="profile-setup" />
       <Stack.Screen
-        options={{ title: "Choose your location" }}
+        options={{ title: "Select a place" }}
         name="doctor-location-picker"
       />
     </Stack>

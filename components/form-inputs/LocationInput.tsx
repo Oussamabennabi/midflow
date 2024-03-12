@@ -2,18 +2,11 @@ import React from "react";
 import Typography from "../ui/Typography";
 import { SPACING } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
-import { COLOR_SHADES } from "@/constants/Colors";
-import RNPickerSelect from "react-native-picker-select";
 import { useTheme } from "@/providers/theme-color-provider";
+import Ripple from "react-native-material-ripple";
 
-const LocationInput = ({
-  handleChange,
-  value,
-}: {
-  handleChange: any;
-  value: any;
-}) => {
-  const {colors,dark} = useTheme()
+const LocationInput = ({ onPress }: { onPress: any }) => {
+  const { colors, dark } = useTheme();
   return (
     <>
       <Typography
@@ -22,52 +15,27 @@ const LocationInput = ({
         style={{ paddingVertical: SPACING.md }}
       />
 
-      <RNPickerSelect
-      darkTheme={dark}
-        placeholder={{
-          label: "Select a Location",
-          value: "",
-        }}
-        onValueChange={handleChange("location")}
-        fixAndroidTouchableBug
-        Icon={() => (
-          <MaterialIcons
-            name="share-location"
-            size={24}
-            color={colors.icon_color_pr}
-          />
-        )}
-
+      <Ripple
+        onPress={onPress}
+        rippleContainerBorderRadius={10}
         style={{
-          chevronContainer:{
-          },
-          viewContainer: {
-            backgroundColor: colors.secondary_bg,
-            borderRadius: 10,
-          },
-          
-          iconContainer: {
-            position: "absolute",
-            left: 8,
-            top: 14,
-            width: 24,
-          },
-          placeholder: {
-            marginLeft: 24,
-            color:colors.secondary_text
-          },
-          inputAndroid: {
-            marginLeft: 24,
-            color:colors.primary_text
-
-          },
+          gap: 8,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          paddingHorizontal: 8,
+          paddingVertical: 14,
+          borderRadius: 10,
+          backgroundColor: colors.secondary_bg,
+          flexDirection: "row",
         }}
-        value={value}
-        items={[
-          { label: "Male", value: "male" },
-          { label: "Female", value: "femal" },
-        ]}
-      />
+      >
+        <MaterialIcons
+          name="share-location"
+          size={24}
+          color={colors.icon_color_pr}
+        />
+        <Typography variant="secondary" text="Select a Location" />
+      </Ripple>
     </>
   );
 };

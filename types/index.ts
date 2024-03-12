@@ -34,7 +34,7 @@ export type OnboardingData= {
   backgroundColor: string;
 }
 
-
+Location
 
 
 

@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useCallback, useRef } from "react";
+import React from "react";
 import { View } from "../Themed";
 import { SPACING } from "@/constants/Spacing";
 
@@ -7,9 +7,13 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import Space from "../ui/Space";
 import ErrorChip from "../ui/ErrorChip";
 import Button from "../ui/Button";
-import Toast from "react-native-toast-message";
 
-import { ActivityIndicator, Image,  TouchableOpacity, useWindowDimensions } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import {
   AccoutTypeInput,
   EmailInput,
@@ -21,26 +25,25 @@ import { useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import IconButton from "../ui/IconButton";
 import { COLOR_SHADES } from "@/constants/Colors";
-import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 const ProfileForm = () => {
   const { user, isLoaded } = useUser();
+  const currentUser = useQuery(api.users.currentUser)
   const d = useWindowDimensions();
 
+  const handleOpenMapSelector = () => {
+    router.push("/doctor-location-picker");
+  };
 
-  const handleExpandSheet = () => {
-    router.push("/doctor-location-picker")
-  }
-  if (!user) {
-    router.replace("/settings");
-
-    return;
-  }
   const handleSubmit = async (values: {
     email: string;
     firstName: string;
     lastName: string;
     location: string;
   }) => {};
+
+  if (!user) return <View></View>;
   return (
     <>
       <View
@@ -59,9 +62,10 @@ const ProfileForm = () => {
         />
         <IconButton
           style={{
-            position:"absolute",borderWidth:2,
-            bottom:-20,
-            left:30
+            position: "absolute",
+            borderWidth: 2,
+            bottom: -20,
+            left: 30,
           }}
           small
           bgColor={COLOR_SHADES.gray.primary}
@@ -131,20 +135,7 @@ const ProfileForm = () => {
 
             {/* location */}
             <>
-                <TouchableOpacity onPress={handleExpandSheet} activeOpacity={1}>
-              <LocationInput
-
-                handleChange={handleChange}
-                value={values.location}
-              />
-
-                </TouchableOpacity>
-              {touched.location && errors.location && (
-                <>
-                  <Space />
-                  <ErrorChip text={errors.location} />
-                </>
-              )}
+              <LocationInput onPress={handleOpenMapSelector} />
             </>
 
             {/* email */}
@@ -174,8 +165,6 @@ const ProfileForm = () => {
           </View>
         )}
       </Formik>
-      <Toast position="bottom" />
-      
     </>
   );
 };

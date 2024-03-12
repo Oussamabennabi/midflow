@@ -12,7 +12,7 @@ import SocialButtons from "@/components/(auth)/social-buttons";
 import AuthHeader from "@/components/(auth)/auth-header";
 
 import { router } from "expo-router";
-import SignUpForm from "@/components/(auth)/SignUpForm";
+import SignUpForm from "@/components/forms/SignUpForm";
 import { ScrollView } from "@/components/Themed";
 
 const SignUp = () => {

@@ -11,7 +11,7 @@ import i18n from "@/config/i18n";
 
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
-import SignInForm from "@/components/(auth)/SignInForm";
+import SignInForm from "@/components/forms/SignInForm";
 import { ScrollView } from "@/components/Themed";
 
 const SignIn = () => {

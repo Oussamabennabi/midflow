@@ -45,7 +45,7 @@ const Welcome = () => {
       </View>
 
       <WelcomeSvg />
-      <View style={{ position: "absolute", bottom: 30, left: 70, right: 70 }}>
+      <View style={{ position: "absolute", bottom: 30, left: 70, right: 70,backgroundColor:"transparent" }}>
         <Button
           iconRight={<AntDesign name="swapright" size={24} color="white" />}
           onPress={() => router.push("/onboarding")}

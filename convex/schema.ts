@@ -36,20 +36,30 @@ function getWorkingDays() {
     )
 }
 
-
+function locationType() {
+    return v.object({
+        latitude: v.number(),
+        longitude: v.number(),
+        description: v.string(),
+        name: v.string()
+    })
+}
+function clerkUserType() {
+    return v.object({
+        email_addresses: v.array(v.object({
+            email_address: v.string()
+        })),
+        first_name: v.string(),
+        last_name: v.string(),
+        has_image: v.boolean(),
+        image_url: v.string(),
+        id: v.string(),
+        phone_numbers: v.array(v.string())
+    })
+}
 export default defineSchema({
     users: defineTable({
-        clerk_user: v.object({
-            email_addresses: v.array(v.object({
-                email_address: v.string()
-            })),
-            first_name: v.string(),
-            last_name: v.string(),
-            has_image: v.boolean(),
-            image_url: v.string(),
-            id: v.string(),
-            phone_numbers: v.array(v.string())
-        }),
+        clerk_user: clerkUserType(),
         role: v.union(v.literal("Doctor"),
             v.literal("Patient"),
             v.literal("Admin"),
@@ -59,14 +69,12 @@ export default defineSchema({
         user_id: v.id("users"),
         image: v.optional(v.string()),
         bio: v.string(),
-
         specialty: getSpecialtyList(),
-        location: v.any(),
+        location: v.optional(locationType()),
         starting_consultaion_price: v.number(),
         working_days: v.array(getWorkingDays()),
         years_of_experiance: v.number(),
         phone_numbers: v.array(v.string()),
-        // phone number will be added thoughout clerk
     }).index("by_user_id", ["user_id"]),
     hospitals: defineTable({
         location: v.any(),
