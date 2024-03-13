@@ -49,7 +49,7 @@ export const get_by_user_id = query({
 })
 export const update_location = mutation({
     args: {
-        user_id: v.id("users"),
+        doctor_id: v.id("doctors"),
         location: v.object({
             latitude: v.number(),
             longitude: v.number(),
@@ -59,10 +59,9 @@ export const update_location = mutation({
     },
     async handler(ctx, args) {
 
-        const doctor = await ctx.db.query("doctors").
-            withIndex("by_user_id", q => q.eq("user_id", args.user_id)).
-            unique()
-        if (!doctor) throw new ConvexError("No doctor was found with id:" + args.user_id)
+
+        const doctor = await ctx.db.get(args.doctor_id)
+        if (!doctor) throw new ConvexError("No doctor was found with id:" + args.doctor_id)
         const { description, latitude, longitude, name } = args.location
         await ctx.db.patch(doctor._id, {
             location: {

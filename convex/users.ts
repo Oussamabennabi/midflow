@@ -107,6 +107,8 @@ export async function userWithRoleQuery(
     .query("users")
     .withIndex("by_clerk_id", (q) => q.eq("clerk_user.id", clerkUserId))
     .unique()
+    
+
   if (!user) throw Error("There is no user")
   if (user.role === "Doctor") {
     const doc = await ctx.db.query("doctors").withIndex("by_user_id", q => q.eq("user_id", user._id)).unique()
@@ -120,6 +122,9 @@ export async function userWithRoleQuery(
       return {
         ...user
       }
+  }
+  return {
+    ...user
   }
 
 }
@@ -145,7 +150,6 @@ async function getCurrentUserWithRole(ctx: QueryCtx) {
   if (identity === null) {
     return null;
   }
-
   return await userWithRoleQuery(ctx, identity.subject);
 }
 

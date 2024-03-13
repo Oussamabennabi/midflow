@@ -62,7 +62,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.6",
     "svix": "^1.21.0",
-    "zustand": "^4.5.1"
+    "zustand": "^4.5.1",
+    "expo-image-picker": "~14.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

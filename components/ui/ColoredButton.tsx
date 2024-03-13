@@ -86,8 +86,10 @@ const ColoredButton: React.FC<ColoredButtonProps> = ({
           justifyContent: "center",
           position: "relative",
           backgroundColor: s_color,
-          aspectRatio: 1 / 1,
+
           padding: 4,
+          minHeight: 30,
+          minWidth: 30,
         },
 
         style,
