@@ -1,10 +1,10 @@
-import { View, Text, ActivityIndicator, Image } from "react-native";
+import { View, ActivityIndicator, Image, Alert } from "react-native";
 import React from "react";
 import { FieldArray, Formik } from "formik";
 import { SPACING } from "@/constants/Spacing";
 import Space from "../ui/Space";
 import Button from "../ui/Button";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import { DoctorPlaceDescription, DoctorPlaceName } from "../form-inputs";
 import ErrorChip from "../ui/ErrorChip";
 import LatLong from "../form-inputs/LatLong";
@@ -12,44 +12,99 @@ import Toast from "react-native-toast-message";
 import { getToastOptions } from "@/utils/getToastOptions";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import { DataModel, Id } from "@/convex/_generated/dataModel";
 import * as ImagePicker from "expo-image-picker";
 import ColoredButton, { IconType } from "../ui/ColoredButton";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
+import Typography from "../ui/Typography";
+import IconButton from "../ui/IconButton";
 type DoctorLocationFormProps = {
   location: { latitude: number; longitude: number } | null;
 };
 const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
   const currentUser = useQuery(api.users.currentUser);
+
+  const doctor = currentUser as DataModel["doctors"]["document"];
   const mutate = useMutation(api.doctor.update_location);
+  const generateUploadUrl = useMutation(api.doctor.generateUploadUrl);
+
+  async function uploadImageAsync(uri: string, apiUrl: string) {
+    try {
+      const fetchResponse = await fetch(uri);
+      const blob = await fetchResponse.blob();
+      return fetch(apiUrl, {
+        method: "POST",
+        body: blob,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": blob.type!,
+        },
+      });
+    } catch (error) {
+      Alert.alert(
+        "There has been an error uploading the images (uploadImageAsync)"
+      );
+      console.log(error);
+    }
+  }
+
   const handleSubmit = async (values: {
     name: string;
     description: string;
     images: string[];
   }) => {
     if (!currentUser || currentUser.role !== "Doctor") return;
-    if (!location || !location.latitude || !location.longitude) {
-      Toast.show(
-        getToastOptions({
-          message1: "Please select a place in the map",
-          type: "error",
-          message2: "Tap on map and drag the blue icon",
-        })
-      );
-      return;
-    }
-    console.log(values.images);
-    // TODo assuming we only ever pass doctors id
-    await mutate({
-      doctor_id: currentUser._id as Id<"doctors">,
-      location: {
-        description: values.description,
-        name: values.name,
-        latitude: location.latitude,
-        longitude: location.longitude,
-      },
-    });
+    // if (
+    //   !location ||
+    //   !location.latitude ||
+    //   !location.longitude ||
+    //   !doctor.location?.latitude ||
+    //   !doctor.location?.longitude
+    // ) {
+    //   Toast.show(
+    //     getToastOptions({
+    //       message1: "Please select a place in the map",
+    //       type: "error",
+    //       message2: "Tap on map and drag the blue icon",
+    //     })
+    //   );
+    //   return;
+    // }
+    // upload image to convex storage
+
+    console.log(values.images)
+    
+    // const fromBackend = values.images.map
+    // https://
+
+    // try {
+    //   const imagesPromise = values.images.map(async (img) => {
+    //     const postUrl = await generateUploadUrl();
+    //     const result = await uploadImageAsync(img, postUrl);
+    //     const { storageId } = await result?.json();
+    //     return storageId as Id<"_storage">;
+    //   });
+
+    //   const images = await Promise.all(imagesPromise);
+
+    //   // TODo assuming we only ever pass doctors id
+    //   await mutate({
+    //     doctor_id: currentUser._id as Id<"doctors">,
+    //     location: {
+    //       description: values.description,
+    //       name: values.name,
+    //       latitude: doctor.location?.latitude||location?.latitude,
+    //       longitude: doctor.location?.longitude||location?.longitude,
+    //       images,
+    //     },
+    //   });
+    // } catch (error) {
+    //   Alert.alert(
+    //     "There has been an error uploading the images (imagesPromis)"
+    //   );
+    //   console.log(error);
+    // }
   };
 
   async function onImageSelect(handleChange?: any) {
@@ -61,19 +116,24 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
     // Platform.OS === 'android'
     // ? response.uri
     // : response.uri.replace('file://', ''),
-
     if (res.assets && res.assets.length > 0) {
       res.assets.map((asset) => handleChange(asset.uri));
     }
   }
 
+  if (currentUser?.role !== "Doctor")
+    return (
+      <View>
+        <Typography text="you are not a doctor" />
+      </View>
+    );
   return (
     <>
       <Formik
         initialValues={{
-          name: "",
-          description: "",
-          images: [],
+          name: doctor.location?.name || "",
+          description: doctor.location?.description || "",
+          images: doctor.location?.images || [],
         }}
         validate={(values) => {
           const errors = {} as any;
@@ -84,6 +144,9 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
 
           if (!values.description) {
             errors.description = "required";
+          }
+          if (values.images && values.images.length <= 0) {
+            errors.images = "at least one is required";
           }
           return errors;
         }}
@@ -100,7 +163,12 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
           <View style={{ padding: SPACING.lg }}>
             {/* LanLat */}
             <>
-              <LatLong location={location} />
+              <LatLong
+                location={{
+                  latitude: doctor.location?.latitude || location?.latitude,
+                  longitude: doctor.location?.longitude || location?.longitude,
+                }}
+              />
             </>
             {/* name */}
             <>
@@ -130,19 +198,25 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
             </>
             <Space space="lg" />
 
+            <Typography
+              size="md"
+              text="Images"
+              style={{ paddingVertical: SPACING.md }}
+            />
             <FieldArray
               name="images"
-              render={(helpers) =>
-                values.images && values.images.length > 0 ? (
-                  <ScrollView
-                    contentContainerStyle={{
-                      gap: 10,
-                    }}
-                    horizontal
-                  >
-                    {values.images.map((img, i) => {
+              render={(helpers) => (
+                <ScrollView
+                  contentContainerStyle={{
+                    gap: 10,
+                  }}
+                  horizontal
+                >
+                  {values.images &&
+                    values.images.length > 0 &&
+                    values.images.map((img, i) => {
                       return (
-                        <View style={{ position: "relative" }}>
+                        <View key={img} style={{ position: "relative" }}>
                           <Image
                             source={{ uri: img, width: 120, height: 120 }}
                             style={{ borderRadius: 10 }}
@@ -163,15 +237,22 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
                         </View>
                       );
                     })}
-                  </ScrollView>
-                ) : (
-                  <Button
-                    label="Select Images"
+
+                  <IconButton
+                    style={{ width: 120, height: 120 }}
+                    icon={<Entypo name="plus" size={24} color="white" />}
+                    bgColor={COLOR_SHADES.blue.primary}
                     onPress={() => onImageSelect(helpers.push)}
                   />
-                )
-              }
+                </ScrollView>
+              )}
             />
+            {touched.images && errors.images && (
+              <>
+                <Space />
+                <ErrorChip text={errors.images as string} />
+              </>
+            )}
 
             <Space space="lg" />
             <Button

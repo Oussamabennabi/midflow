@@ -50,11 +50,13 @@ export const get_by_user_id = query({
 export const update_location = mutation({
     args: {
         doctor_id: v.id("doctors"),
+
         location: v.object({
             latitude: v.number(),
             longitude: v.number(),
             description: v.string(),
-            name: v.string()
+            name: v.string(),
+            images: v.array(v.id("_storage"))
         })
     },
     async handler(ctx, args) {
@@ -63,10 +65,27 @@ export const update_location = mutation({
         const doctor = await ctx.db.get(args.doctor_id)
         if (!doctor) throw new ConvexError("No doctor was found with id:" + args.doctor_id)
         const { description, latitude, longitude, name } = args.location
+        const imagesPromis = args.location.images.map(async id => await ctx.storage.getUrl(id))
+        const result = await Promise.all(imagesPromis)
+        const images = result.filter(i => {
+            if (i) return true
+            return false
+        })
         await ctx.db.patch(doctor._id, {
+
             location: {
-                description, latitude, longitude, name
+                description,
+                latitude,
+                longitude,
+                name,
+                images:images as any
+
             }
         })
     },
 })
+
+
+export const generateUploadUrl = mutation(async (ctx) => {
+    return await ctx.storage.generateUploadUrl();
+});

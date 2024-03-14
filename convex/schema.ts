@@ -41,7 +41,9 @@ function locationType() {
         latitude: v.number(),
         longitude: v.number(),
         description: v.string(),
-        name: v.string()
+        name: v.string(),
+        images:v.optional(v.array(v.string()))
+
     })
 }
 function clerkUserType() {

@@ -5,7 +5,7 @@ import { useTheme } from "@/providers/theme-color-provider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../ui/Typography";
 type LatLongProps = {
-  location: { latitude: number; longitude: number } | null;
+  location: { latitude?: number; longitude?: number } | null;
     
 }
 const LatLong = ({location}:LatLongProps) => {
