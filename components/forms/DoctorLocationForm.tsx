@@ -9,7 +9,6 @@ import { DoctorPlaceDescription, DoctorPlaceName } from "../form-inputs";
 import ErrorChip from "../ui/ErrorChip";
 import LatLong from "../form-inputs/LatLong";
 import Toast from "react-native-toast-message";
-import { getToastOptions } from "@/utils/getToastOptions";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { DataModel, Id } from "@/convex/_generated/dataModel";
@@ -19,6 +18,7 @@ import { COLOR_SHADES } from "@/constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import Typography from "../ui/Typography";
 import IconButton from "../ui/IconButton";
+import { uploadImageAsync } from "./uploadImageAsync";
 type DoctorLocationFormProps = {
   location: { latitude: number; longitude: number } | null;
 };
@@ -29,25 +29,7 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
   const mutate = useMutation(api.doctor.update_location);
   const generateUploadUrl = useMutation(api.doctor.generateUploadUrl);
 
-  async function uploadImageAsync(uri: string, apiUrl: string) {
-    try {
-      const fetchResponse = await fetch(uri);
-      const blob = await fetchResponse.blob();
-      return fetch(apiUrl, {
-        method: "POST",
-        body: blob,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": blob.type!,
-        },
-      });
-    } catch (error) {
-      Alert.alert(
-        "There has been an error uploading the images (uploadImageAsync)"
-      );
-      console.log(error);
-    }
-  }
+  
 
   const handleSubmit = async (values: {
     name: string;
@@ -73,38 +55,36 @@ const DoctorLocationForm = ({ location }: DoctorLocationFormProps) => {
     // }
     // upload image to convex storage
 
-    console.log(values.images)
-    
-    // const fromBackend = values.images.map
-    // https://
+    try {
+      const imagesPromise = values.images
+        .filter((img) => !img.includes("https://"))
+        .map(async (img) => {
+          const postUrl = await generateUploadUrl();
+          const result = await uploadImageAsync(img, postUrl);
+          const { storageId } = await result?.json();
+          return storageId as Id<"_storage">;
+        });
 
-    // try {
-    //   const imagesPromise = values.images.map(async (img) => {
-    //     const postUrl = await generateUploadUrl();
-    //     const result = await uploadImageAsync(img, postUrl);
-    //     const { storageId } = await result?.json();
-    //     return storageId as Id<"_storage">;
-    //   });
+      const images = await Promise.all(imagesPromise);
 
-    //   const images = await Promise.all(imagesPromise);
-
-    //   // TODo assuming we only ever pass doctors id
-    //   await mutate({
-    //     doctor_id: currentUser._id as Id<"doctors">,
-    //     location: {
-    //       description: values.description,
-    //       name: values.name,
-    //       latitude: doctor.location?.latitude||location?.latitude,
-    //       longitude: doctor.location?.longitude||location?.longitude,
-    //       images,
-    //     },
-    //   });
-    // } catch (error) {
-    //   Alert.alert(
-    //     "There has been an error uploading the images (imagesPromis)"
-    //   );
-    //   console.log(error);
-    // }
+      // TODo assuming we only ever pass doctors id
+      await mutate({
+        doctor_id: currentUser._id as Id<"doctors">,
+        // imagestodelete???
+        location: {
+          description: values.description,
+          name: values.name,
+          latitude: doctor.location?.latitude || location?.latitude,
+          longitude: doctor.location?.longitude || location?.longitude,
+          images,
+        },
+      });
+    } catch (error) {
+      Alert.alert(
+        "There has been an error uploading the images (imagesPromis)"
+      );
+      console.log(error);
+    }
   };
 
   async function onImageSelect(handleChange?: any) {

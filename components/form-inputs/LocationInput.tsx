@@ -4,9 +4,15 @@ import { SPACING } from "@/constants/Spacing";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme-color-provider";
 import Ripple from "react-native-material-ripple";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { DataModel } from "@/convex/_generated/dataModel";
 
 const LocationInput = ({ onPress }: { onPress: any }) => {
   const { colors, dark } = useTheme();
+  const currentUser = useQuery(api.users.currentUser);
+  const doctor = currentUser as DataModel["doctors"]["document"];
+
   return (
     <>
       <Typography
@@ -34,7 +40,10 @@ const LocationInput = ({ onPress }: { onPress: any }) => {
           size={24}
           color={colors.icon_color_pr}
         />
-        <Typography variant="secondary" text="Select a Location" />
+        <Typography
+          variant="secondary"
+          text={doctor.location?.name ?? "Select a Location"}
+        />
       </Ripple>
     </>
   );

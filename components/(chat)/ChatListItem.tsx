@@ -51,43 +51,44 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
                 })
           }
         />
-
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "space-between",
-            flexDirection: "row",
-          }}
-        >
-          <View style={{ flexDirection: "row", gap: 6 }}>
-            {chat.lastMessage.sender_id === currentUser?._id && (
+        {chat.lastMessage && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
+            <View style={{ flexDirection: "row", gap: 6 }}>
+              {chat.lastMessage.sender_id === currentUser?._id && (
+                <Typography
+                  variant="secondary"
+                  style={{
+                    textAlign: "justify",
+                  }}
+                  size="sm"
+                  text={"You: "}
+                />
+              )}
               <Typography
                 variant="secondary"
                 style={{
                   textAlign: "justify",
                 }}
                 size="sm"
-                text={"You: "}
+                text={chat.lastMessage.body}
               />
-            )}
+            </View>
             <Typography
               variant="secondary"
               style={{
                 textAlign: "justify",
               }}
               size="sm"
-              text={chat.lastMessage.body}
+              text={moment(chat.lastMessage._creationTime).fromNow()}
             />
           </View>
-          <Typography
-            variant="secondary"
-            style={{
-              textAlign: "justify",
-            }}
-            size="sm"
-            text={moment(chat.lastMessage._creationTime).fromNow()}
-          />
-        </View>
+        )}
       </View>
     </TouchableOpacity>
   );

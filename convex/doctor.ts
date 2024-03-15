@@ -50,7 +50,6 @@ export const get_by_user_id = query({
 export const update_location = mutation({
     args: {
         doctor_id: v.id("doctors"),
-
         location: v.object({
             latitude: v.number(),
             longitude: v.number(),
@@ -71,19 +70,39 @@ export const update_location = mutation({
             if (i) return true
             return false
         })
-        await ctx.db.patch(doctor._id, {
+        const doc = await ctx.db.get(doctor._id)
+        const oldImages = doc?.location?.images
+        if (oldImages) {
 
-            location: {
-                description,
-                latitude,
-                longitude,
-                name,
-                images:images as any
+            await ctx.db.patch(doctor._id, {
 
-            }
-        })
+                location: {
+                    description,
+                    latitude,
+                    longitude,
+                    name,
+                    images: [...oldImages, ...images as any]
+
+                }
+            })
+        } else {
+            await ctx.db.patch(doctor._id, {
+
+                location: {
+                    description,
+                    latitude,
+                    longitude,
+                    name,
+                    images: images as any
+
+                }
+            })
+        }
     },
 })
+
+
+
 
 
 export const generateUploadUrl = mutation(async (ctx) => {

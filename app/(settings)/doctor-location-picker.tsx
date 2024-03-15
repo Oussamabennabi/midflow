@@ -5,54 +5,21 @@ import MapView, {
   LatLng,
   MapType,
   Marker,
-  Point,
 } from "react-native-maps";
 import { ActivityIndicator, StyleSheet } from "react-native";
-
-import * as Location from "expo-location";
 import { View } from "@/components/Themed";
 import { COLOR_SHADES } from "@/constants/Colors";
 import { useTheme } from "@/providers/theme-color-provider";
 import Toast from "react-native-toast-message";
-import { getToastOptions } from "@/utils/getToastOptions";
 import IconButton from "@/components/ui/IconButton";
 import { Entypo } from "@expo/vector-icons";
 
 const DoctorLocationPicker = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const { dark } = useTheme();
-  // const [currentLocation, setCurrentLocation] =
-  //   useState<Location.LocationObject>();
   const [loading, setLoading] = useState<boolean>(false);
-  // const [initialRegion, setInitialRegion] = useState<Region>();
   const [pressedRegion, setPressedRegion] = useState<LatLng | null>(null);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     setLoading(true);
-  //     const { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       Toast.show(
-  //         getToastOptions({
-  //           message1: "Permission to access location was denied",
-  //           type: "error",
-  //         })
-  //       );
-  //       return;
-  //     }
-
-  //     const location = await Location.getCurrentPositionAsync({});
-
-  //     setCurrentLocation(location);
-  //     setInitialRegion({
-  //       latitude: location.coords.latitude,
-  //       longitude: location.coords.longitude,
-  //       latitudeDelta: 0.005,
-  //       longitudeDelta: 0.005,
-  //     });
-  //     setLoading(false);
-  //   })();
-  // }, []);
   const [mapType, setMapType] = useState<MapType>("hybrid");
   return (
     <>
@@ -65,18 +32,7 @@ const DoctorLocationPicker = () => {
         showsCompass={false}
         showsUserLocation
         style={{ ...StyleSheet.absoluteFillObject }}
-        // initialRegion={initialRegion}
       >
-        {/* {currentLocation && (
-          <Marker
-            coordinate={{
-              latitude: currentLocation.coords.latitude,
-              longitude: currentLocation.coords.longitude,
-            }}
-            title="Your Location"
-          />
-        )} */}
-
         {pressedRegion && (
           <Marker
             title="Your selected place"

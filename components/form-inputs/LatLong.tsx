@@ -6,11 +6,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../ui/Typography";
 type LatLongProps = {
   location: { latitude?: number; longitude?: number } | null;
-    
-}
-const LatLong = ({location}:LatLongProps) => {
+};
+const LatLong = ({ location }: LatLongProps) => {
   const { colors } = useTheme();
-
+  
+  
   return (
     <View>
       <Ripple
@@ -31,7 +31,11 @@ const LatLong = ({location}:LatLongProps) => {
             flexDirection: "row",
           }}
         >
-          <MaterialCommunityIcons name="longitude" size={24} color={colors.icon_color_pr} />
+          <MaterialCommunityIcons
+            name="longitude"
+            size={24}
+            color={colors.icon_color_pr}
+          />
           <Typography variant="secondary" text={location?.longitude as any} />
         </View>
         <View
@@ -42,7 +46,11 @@ const LatLong = ({location}:LatLongProps) => {
             flexDirection: "row",
           }}
         >
-          <MaterialCommunityIcons name="latitude" size={24} color={colors.icon_color_pr} />
+          <MaterialCommunityIcons
+            name="latitude"
+            size={24}
+            color={colors.icon_color_pr}
+          />
 
           <Typography variant="secondary" text={location?.latitude as any} />
         </View>

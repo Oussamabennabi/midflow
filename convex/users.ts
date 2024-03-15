@@ -1,6 +1,7 @@
 import {
   internalMutation,
   internalQuery,
+  mutation,
   query,
   QueryCtx,
 } from "./_generated/server";
@@ -85,6 +86,25 @@ export const deleteUser = internalMutation({
 
 
 
+export const update_photo = mutation({
+  args: {
+    doctor_id: v.id("doctors"),
+    storage_id: v.id("_storage")
+  },
+  async handler(ctx, { doctor_id, storage_id }) {
+    const url = await ctx.storage.getUrl(storage_id)
+    if (!url) return
+    await ctx.db.patch(doctor_id, {
+      image: url
+    })
+
+  },
+})
+
+
+
+
+
 // Helpers
 
 export async function userQuery(
@@ -107,7 +127,7 @@ export async function userWithRoleQuery(
     .query("users")
     .withIndex("by_clerk_id", (q) => q.eq("clerk_user.id", clerkUserId))
     .unique()
-    
+
 
   if (!user) throw Error("There is no user")
   if (user.role === "Doctor") {

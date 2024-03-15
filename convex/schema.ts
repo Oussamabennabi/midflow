@@ -65,7 +65,7 @@ export default defineSchema({
         role: v.union(v.literal("Doctor"),
             v.literal("Patient"),
             v.literal("Admin"),
-            v.literal("Pharmasist")),
+            v.literal("Pharmasist"))
     }).index("by_clerk_id", ["clerk_user.id"]),
     doctors: defineTable({
         user_id: v.id("users"),

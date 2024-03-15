@@ -25,11 +25,18 @@ import { useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import IconButton from "../ui/IconButton";
 import { COLOR_SHADES } from "@/constants/Colors";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import * as ImagePicker from "expo-image-picker";
+import { uploadImageAsync } from "./uploadImageAsync";
+import { Id } from "@/convex/_generated/dataModel";
 const ProfileForm = () => {
-  const { user, isLoaded } = useUser();
-  const currentUser = useQuery(api.users.currentUser)
+  const { user } = useUser();
+  const currentUser = useQuery(api.users.currentUser);
+
+  const generateUploadUrl = useMutation(api.doctor.generateUploadUrl);
+  const updatePhoto = useMutation(api.users.update_photo);
+
   const d = useWindowDimensions();
 
   const handleOpenMapSelector = () => {
@@ -42,6 +49,19 @@ const ProfileForm = () => {
     lastName: string;
     location: string;
   }) => {};
+
+  const handleProfileEdit = async () => {
+    const res = await ImagePicker.launchCameraAsync();
+    if (!res.canceled) {
+      const postUrl = await generateUploadUrl();
+      const result = await uploadImageAsync(res.assets[0].uri, postUrl);
+      const { storageId }: { storageId: Id<"_storage"> } = await result?.json();
+      updatePhoto({
+        storage_id: storageId,
+        doctor_id: currentUser?._id as any,
+      });
+    }
+  };
 
   if (!user) return <View></View>;
   return (
@@ -60,17 +80,20 @@ const ProfileForm = () => {
             borderRadius: 14,
           }}
         />
-        <IconButton
-          style={{
-            position: "absolute",
-            borderWidth: 2,
-            bottom: -20,
-            left: 30,
-          }}
-          small
-          bgColor={COLOR_SHADES.gray.primary}
-          icon={<Feather name="edit" size={24} color="white" />}
-        />
+        {currentUser?.role !== "Patient" && (
+          <IconButton
+            onPress={handleProfileEdit}
+            style={{
+              position: "absolute",
+              borderWidth: 2,
+              bottom: -20,
+              left: 30,
+            }}
+            small
+            bgColor={COLOR_SHADES.gray.primary}
+            icon={<Feather name="edit" size={24} color="white" />}
+          />
+        )}
       </View>
       <Space space="xxl" />
       <Formik
@@ -134,9 +157,11 @@ const ProfileForm = () => {
             </>
 
             {/* location */}
-            <>
-              <LocationInput onPress={handleOpenMapSelector} />
-            </>
+            {currentUser?.role === "Doctor" && (
+              <>
+                <LocationInput onPress={handleOpenMapSelector} />
+              </>
+            )}
 
             {/* email */}
             <>
